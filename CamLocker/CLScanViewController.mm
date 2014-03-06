@@ -8,6 +8,7 @@
 
 
 #import "CLScanViewController.h"
+#import "CLDataHandler.h"
 #import "EAGLView.h"
 
 @interface CLScanViewController (){
@@ -39,6 +40,17 @@
 																 ofType:@"xml"
 															inDirectory:@"Markers"];
     
+    [CLDataHandler saveImageOnDisk:[UIImage imageNamed:@"Markers/target_1.jpg"] withFileName:@"target_1.jpg" usingRepresentation:ImageFormatOptionJPG];
+    [CLDataHandler saveImageOnDisk:[UIImage imageNamed:@"Markers/target_2.jpg"] withFileName:@"target_2.jpg" usingRepresentation:ImageFormatOptionJPG];
+    [CLDataHandler saveImageOnDisk:[UIImage imageNamed:@"Markers/target_3.jpg"] withFileName:@"target_3.jpg" usingRepresentation:ImageFormatOptionJPG];
+    [CLDataHandler saveImageOnDisk:[UIImage imageNamed:@"Markers/target_4.jpg"] withFileName:@"target_4.jpg" usingRepresentation:ImageFormatOptionJPG];
+    [CLDataHandler saveImageOnDisk:[UIImage imageNamed:@"Markers/target_5.jpg"] withFileName:@"target_5.jpg" usingRepresentation:ImageFormatOptionJPG];
+    [CLDataHandler saveImageOnDisk:[UIImage imageNamed:@"Markers/target_6.jpg"] withFileName:@"target_6.jpg" usingRepresentation:ImageFormatOptionJPG];
+    
+    NSString *xmlFileContents = [NSString stringWithContentsOfFile:trackingDataFile encoding:NSUTF8StringEncoding error:nil];
+    trackingDataFile = [CLDataHandler saveXMLStringOnDisk:xmlFileContents withFileName:@"TrackingXML.xml"];
+    
+    NSLog(@"%@", trackingDataFile);
     
 	// if you want to test the 3D tracking, please uncomment the line below and comment the line above
 	//NSString* trackingDataFile = [[NSBundle mainBundle] pathForResource:@"TrackingData_ML3D" ofType:@"xml" inDirectory:@"Tutorials/TutorialContentTypes/Assets"];
@@ -49,7 +61,9 @@
 		bool success = m_metaioSDK->setTrackingConfiguration([trackingDataFile UTF8String]);
 		if( !success)
 			NSLog(@"No success loading the tracking configuration");
-	}
+	} else {
+        NSLog(@"Cannot open file on disk");
+    }
     /*
     // loadimage
     
