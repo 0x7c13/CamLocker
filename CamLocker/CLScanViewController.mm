@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 OSU. All rights reserved.
 //
 
-
+#import "CLTrackingXMLGenerator.h"
 #import "CLScanViewController.h"
 #import "CLDataHandler.h"
 #import "EAGLView.h"
@@ -36,25 +36,36 @@
     
     // TODO: Add Multiple References Tracking
     // load our tracking configuration
-	NSString* trackingDataFile = [[NSBundle mainBundle] pathForResource:@"TrackingData"
-																 ofType:@"xml"
-															inDirectory:@"Markers"];
+	NSString* trackingDataFile;
     
-    [CLDataHandler saveImageOnDisk:[UIImage imageNamed:@"Markers/target_1.jpg"] withFileName:@"target_1.jpg" usingRepresentation:ImageFormatOptionJPG];
-    [CLDataHandler saveImageOnDisk:[UIImage imageNamed:@"Markers/target_2.jpg"] withFileName:@"target_2.jpg" usingRepresentation:ImageFormatOptionJPG];
-    [CLDataHandler saveImageOnDisk:[UIImage imageNamed:@"Markers/target_3.jpg"] withFileName:@"target_3.jpg" usingRepresentation:ImageFormatOptionJPG];
-    [CLDataHandler saveImageOnDisk:[UIImage imageNamed:@"Markers/target_4.jpg"] withFileName:@"target_4.jpg" usingRepresentation:ImageFormatOptionJPG];
-    [CLDataHandler saveImageOnDisk:[UIImage imageNamed:@"Markers/target_5.jpg"] withFileName:@"target_5.jpg" usingRepresentation:ImageFormatOptionJPG];
-    [CLDataHandler saveImageOnDisk:[UIImage imageNamed:@"Markers/target_6.jpg"] withFileName:@"target_6.jpg" usingRepresentation:ImageFormatOptionJPG];
+    [CLDataHandler saveImageToDisk:[UIImage imageNamed:@"Markers/target_1.jpg"]
+                      withFileName:@"target_1.jpg"
+               usingRepresentation:ImageFormatOptionJPG];
+    [CLDataHandler saveImageToDisk:[UIImage imageNamed:@"Markers/target_2.jpg"]
+                      withFileName:@"target_2.jpg"
+               usingRepresentation:ImageFormatOptionJPG];
+    [CLDataHandler saveImageToDisk:[UIImage imageNamed:@"Markers/target_3.jpg"]
+                      withFileName:@"target_3.jpg"
+               usingRepresentation:ImageFormatOptionJPG];
+    [CLDataHandler saveImageToDisk:[UIImage imageNamed:@"Markers/target_4.jpg"]
+                      withFileName:@"target_4.jpg"
+               usingRepresentation:ImageFormatOptionJPG];
+    [CLDataHandler saveImageToDisk:[UIImage imageNamed:@"Markers/target_5.jpg"]
+                      withFileName:@"target_5.jpg"
+               usingRepresentation:ImageFormatOptionJPG];
+    [CLDataHandler saveImageToDisk:[UIImage imageNamed:@"Markers/target_6.jpg"]
+                      withFileName:@"target_6.jpg"
+               usingRepresentation:ImageFormatOptionJPG];
     
-    NSString *xmlFileContents = [NSString stringWithContentsOfFile:trackingDataFile encoding:NSUTF8StringEncoding error:nil];
-    trackingDataFile = [CLDataHandler saveXMLStringOnDisk:xmlFileContents withFileName:@"TrackingXML.xml"];
+    NSArray *imageMarkerNames = @[@"target_1.jpg", @"target_2.jpg", @"target_3.jpg", @"target_4.jpg", @"target_5.jpg", @"target_6.jpg"];
+    NSArray *cosNames = @[@"MarkerlessCOS1", @"MarkerlessCOS2", @"MarkerlessCOS3", @"MarkerlessCOS4", @"MarkerlessCOS5", @"MarkerlessCOS6"];
+    
+    //NSString *xmlFileContents = [NSString stringWithContentsOfFile:trackingDataFile encoding:NSUTF8StringEncoding error:nil];
+    NSString *xmlFileContents = [CLTrackingXMLGenerator generateTrackingXMLStringUsingImageMarkerNames:imageMarkerNames cosNames:cosNames];
+    
+    trackingDataFile = [CLDataHandler saveXMLStringToDisk:xmlFileContents withFileName:@"TrackingXML.xml"];
     
     NSLog(@"%@", trackingDataFile);
-    
-	// if you want to test the 3D tracking, please uncomment the line below and comment the line above
-	//NSString* trackingDataFile = [[NSBundle mainBundle] pathForResource:@"TrackingData_ML3D" ofType:@"xml" inDirectory:@"Tutorials/TutorialContentTypes/Assets"];
-    
     
 	if(trackingDataFile)
 	{
@@ -80,58 +91,27 @@
         }
     }
     
-    
     // start with markerless tracking
     [self setActiveTrackingConfig:0];
      */
 }
-
-
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 }
 
-
 - (void) viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
-    
 }
-
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
 }
 
-
-- (void)viewDidUnload
-{
-    // Release any retained subviews of the main view.
-    [super viewDidUnload];
-}
-
-
-
-- (void) setActiveTrackingConfig:(int)index
-{
-    switch (index)
-    {
-        case 0:
-		{
-            for (int i = 1; i <= numberOfImagePlanes; i++) {
-                m_imagePlane[i]->setVisible(false);
-            }
-
-            break;
-		}
-    }
-}
-
 #pragma mark - App Logic
-
 
 - (void)onTrackingEvent:(const metaio::stlcompat::Vector<metaio::TrackingValues>&)trackingValues
 {
@@ -152,7 +132,6 @@
         self.showButton.hidden = NO;
 	}
 }
-
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {

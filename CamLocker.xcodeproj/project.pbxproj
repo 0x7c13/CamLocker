@@ -39,6 +39,7 @@
 		F73BF7C218C6DDFF006FB928 /* MetaioSDKViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = F73BF7C018C6DDFF006FB928 /* MetaioSDKViewController.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F73BF7C518C6E00B006FB928 /* CLScanViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = F73BF7C318C6E00B006FB928 /* CLScanViewController.mm */; };
 		F78ACD0B18C8D7E500A4247A /* CLDataHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F78ACD0A18C8D7E500A4247A /* CLDataHandler.m */; };
+		F792915318D6B6EE009FCA79 /* CLTrackingXMLGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = F792915218D6B6EE009FCA79 /* CLTrackingXMLGenerator.m */; };
 		F7E004DE18C6E36700FA63DC /* Markers in Resources */ = {isa = PBXBuildFile; fileRef = F7E004DD18C6E36700FA63DC /* Markers */; };
 		F7E004E118C6E54C00FA63DC /* CLImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7E004E018C6E54C00FA63DC /* CLImageViewController.m */; };
 		F7E004E618C6E66000FA63DC /* UIViewController+CWPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = F7E004E518C6E66000FA63DC /* UIViewController+CWPopup.m */; };
@@ -99,6 +100,8 @@
 		F73BF7C418C6E00B006FB928 /* CLScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLScanViewController.h; sourceTree = "<group>"; };
 		F78ACD0918C8D7E500A4247A /* CLDataHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLDataHandler.h; sourceTree = "<group>"; };
 		F78ACD0A18C8D7E500A4247A /* CLDataHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLDataHandler.m; sourceTree = "<group>"; };
+		F792915118D6B6EE009FCA79 /* CLTrackingXMLGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLTrackingXMLGenerator.h; sourceTree = "<group>"; };
+		F792915218D6B6EE009FCA79 /* CLTrackingXMLGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLTrackingXMLGenerator.m; sourceTree = "<group>"; };
 		F7E004DD18C6E36700FA63DC /* Markers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Markers; sourceTree = "<group>"; };
 		F7E004DF18C6E54C00FA63DC /* CLImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLImageViewController.h; sourceTree = "<group>"; };
 		F7E004E018C6E54C00FA63DC /* CLImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLImageViewController.m; sourceTree = "<group>"; };
@@ -199,13 +202,14 @@
 		F73BF76C18C6DB39006FB928 /* CamLocker */ = {
 			isa = PBXGroup;
 			children = (
+				F73BF77518C6DB39006FB928 /* CLAppDelegate.h */,
+				F73BF77618C6DB39006FB928 /* CLAppDelegate.m */,
+				F792915018D6B6B6009FCA79 /* Utilities */,
 				F7E004E218C6E66000FA63DC /* Libraries */,
 				F73BF7BC18C6DDD1006FB928 /* MetaioSDK */,
 				F73BF79D18C6DB52006FB928 /* Controller */,
 				F73BF79C18C6DB46006FB928 /* View */,
 				F73BF79B18C6DB41006FB928 /* Model */,
-				F73BF77518C6DB39006FB928 /* CLAppDelegate.h */,
-				F73BF77618C6DB39006FB928 /* CLAppDelegate.m */,
 				F73BF77E18C6DB39006FB928 /* Images.xcassets */,
 				F73BF76D18C6DB39006FB928 /* Supporting Files */,
 			);
@@ -285,6 +289,15 @@
 			name = MetaioSDK;
 			sourceTree = "<group>";
 		};
+		F792915018D6B6B6009FCA79 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				F792915118D6B6EE009FCA79 /* CLTrackingXMLGenerator.h */,
+				F792915218D6B6EE009FCA79 /* CLTrackingXMLGenerator.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 		F7E004E218C6E66000FA63DC /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -347,7 +360,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = CL;
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = OSU;
 				TargetAttributes = {
 					F73BF78318C6DB39006FB928 = {
@@ -405,6 +418,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F73BF7C518C6E00B006FB928 /* CLScanViewController.mm in Sources */,
+				F792915318D6B6EE009FCA79 /* CLTrackingXMLGenerator.m in Sources */,
 				F7E004E118C6E54C00FA63DC /* CLImageViewController.m in Sources */,
 				F73BF77318C6DB39006FB928 /* main.m in Sources */,
 				F7E004E618C6E66000FA63DC /* UIViewController+CWPopup.m in Sources */,
@@ -467,7 +481,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -506,7 +520,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -580,7 +594,6 @@
 		F73BF79918C6DB39006FB928 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CamLocker.app/CamLocker";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -603,7 +616,6 @@
 		F73BF79A18C6DB39006FB928 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CamLocker.app/CamLocker";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",

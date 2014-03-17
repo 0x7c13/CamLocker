@@ -10,7 +10,7 @@
 
 @implementation CLDataHandler
 
-+ (NSString *)saveImageOnDisk:(UIImage *)image
++ (NSString *)saveImageToDisk:(UIImage *)image
           withFileName:(NSString *)filename
    usingRepresentation:(ImageFormatOption)option
 {
@@ -27,7 +27,7 @@
     return filePath;
 }
 
-+ (NSString *)saveXMLStringOnDisk: (NSString *)xmlString
++ (NSString *)saveXMLStringToDisk: (NSString *)xmlString
                withFileName: (NSString *)filename
 {
 

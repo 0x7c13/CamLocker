@@ -15,10 +15,10 @@ typedef enum {
 
 @interface CLDataHandler : NSObject
 
-+ (NSString *)saveImageOnDisk:(UIImage *)image
++ (NSString *)saveImageToDisk:(UIImage *)image
           withFileName:(NSString *)filename
    usingRepresentation:(ImageFormatOption)option;
 
-+ (NSString *)saveXMLStringOnDisk: (NSString *)xmlString
++ (NSString *)saveXMLStringToDisk: (NSString *)xmlString
                      withFileName: (NSString *)filename;
 @end

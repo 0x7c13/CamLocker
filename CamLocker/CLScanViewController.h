@@ -11,12 +11,9 @@
 #import "CLImageViewController.h"
 #import "CLTextViewController.h"
 
-const int numberOfImagePlanes = 6;
-
 @interface CLScanViewController : MetaioSDKViewController <CLImageViewControllerDelegate, CLTextViewControllerDelegate>
 {
     NSString *trackingConfigFile;
-    metaio::IGeometry*	m_imagePlane[numberOfImagePlanes + 1];
 }
 
 @property (nonatomic, strong) IBOutlet EAGLView *glView;
