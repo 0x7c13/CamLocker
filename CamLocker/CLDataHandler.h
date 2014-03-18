@@ -15,7 +15,7 @@ typedef enum {
 
 @interface CLDataHandler : NSObject
 
-+ (NSString *)imageFilePathUsingFileName:(NSString *)fileName;
++ (NSString *)imageFilePathWithFileName:(NSString *)fileName;
 
 + (NSString *)saveImageToDisk:(UIImage *)image
           withFileName:(NSString *)fileName

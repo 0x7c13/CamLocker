@@ -11,19 +11,11 @@
 @interface CLTextViewController ()
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
+@property (weak, nonatomic) IBOutlet UITextView *textView;
 
 @end
 
 @implementation CLTextViewController
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        //
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -34,12 +26,7 @@
     [self.view addSubview:toolbarBackground];
     [self.view sendSubviewToBack:toolbarBackground];
     
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    self.textView.text = self.hiddenText;
 }
 
 - (IBAction)quitButtonPressed:(id)sender {

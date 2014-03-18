@@ -14,6 +14,9 @@
 @property (nonatomic, copy, readonly) NSString *markerImagePath;
 @property (nonatomic, copy, readonly) NSString *cosName;
 
+- (instancetype) init __attribute__((unavailable("init not available")));
 - (instancetype)initWithMarkerImage:(UIImage *)markerImage;
+
+- (void)deleteMarkerImage;
 
 @end

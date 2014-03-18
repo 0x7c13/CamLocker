@@ -11,7 +11,10 @@
 @protocol CLImageViewControllerDelegate;
 
 @interface CLImageViewController : UIViewController
+
 @property (nonatomic, weak) id<CLImageViewControllerDelegate> delegate;
+@property (nonatomic) UIImage *hiddenImage;
+
 @end
 
 @protocol CLImageViewControllerDelegate <NSObject>

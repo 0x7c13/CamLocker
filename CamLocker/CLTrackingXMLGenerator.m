@@ -15,9 +15,11 @@
 {
     // protection
     if (markerImageFileNames == nil || cosNames == nil) {
+        NSLog(@"Names shouldn't be empty");
         return nil;
     }
     if (markerImageFileNames.count != cosNames.count) {
+        NSLog(@"Counts are not equal");
         return nil;
     }
     for (id object in markerImageFileNames) {
@@ -45,7 +47,7 @@
                                 "<MaxObjectsToTrackInParallel>1</MaxObjectsToTrackInParallel>"
                                 "<SimilarityThreshold>0.7</SimilarityThreshold>"
                             "</Parameters>";
-    
+
     // setup cos string
     for (NSInteger i = 1; i <= markerImageFileNames.count; i++) {
         
@@ -53,9 +55,9 @@
                                                                      "<SensorCosID>Patch%d</SensorCosID>"
                                                                      "<Parameters>"
                                                                      "<ReferenceImage>%@</ReferenceImage>"
-                                                                     "<SimilarityThreshold>0.7</SimilarityThreshold>"
+                                                                     "<SimilarityThreshold>%f</SimilarityThreshold>"
                                                                      "</Parameters>"
-                                                                "</SensorCOS>", i, (NSString *)markerImageFileNames[i - 1]];
+                                                                "</SensorCOS>", i, (NSString *)markerImageFileNames[i - 1], kSimilarityThreshold];
         xmlString = [xmlString stringByAppendingString:sensorCosString];
     }
     

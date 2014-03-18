@@ -11,19 +11,11 @@
 @interface CLImageViewController ()
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
 @end
 
 @implementation CLImageViewController
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        //
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -33,13 +25,8 @@
     UIToolbar *toolbarBackground = [[UIToolbar alloc] initWithFrame:self.view.frame];
     [self.view addSubview:toolbarBackground];
     [self.view sendSubviewToBack:toolbarBackground];
-    
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+ 
+    self.imageView.image = self.hiddenImage;
 }
 
 - (IBAction)quitButtonPressed:(id)sender {

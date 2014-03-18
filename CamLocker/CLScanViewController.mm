@@ -6,6 +6,10 @@
 //  Copyright (c) 2014 OSU. All rights reserved.
 //
 
+#import "CLMarker.h"
+#import "CLTextMarker.h"
+#import "CLImageMarker.h"
+#import "CLMarkerManager.h"
 #import "CLTrackingXMLGenerator.h"
 #import "CLScanViewController.h"
 #import "CLDataHandler.h"
@@ -14,6 +18,7 @@
 @interface CLScanViewController (){
     BOOL isPopupViewPresented;
     int targetIndex;
+    CLMarker *targetMarker;
 }
 
 @property (weak, nonatomic) IBOutlet UIButton *showButton;
@@ -38,6 +43,7 @@
     // load our tracking configuration
 	NSString* trackingDataFile;
     
+    /*
     [CLDataHandler saveImageToDisk:[UIImage imageNamed:@"Markers/target_1.jpg"]
                       withFileName:@"target_1.jpg"
                usingRepresentation:ImageFormatOptionJPG];
@@ -61,11 +67,22 @@
     NSArray *cosNames = @[@"MarkerlessCOS1", @"MarkerlessCOS2", @"MarkerlessCOS3", @"MarkerlessCOS4", @"MarkerlessCOS5", @"MarkerlessCOS6"];
     
     //NSString *xmlFileContents = [NSString stringWithContentsOfFile:trackingDataFile encoding:NSUTF8StringEncoding error:nil];
-    NSString *xmlFileContents = [CLTrackingXMLGenerator generateTrackingXMLStringUsingImageMarkerNames:imageMarkerNames cosNames:cosNames];
+     */
     
+    NSMutableArray *imageMarkerNames = [[NSMutableArray alloc] init];
+    NSMutableArray *cosNames = [[NSMutableArray alloc] init];
+    
+    NSLog(@"%d", [CLMarkerManager sharedManager].markers.count);
+    
+    for (CLMarker *marker in [CLMarkerManager sharedManager].markers) {
+        [imageMarkerNames addObject:marker.markerImageFileName];
+        [cosNames addObject:marker.cosName];
+    }
+    
+    NSString *xmlFileContents = [CLTrackingXMLGenerator generateTrackingXMLStringUsingMarkerImageFileNames:imageMarkerNames cosNames:cosNames];
+
     trackingDataFile = [CLDataHandler saveXMLStringToDisk:xmlFileContents withFileName:@"TrackingXML.xml"];
-    
-    NSLog(@"%@", trackingDataFile);
+
     
 	if(trackingDataFile)
 	{
@@ -125,11 +142,15 @@
 	}
 	else
 	{
-        NSInteger index = [[[NSString stringWithUTF8String:trackingValues[0].cosName.c_str()] substringFromIndex:13] integerValue];
-		NSLog(@"%d", index);
+        NSString *cosName = [NSString stringWithUTF8String:trackingValues[0].cosName.c_str()];
         
-        targetIndex = index;
-        self.showButton.hidden = NO;
+        for (CLMarker *marker in [CLMarkerManager sharedManager].markers) {
+            if ([marker.cosName isEqualToString:cosName]) {
+                targetMarker = marker;
+                self.showButton.hidden = NO;
+                break;
+            }
+        }
 	}
 }
 
@@ -148,26 +169,23 @@
 
 - (IBAction)showButtonPressed:(id)sender {
     
-    
-    switch (targetIndex) {
-        case 1: {
-            isPopupViewPresented = YES;
-            CLImageViewController *imageVC = [[CLImageViewController alloc] initWithNibName:@"CLImageViewController" bundle:nil];
-            imageVC.delegate = self;
-            [self presentPopupViewController:imageVC animated:YES completion:nil];
-            break;
-        }
-        case 2: {
-            isPopupViewPresented = YES;
-            CLTextViewController *textVC = [[CLTextViewController alloc] initWithNibName:@"CLTextViewController" bundle:nil];
-            textVC.delegate = self;
-            [self presentPopupViewController:textVC animated:YES completion:nil];
-            break;
-        }
-            
-        default:
-            break;
+    if ([targetMarker isKindOfClass:[CLTextMarker class]]) {
+        
+        isPopupViewPresented = YES;
+        CLTextViewController *textVC = [[CLTextViewController alloc] initWithNibName:@"CLTextViewController" bundle:nil];
+        textVC.hiddenText = ((CLTextMarker *)targetMarker).hiddenText;
+        textVC.delegate = self;
+        [self presentPopupViewController:textVC animated:YES completion:nil];
+        
+    } else if ([targetMarker isKindOfClass:[CLImageMarker class]]) {
+        
+        isPopupViewPresented = YES;
+        CLImageViewController *imageVC = [[CLImageViewController alloc] initWithNibName:@"CLImageViewController" bundle:nil];
+        imageVC.hiddenImage = [UIImage imageWithContentsOfFile:(NSString *)((CLImageMarker *)targetMarker).hiddenImagePaths[0]];
+        imageVC.delegate = self;
+        [self presentPopupViewController:imageVC animated:YES completion:nil];
     }
+    
     self.showButton.hidden = YES;
 }
 

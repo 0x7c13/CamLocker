@@ -13,7 +13,9 @@
 
 - (instancetype)initWithMarkerImage:(UIImage *)markerImage
 {
-    if (self = [super init]) {
+    if (!markerImage) return nil;
+    
+    if ((self = [super init])) {
         _cosName = [CLDataHandler hashValueOfUIImage:markerImage];
         _markerImageFileName = [self.cosName stringByAppendingString:@".png"];
         _markerImagePath = [CLDataHandler saveImageToDisk:markerImage
@@ -29,7 +31,6 @@
     [encoder encodeObject:_cosName forKey:@"cosName"];
 }
 
-
 - (instancetype)initWithCoder:(NSCoder *)decoder {
     if (self = [super init]) {
         _markerImageFileName = [decoder decodeObjectForKey:@"markerImageFileName"];
@@ -37,6 +38,11 @@
         _cosName = [decoder decodeObjectForKey:@"cosName"];
     }
     return self;
+}
+
+-(void)deleteMarkerImage
+{
+    [[NSFileManager defaultManager] removeItemAtPath:self.markerImagePath error:nil];
 }
 
 @end

@@ -11,7 +11,10 @@
 @protocol CLTextViewControllerDelegate;
 
 @interface CLTextViewController : UIViewController
+
 @property (nonatomic, weak) id<CLTextViewControllerDelegate> delegate;
+@property (nonatomic, copy) NSString *hiddenText;
+
 @end
 
 @protocol CLTextViewControllerDelegate <NSObject>

@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CLImageViewController">
             <connections>
+                <outlet property="imageView" destination="APF-Ig-iZJ" id="WUm-GV-R8w"/>
                 <outlet property="navigationBar" destination="qMG-VQ-xNK" id="oUF-XM-8hW"/>
                 <outlet property="view" destination="Ag2-MB-bgp" id="Ydw-Lz-ma7"/>
             </connections>
@@ -16,7 +17,7 @@
             <rect key="frame" x="0.0" y="0.0" width="299" height="275"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Sample.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="APF-Ig-iZJ">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="APF-Ig-iZJ">
                     <rect key="frame" x="0.0" y="44" width="299" height="231"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
@@ -40,7 +41,4 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
     </objects>
-    <resources>
-        <image name="Sample.jpg" width="640" height="480"/>
-    </resources>
 </document>

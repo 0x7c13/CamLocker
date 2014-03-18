@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define kSimilarityThreshold 0.7
+
 @interface CLTrackingXMLGenerator : NSObject
 
 + (NSString *)generateTrackingXMLStringUsingMarkerImageFileNames:(NSArray *)markerImageFileNames

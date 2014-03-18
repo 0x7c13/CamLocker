@@ -10,15 +10,19 @@
 
 @implementation CLTextMarker
 
-- (instancetype)initWithMarkerImage:(UIImage *)markerImage hiddenText:(NSString *)hiddenText
-{
-    if (self = [super initWithMarkerImage:markerImage]) {
+- (instancetype)initWithMarkerImage:(UIImage *)markerImage
+                         hiddenText:(NSString *)hiddenText {
+    
+    if (!(markerImage && hiddenText)) return nil;
+    
+    if ((self = [super initWithMarkerImage:markerImage])) {
         _hiddenText = hiddenText;
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
+    [super encodeWithCoder:encoder];
     [encoder encodeObject:_hiddenText forKey:@"hiddenText"];
 }
 
