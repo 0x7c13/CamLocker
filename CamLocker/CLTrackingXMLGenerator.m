@@ -10,8 +10,27 @@
 
 @implementation CLTrackingXMLGenerator
 
-+ (NSString *)generateTrackingXMLStringUsingImageMarkerNames:(NSArray *)imageMarkerNames cosNames:(NSArray *)cosNames
++ (NSString *)generateTrackingXMLStringUsingMarkerImageFileNames:(NSArray *)markerImageFileNames
+                                                        cosNames:(NSArray *)cosNames
 {
+    // protection
+    if (markerImageFileNames == nil || cosNames == nil) {
+        return nil;
+    }
+    if (markerImageFileNames.count != cosNames.count) {
+        return nil;
+    }
+    for (id object in markerImageFileNames) {
+        if (![object isKindOfClass:[NSString class]]) {
+            return nil;
+        }
+    }
+    for (id object in cosNames) {
+        if (![object isKindOfClass:[NSString class]]) {
+            return nil;
+        }
+    }
+    
     NSString *xmlString;
     
     // setup header
@@ -28,7 +47,7 @@
                             "</Parameters>";
     
     // setup cos string
-    for (NSInteger i = 1; i <= imageMarkerNames.count; i++) {
+    for (NSInteger i = 1; i <= markerImageFileNames.count; i++) {
         
         NSString *sensorCosString = [NSString stringWithFormat:@"<SensorCOS>"
                                                                      "<SensorCosID>Patch%d</SensorCosID>"
@@ -36,7 +55,7 @@
                                                                      "<ReferenceImage>%@</ReferenceImage>"
                                                                      "<SimilarityThreshold>0.7</SimilarityThreshold>"
                                                                      "</Parameters>"
-                                                                "</SensorCOS>", i, (NSString *)imageMarkerNames[i - 1]];
+                                                                "</SensorCOS>", i, (NSString *)markerImageFileNames[i - 1]];
         xmlString = [xmlString stringByAppendingString:sensorCosString];
     }
     
@@ -45,7 +64,7 @@
                                                     "   <Connections>" ];
     
     // setup cos info
-    for (NSInteger i = 1; i <= imageMarkerNames.count; i++) {
+    for (NSInteger i = 1; i <= cosNames.count; i++) {
         
         NSString *cosString = [NSString stringWithFormat:@"<COS>"
                                                              "<Name>%@</Name>"

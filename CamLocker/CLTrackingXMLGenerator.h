@@ -10,7 +10,7 @@
 
 @interface CLTrackingXMLGenerator : NSObject
 
-+ (NSString *)generateTrackingXMLStringUsingImageMarkerNames:(NSArray *)imageMarkerNames
-                                                    cosNames:(NSArray *)cosNames;
++ (NSString *)generateTrackingXMLStringUsingMarkerImageFileNames:(NSArray *)markerImageFileNames
+                                                        cosNames:(NSArray *)cosNames;
 
 @end

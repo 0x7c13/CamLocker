@@ -40,6 +40,9 @@
 		F73BF7C518C6E00B006FB928 /* CLScanViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = F73BF7C318C6E00B006FB928 /* CLScanViewController.mm */; };
 		F78ACD0B18C8D7E500A4247A /* CLDataHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F78ACD0A18C8D7E500A4247A /* CLDataHandler.m */; };
 		F792915318D6B6EE009FCA79 /* CLTrackingXMLGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = F792915218D6B6EE009FCA79 /* CLTrackingXMLGenerator.m */; };
+		F7C9344618D8035C004B154F /* CLMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = F7C9344518D8035C004B154F /* CLMarker.m */; };
+		F7C9344E18D8067C004B154F /* CLTextMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = F7C9344D18D8067C004B154F /* CLTextMarker.m */; };
+		F7C9345118D80DB9004B154F /* CLImageMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = F7C9345018D80DB9004B154F /* CLImageMarker.m */; };
 		F7E004DE18C6E36700FA63DC /* Markers in Resources */ = {isa = PBXBuildFile; fileRef = F7E004DD18C6E36700FA63DC /* Markers */; };
 		F7E004E118C6E54C00FA63DC /* CLImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7E004E018C6E54C00FA63DC /* CLImageViewController.m */; };
 		F7E004E618C6E66000FA63DC /* UIViewController+CWPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = F7E004E518C6E66000FA63DC /* UIViewController+CWPopup.m */; };
@@ -102,6 +105,12 @@
 		F78ACD0A18C8D7E500A4247A /* CLDataHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLDataHandler.m; sourceTree = "<group>"; };
 		F792915118D6B6EE009FCA79 /* CLTrackingXMLGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLTrackingXMLGenerator.h; sourceTree = "<group>"; };
 		F792915218D6B6EE009FCA79 /* CLTrackingXMLGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLTrackingXMLGenerator.m; sourceTree = "<group>"; };
+		F7C9344418D8035C004B154F /* CLMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLMarker.h; sourceTree = "<group>"; };
+		F7C9344518D8035C004B154F /* CLMarker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLMarker.m; sourceTree = "<group>"; };
+		F7C9344C18D8067C004B154F /* CLTextMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLTextMarker.h; sourceTree = "<group>"; };
+		F7C9344D18D8067C004B154F /* CLTextMarker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLTextMarker.m; sourceTree = "<group>"; };
+		F7C9344F18D80DB9004B154F /* CLImageMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLImageMarker.h; sourceTree = "<group>"; };
+		F7C9345018D80DB9004B154F /* CLImageMarker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLImageMarker.m; sourceTree = "<group>"; };
 		F7E004DD18C6E36700FA63DC /* Markers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Markers; sourceTree = "<group>"; };
 		F7E004DF18C6E54C00FA63DC /* CLImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLImageViewController.h; sourceTree = "<group>"; };
 		F7E004E018C6E54C00FA63DC /* CLImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLImageViewController.m; sourceTree = "<group>"; };
@@ -204,12 +213,12 @@
 			children = (
 				F73BF77518C6DB39006FB928 /* CLAppDelegate.h */,
 				F73BF77618C6DB39006FB928 /* CLAppDelegate.m */,
+				F73BF79B18C6DB41006FB928 /* Model */,
 				F792915018D6B6B6009FCA79 /* Utilities */,
 				F7E004E218C6E66000FA63DC /* Libraries */,
 				F73BF7BC18C6DDD1006FB928 /* MetaioSDK */,
 				F73BF79D18C6DB52006FB928 /* Controller */,
 				F73BF79C18C6DB46006FB928 /* View */,
-				F73BF79B18C6DB41006FB928 /* Model */,
 				F73BF77E18C6DB39006FB928 /* Images.xcassets */,
 				F73BF76D18C6DB39006FB928 /* Supporting Files */,
 			);
@@ -250,8 +259,12 @@
 		F73BF79B18C6DB41006FB928 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				F78ACD0918C8D7E500A4247A /* CLDataHandler.h */,
-				F78ACD0A18C8D7E500A4247A /* CLDataHandler.m */,
+				F7C9344418D8035C004B154F /* CLMarker.h */,
+				F7C9344518D8035C004B154F /* CLMarker.m */,
+				F7C9344C18D8067C004B154F /* CLTextMarker.h */,
+				F7C9344D18D8067C004B154F /* CLTextMarker.m */,
+				F7C9344F18D80DB9004B154F /* CLImageMarker.h */,
+				F7C9345018D80DB9004B154F /* CLImageMarker.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -294,6 +307,8 @@
 			children = (
 				F792915118D6B6EE009FCA79 /* CLTrackingXMLGenerator.h */,
 				F792915218D6B6EE009FCA79 /* CLTrackingXMLGenerator.m */,
+				F78ACD0918C8D7E500A4247A /* CLDataHandler.h */,
+				F78ACD0A18C8D7E500A4247A /* CLDataHandler.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -420,10 +435,13 @@
 				F73BF7C518C6E00B006FB928 /* CLScanViewController.mm in Sources */,
 				F792915318D6B6EE009FCA79 /* CLTrackingXMLGenerator.m in Sources */,
 				F7E004E118C6E54C00FA63DC /* CLImageViewController.m in Sources */,
+				F7C9344E18D8067C004B154F /* CLTextMarker.m in Sources */,
 				F73BF77318C6DB39006FB928 /* main.m in Sources */,
 				F7E004E618C6E66000FA63DC /* UIViewController+CWPopup.m in Sources */,
 				F7E004EF18C6EEC500FA63DC /* CLTextViewController.m in Sources */,
+				F7C9345118D80DB9004B154F /* CLImageMarker.m in Sources */,
 				F73BF7C218C6DDFF006FB928 /* MetaioSDKViewController.mm in Sources */,
+				F7C9344618D8035C004B154F /* CLMarker.m in Sources */,
 				F73BF77718C6DB39006FB928 /* CLAppDelegate.m in Sources */,
 				F78ACD0B18C8D7E500A4247A /* CLDataHandler.m in Sources */,
 				F73BF7C118C6DDFF006FB928 /* EAGLView.mm in Sources */,
