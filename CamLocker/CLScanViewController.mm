@@ -39,49 +39,8 @@
     isPopupViewPresented = NO;
     self.showButton.hidden = YES;
     
-    // TODO: Add Multiple References Tracking
-    // load our tracking configuration
-	NSString* trackingDataFile;
-    
-    /*
-    [CLDataHandler saveImageToDisk:[UIImage imageNamed:@"Markers/target_1.jpg"]
-                      withFileName:@"target_1.jpg"
-               usingRepresentation:ImageFormatOptionJPG];
-    [CLDataHandler saveImageToDisk:[UIImage imageNamed:@"Markers/target_2.jpg"]
-                      withFileName:@"target_2.jpg"
-               usingRepresentation:ImageFormatOptionJPG];
-    [CLDataHandler saveImageToDisk:[UIImage imageNamed:@"Markers/target_3.jpg"]
-                      withFileName:@"target_3.jpg"
-               usingRepresentation:ImageFormatOptionJPG];
-    [CLDataHandler saveImageToDisk:[UIImage imageNamed:@"Markers/target_4.jpg"]
-                      withFileName:@"target_4.jpg"
-               usingRepresentation:ImageFormatOptionJPG];
-    [CLDataHandler saveImageToDisk:[UIImage imageNamed:@"Markers/target_5.jpg"]
-                      withFileName:@"target_5.jpg"
-               usingRepresentation:ImageFormatOptionJPG];
-    [CLDataHandler saveImageToDisk:[UIImage imageNamed:@"Markers/target_6.jpg"]
-                      withFileName:@"target_6.jpg"
-               usingRepresentation:ImageFormatOptionJPG];
-    
-    NSArray *imageMarkerNames = @[@"target_1.jpg", @"target_2.jpg", @"target_3.jpg", @"target_4.jpg", @"target_5.jpg", @"target_6.jpg"];
-    NSArray *cosNames = @[@"MarkerlessCOS1", @"MarkerlessCOS2", @"MarkerlessCOS3", @"MarkerlessCOS4", @"MarkerlessCOS5", @"MarkerlessCOS6"];
-    
-    //NSString *xmlFileContents = [NSString stringWithContentsOfFile:trackingDataFile encoding:NSUTF8StringEncoding error:nil];
-     */
-    
-    NSMutableArray *imageMarkerNames = [[NSMutableArray alloc] init];
-    NSMutableArray *cosNames = [[NSMutableArray alloc] init];
-    
-    NSLog(@"%d", [CLMarkerManager sharedManager].markers.count);
-    
-    for (CLMarker *marker in [CLMarkerManager sharedManager].markers) {
-        [imageMarkerNames addObject:marker.markerImageFileName];
-        [cosNames addObject:marker.cosName];
-    }
-    
-    NSString *xmlFileContents = [CLTrackingXMLGenerator generateTrackingXMLStringUsingMarkerImageFileNames:imageMarkerNames cosNames:cosNames];
 
-    trackingDataFile = [CLDataHandler saveXMLStringToDisk:xmlFileContents withFileName:@"TrackingXML.xml"];
+	NSString* trackingDataFile = [[CLMarkerManager sharedManager] trackingFilePath];
 
     
 	if(trackingDataFile)

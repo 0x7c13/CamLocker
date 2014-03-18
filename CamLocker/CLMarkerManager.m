@@ -9,8 +9,11 @@
 #import "CLTextMarker.h"
 #import "CLImageMarker.h"
 #import "CLMarkerManager.h"
-#define kMarkers @"Markers"
+#import "CLDataHandler.h"
+#import "CLTrackingXMLGenerator.h"
 
+#define kMarkers @"CamLockerMarkers"
+#define kTrackingFileName @"CamLockerTrackingFile.xml"
 
 @implementation CLMarkerManager
 
@@ -73,6 +76,36 @@
         }
         [markerToBeDeleted deleteMarkerImage];
     }
+}
+
+-(void)deleteAllMarkers
+{
+    for (CLMarker *marker in self.markers) {
+        if ([marker isKindOfClass:[CLImageMarker class]]) {
+            [(CLImageMarker *)marker deleteHiddenImages];
+        }
+        [marker deleteMarkerImage];
+    }
+    [self.markers removeAllObjects];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMarkers];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSString *)trackingFilePath
+{
+    return [CLDataHandler saveXMLStringToDisk:[self trackingXMLString] withFileName:kTrackingFileName];
+}
+
+- (NSString *)trackingXMLString
+{
+    NSMutableArray *imageMarkerNames = [[NSMutableArray alloc] initWithCapacity:self.markers.count];
+    NSMutableArray *cosNames = [[NSMutableArray alloc] initWithCapacity:self.markers.count];
+    
+    for (CLMarker *marker in self.markers) {
+        [imageMarkerNames addObject:marker.markerImageFileName];
+        [cosNames addObject:marker.cosName];
+    }
+    return [CLTrackingXMLGenerator generateTrackingXMLStringUsingMarkerImageFileNames:imageMarkerNames cosNames:cosNames];
 }
 
 @end

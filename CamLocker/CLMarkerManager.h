@@ -23,4 +23,8 @@
 
 - (void)deleteMarkerByCosName:(NSString *)cosName;
 
+- (void)deleteAllMarkers;
+
+- (NSString *)trackingFilePath;
+
 @end
