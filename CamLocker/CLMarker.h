@@ -17,6 +17,10 @@
 - (instancetype) init __attribute__((unavailable("init not available")));
 - (instancetype)initWithMarkerImage:(UIImage *)markerImage;
 
-- (void)deleteMarkerImage;
+
+- (void)activate;
+- (void)deactivate;
+
+- (void)deleteContent;
 
 @end

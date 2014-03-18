@@ -6,14 +6,19 @@
 //  Copyright (c) 2014 OSU. All rights reserved.
 //
 
+@class CLMarker;
+
 #import <Foundation/Foundation.h>
 
 @interface CLMarkerManager : NSObject
 
 @property (nonatomic, readonly) NSMutableArray *markers;
 
-- (instancetype) init __attribute__((unavailable("init not available")));
 + (instancetype)sharedManager;
+
+- (instancetype) init __attribute__((unavailable("init not available")));
+
+- (CLMarker *)markerByCosName:(NSString *)cosName;
 
 - (void)addTextMarkerWithMarkerImage:(UIImage *)image
                            hiddenText:(NSString *)hiddenText;
@@ -24,6 +29,9 @@
 - (void)deleteMarkerByCosName:(NSString *)cosName;
 
 - (void)deleteAllMarkers;
+
+- (void)activateMarkers;
+- (void)deactivateMarkers;
 
 - (NSString *)trackingFilePath;
 

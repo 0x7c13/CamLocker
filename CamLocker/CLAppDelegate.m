@@ -7,6 +7,7 @@
 //
 
 #import "CLAppDelegate.h"
+#import "CLMarkerManager.h"
 
 @implementation CLAppDelegate
 
@@ -40,6 +41,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
+    [[CLMarkerManager sharedManager] deactivateMarkers];
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 

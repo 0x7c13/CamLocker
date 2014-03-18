@@ -8,6 +8,12 @@
 
 #import "CLTextMarker.h"
 
+@interface CLTextMarker ()
+
+@property (nonatomic, copy) NSString *hiddenText;
+
+@end
+
 @implementation CLTextMarker
 
 - (instancetype)initWithMarkerImage:(UIImage *)markerImage
@@ -31,6 +37,11 @@
         _hiddenText = [decoder decodeObjectForKey:@"hiddenText"];
     }
     return self;
+}
+
+- (void)deleteContent
+{
+    [super deleteContent];
 }
 
 @end

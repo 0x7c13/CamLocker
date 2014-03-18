@@ -12,7 +12,6 @@
 #import "CLMarkerManager.h"
 #import "CLTrackingXMLGenerator.h"
 #import "CLScanViewController.h"
-#import "CLDataHandler.h"
 #import "EAGLView.h"
 
 @interface CLScanViewController (){
@@ -39,7 +38,8 @@
     isPopupViewPresented = NO;
     self.showButton.hidden = YES;
     
-
+    [[CLMarkerManager sharedManager] activateMarkers];
+    
 	NSString* trackingDataFile = [[CLMarkerManager sharedManager] trackingFilePath];
 
     
@@ -70,6 +70,25 @@
     // start with markerless tracking
     [self setActiveTrackingConfig:0];
      */
+
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleEnteredBackground)
+                                                 name: UIApplicationDidEnterBackgroundNotification
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleBecomeActive)
+                                                 name: UIApplicationDidBecomeActiveNotification
+                                               object: nil];
+}
+
+- (void)handleEnteredBackground
+{
+    [[CLMarkerManager sharedManager] deactivateMarkers];
+}
+
+- (void)handleBecomeActive
+{
+    [[CLMarkerManager sharedManager] activateMarkers];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -103,12 +122,11 @@
 	{
         NSString *cosName = [NSString stringWithUTF8String:trackingValues[0].cosName.c_str()];
         
-        for (CLMarker *marker in [CLMarkerManager sharedManager].markers) {
-            if ([marker.cosName isEqualToString:cosName]) {
-                targetMarker = marker;
-                self.showButton.hidden = NO;
-                break;
-            }
+        CLMarker *marker = [[CLMarkerManager sharedManager] markerByCosName:cosName];
+        
+        if (marker) {
+            targetMarker = marker;
+            self.showButton.hidden = NO;
         }
 	}
 }
@@ -126,13 +144,21 @@
     }];
 }
 
+- (IBAction)exit:(id)sender {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:UIApplicationDidBecomeActiveNotification];
+    [[NSNotificationCenter defaultCenter] removeObserver:UIApplicationDidEnterBackgroundNotification];
+    [[CLMarkerManager sharedManager] deactivateMarkers];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (IBAction)showButtonPressed:(id)sender {
     
     if ([targetMarker isKindOfClass:[CLTextMarker class]]) {
         
         isPopupViewPresented = YES;
         CLTextViewController *textVC = [[CLTextViewController alloc] initWithNibName:@"CLTextViewController" bundle:nil];
-        textVC.hiddenText = ((CLTextMarker *)targetMarker).hiddenText;
+        textVC.hiddenText = [(CLTextMarker *)targetMarker hiddenText];
         textVC.delegate = self;
         [self presentPopupViewController:textVC animated:YES completion:nil];
         
@@ -140,7 +166,7 @@
         
         isPopupViewPresented = YES;
         CLImageViewController *imageVC = [[CLImageViewController alloc] initWithNibName:@"CLImageViewController" bundle:nil];
-        imageVC.hiddenImage = [UIImage imageWithContentsOfFile:(NSString *)((CLImageMarker *)targetMarker).hiddenImagePaths[0]];
+        imageVC.hiddenImage = [[(CLImageMarker *)targetMarker hiddenImages] objectAtIndex:0];
         imageVC.delegate = self;
         [self presentPopupViewController:imageVC animated:YES completion:nil];
     }
