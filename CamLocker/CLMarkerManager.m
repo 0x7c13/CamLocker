@@ -16,7 +16,6 @@
 
 #define kMarkers @"CamLockerMarkers"
 #define kTrackingFileName @"CamLockerTrackingFile.xml"
-#define kMarkersKey @"CamLockerMarkersKey"
 
 @interface CLMarkerManager ()
 
@@ -30,7 +29,7 @@
     if (self = [super init]) {
         
         NSData *markerData = [[NSUserDefaults standardUserDefaults] objectForKey:kMarkers];
-        markerData = [markerData AES256DecryptWithKey:kMarkersKey];
+        markerData = [markerData AES256DecryptWithKey:[self camLockerMarkersKey]];
         if (!(_markers = [NSKeyedUnarchiver unarchiveObjectWithData:markerData])) {
             NSLog(@"No markers are found");
             _markers = [[NSMutableArray alloc] init];
@@ -67,7 +66,7 @@
     
     [self.markers addObject:[[CLTextMarker alloc]initWithMarkerImage:image hiddenText:hiddenText]];
     NSData *markerData = [NSKeyedArchiver archivedDataWithRootObject:self.markers];
-    markerData = [markerData AES256EncryptWithKey:kMarkersKey];
+    markerData = [markerData AES256EncryptWithKey:[self camLockerMarkersKey]];
     [[NSUserDefaults standardUserDefaults] setObject:markerData forKey:kMarkers];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -78,7 +77,7 @@
     [self.markers addObject:[[CLImageMarker alloc]initWithMarkerImage:image hiddenImages:hiddenImages]];
 
     NSData *markerData = [NSKeyedArchiver archivedDataWithRootObject:self.markers];
-    markerData = [markerData AES256EncryptWithKey:kMarkersKey];
+    markerData = [markerData AES256EncryptWithKey:[self camLockerMarkersKey]];
     [[NSUserDefaults standardUserDefaults] setObject:markerData forKey:kMarkers];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -144,6 +143,11 @@
     for (CLMarker *marker in self.markers) {
         [marker deactivate];
     }
+}
+
+- (NSString *)camLockerMarkersKey
+{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"CamLockerMarkersKey"];
 }
 
 @end

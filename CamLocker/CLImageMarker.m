@@ -12,8 +12,6 @@
 #import "CLFileManager.h"
 #import "CLImageMarker.h"
 
-#define kLengthOfKey 20
-
 @interface CLImageMarker ()
 
 @property (nonatomic, copy) NSMutableArray *hiddenImagePaths;

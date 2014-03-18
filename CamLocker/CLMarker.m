@@ -12,8 +12,6 @@
 #import "CLFileManager.h"
 #import "CLMarker.h"
 
-#define kLengthOfKey 20
-
 @interface CLMarker ()
 
 @property (nonatomic, copy) NSString *key;

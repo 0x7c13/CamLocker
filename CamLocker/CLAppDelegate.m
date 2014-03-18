@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 OSU. All rights reserved.
 //
 
+#import "NSString+Random.h"
 #import "CLAppDelegate.h"
 #import "CLMarkerManager.h"
 
@@ -13,6 +14,15 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"])
+    {
+        
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSString randomAlphanumericStringWithLength:kLengthOfKey] forKey:@"CamLockerMarkersKey"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        // This is the first launch ever
+    }
+    
     // Override point for customization after application launch.
     return YES;
 }

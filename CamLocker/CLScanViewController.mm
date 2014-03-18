@@ -42,7 +42,6 @@
     
 	NSString* trackingDataFile = [[CLMarkerManager sharedManager] trackingFilePath];
 
-    
 	if(trackingDataFile)
 	{
 		bool success = m_metaioSDK->setTrackingConfiguration([trackingDataFile UTF8String]);
