@@ -16,3 +16,4 @@
 #endif
 
 #define kLengthOfKey 20
+#define kMarkerDefaultWidth 200.0f

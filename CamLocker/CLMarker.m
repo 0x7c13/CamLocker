@@ -6,10 +6,12 @@
 //  Copyright (c) 2014 OSU. All rights reserved.
 //
 
+
 #import "UIImage+CLEncryption.h"
 #import "NSData+CLEncryption.h"
 #import "NSString+Random.h"
 #import "CLFileManager.h"
+#import "CLUtilities.h"
 #import "CLMarker.h"
 
 @interface CLMarker ()
@@ -28,11 +30,13 @@
         
         _key = [NSString randomAlphanumericStringWithLength:kLengthOfKey];
         _cosName = [markerImage hashValue];
-        _markerImageFileName = [self.cosName stringByAppendingString:@".png"];
+        _markerImageFileName = [self.cosName stringByAppendingString:@".jpg"];
         _markerImagePath = [CLFileManager imageFilePathWithFileName:self.markerImageFileName];
         
+        // scale down the image for better performance
+        markerImage = [CLUtilities imageWithImage:markerImage scaledToWidth:kMarkerDefaultWidth];
         [CLFileManager saveImageToDisk:markerImage
-                          withFileName:[self.markerImageFileName stringByAppendingString:@".cl"]
+                          withFileName:[self.markerImageFileName stringByAppendingString:@".camLocker"]
                    usingDataEncryption:YES
                                withKey:self.key];
     }
@@ -58,14 +62,13 @@
 
 - (void)activate
 {
-    NSData *markerImageData = [NSData dataWithContentsOfFile:[self.markerImagePath stringByAppendingString:@".cl"]];
+    NSData *markerImageData = [NSData dataWithContentsOfFile:[self.markerImagePath stringByAppendingString:@".camLocker"]];
     markerImageData = [markerImageData AES256DecryptWithKey:self.key];
     UIImage *markerImage = [UIImage imageWithData:markerImageData];
     [CLFileManager saveImageToDisk:markerImage
                       withFileName:self.markerImageFileName
                usingDataEncryption:NO
                            withKey:nil];
-    
 }
 
 - (void)deactivate
@@ -76,7 +79,7 @@
 -(void)deleteContent
 {
     // delete encrypted marker image
-    [[NSFileManager defaultManager] removeItemAtPath:[self.markerImagePath stringByAppendingString:@".cl"] error:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:[self.markerImagePath stringByAppendingString:@".camLocker"] error:nil];
 }
 
 @end

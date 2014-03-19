@@ -17,7 +17,7 @@
 - (instancetype)initWithMarkerImage:(UIImage *)markerImage
                        hiddenImages:(NSArray *)hiddenImages;
 
-- (NSArray *)hiddenImages;
+- (void)decryptHiddenImagesWithCompletionBlock:(void (^)(NSArray *images))block;
 - (void)deleteContent;
 
 @end

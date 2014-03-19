@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 OSU. All rights reserved.
 //
 
-#import "CLHomeViewController.h"
-#import "CLMarkerManager.h"
 #import "CLMarker.h"
+#import "CLTextMarker.h"
 #import "CLImageMarker.h"
 #import "CLFileManager.h"
-#import "CLTextMarker.h"
+#import "CLHomeViewController.h"
+#import "CLMarkerManager.h"
 
 @interface CLHomeViewController ()
 
@@ -25,7 +25,11 @@
     // Do any additional setup after loading the view.
     
     NSLog(@"%@", [CLFileManager imageFilePathWithFileName:nil]);
+}
+
+- (IBAction)deleteAllDataButtonPressed:(id)sender {
     
+    [[CLMarkerManager sharedManager] deleteAllMarkers];
 }
 
 @end

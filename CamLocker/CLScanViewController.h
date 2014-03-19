@@ -14,6 +14,7 @@
 @interface CLScanViewController : MetaioSDKViewController <CLImageViewControllerDelegate, CLTextViewControllerDelegate>
 {
     NSString *trackingConfigFile;
+    metaio::IGeometry *imagePlane;
 }
 
 @property (nonatomic, strong) IBOutlet EAGLView *glView;

@@ -14,7 +14,7 @@
 - (NSString *)hashValue
 {
     unsigned char result[16];
-    NSData *imageData = [NSData dataWithData:UIImagePNGRepresentation(self)];
+    NSData *imageData = [NSData dataWithData:UIImageJPEGRepresentation(self, 1)];
     CC_MD5([imageData bytes], [imageData length], result);
     NSString *hashString = [NSString stringWithFormat:
                             @"%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X",

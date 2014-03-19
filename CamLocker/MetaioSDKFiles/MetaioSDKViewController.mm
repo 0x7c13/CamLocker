@@ -212,7 +212,6 @@
 	return YES;
 }
 
-
 #pragma mark - Rotation handling
 
 

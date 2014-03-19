@@ -60,6 +60,11 @@
 		F7CC305918D94C9600189A03 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F7CC305318D94C9600189A03 /* libTestFlight.a */; };
 		F7CC305A18D94C9600189A03 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F7CC305418D94C9600189A03 /* README.md */; };
 		F7CC305B18D94C9600189A03 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = F7CC305518D94C9600189A03 /* release_notes.md */; };
+		F7CC306118D9705400189A03 /* Circle.m in Sources */ = {isa = PBXBuildFile; fileRef = F7CC305E18D9705400189A03 /* Circle.m */; };
+		F7CC306218D9705400189A03 /* ETActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = F7CC306018D9705400189A03 /* ETActivityIndicatorView.m */; };
+		F7CC306A18D9843200189A03 /* JDStatusBarNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = F7CC306518D9843200189A03 /* JDStatusBarNotification.m */; };
+		F7CC306B18D9843200189A03 /* JDStatusBarStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F7CC306718D9843200189A03 /* JDStatusBarStyle.m */; };
+		F7CC306C18D9843200189A03 /* JDStatusBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = F7CC306918D9843200189A03 /* JDStatusBarView.m */; };
 		F7E004DE18C6E36700FA63DC /* Markers in Resources */ = {isa = PBXBuildFile; fileRef = F7E004DD18C6E36700FA63DC /* Markers */; };
 		F7E004E118C6E54C00FA63DC /* CLImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7E004E018C6E54C00FA63DC /* CLImageViewController.m */; };
 		F7E004E618C6E66000FA63DC /* UIViewController+CWPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = F7E004E518C6E66000FA63DC /* UIViewController+CWPopup.m */; };
@@ -160,6 +165,16 @@
 		F7CC305618D94C9600189A03 /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
 		F7CC305718D94C9600189A03 /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
 		F7CC305818D94C9600189A03 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+		F7CC305D18D9705400189A03 /* Circle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Circle.h; sourceTree = "<group>"; };
+		F7CC305E18D9705400189A03 /* Circle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Circle.m; sourceTree = "<group>"; };
+		F7CC305F18D9705400189A03 /* ETActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETActivityIndicatorView.h; sourceTree = "<group>"; };
+		F7CC306018D9705400189A03 /* ETActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETActivityIndicatorView.m; sourceTree = "<group>"; };
+		F7CC306418D9843200189A03 /* JDStatusBarNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDStatusBarNotification.h; sourceTree = "<group>"; };
+		F7CC306518D9843200189A03 /* JDStatusBarNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDStatusBarNotification.m; sourceTree = "<group>"; };
+		F7CC306618D9843200189A03 /* JDStatusBarStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDStatusBarStyle.h; sourceTree = "<group>"; };
+		F7CC306718D9843200189A03 /* JDStatusBarStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDStatusBarStyle.m; sourceTree = "<group>"; };
+		F7CC306818D9843200189A03 /* JDStatusBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDStatusBarView.h; sourceTree = "<group>"; };
+		F7CC306918D9843200189A03 /* JDStatusBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDStatusBarView.m; sourceTree = "<group>"; };
 		F7E004DD18C6E36700FA63DC /* Markers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Markers; sourceTree = "<group>"; };
 		F7E004DF18C6E54C00FA63DC /* CLImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLImageViewController.h; sourceTree = "<group>"; };
 		F7E004E018C6E54C00FA63DC /* CLImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLImageViewController.m; sourceTree = "<group>"; };
@@ -408,9 +423,35 @@
 			path = TestFlightSDK3;
 			sourceTree = "<group>";
 		};
+		F7CC305C18D9705400189A03 /* ETActivityIndicatorView */ = {
+			isa = PBXGroup;
+			children = (
+				F7CC305D18D9705400189A03 /* Circle.h */,
+				F7CC305E18D9705400189A03 /* Circle.m */,
+				F7CC305F18D9705400189A03 /* ETActivityIndicatorView.h */,
+				F7CC306018D9705400189A03 /* ETActivityIndicatorView.m */,
+			);
+			path = ETActivityIndicatorView;
+			sourceTree = "<group>";
+		};
+		F7CC306318D9843200189A03 /* JDStatusBarNotification */ = {
+			isa = PBXGroup;
+			children = (
+				F7CC306418D9843200189A03 /* JDStatusBarNotification.h */,
+				F7CC306518D9843200189A03 /* JDStatusBarNotification.m */,
+				F7CC306618D9843200189A03 /* JDStatusBarStyle.h */,
+				F7CC306718D9843200189A03 /* JDStatusBarStyle.m */,
+				F7CC306818D9843200189A03 /* JDStatusBarView.h */,
+				F7CC306918D9843200189A03 /* JDStatusBarView.m */,
+			);
+			path = JDStatusBarNotification;
+			sourceTree = "<group>";
+		};
 		F7E004E218C6E66000FA63DC /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F7CC306318D9843200189A03 /* JDStatusBarNotification */,
+				F7CC305C18D9705400189A03 /* ETActivityIndicatorView */,
 				F7CC305218D94C9600189A03 /* TestFlightSDK3 */,
 				F7CC303C18D941FB00189A03 /* PEPhotoCropEditor */,
 				F73BF7BC18C6DDD1006FB928 /* MetaioSDK */,
@@ -538,6 +579,8 @@
 				F7CC304D18D941FB00189A03 /* UIImage+PECrop.m in Sources */,
 				F73BF7C518C6E00B006FB928 /* CLScanViewController.mm in Sources */,
 				F7B47DD718D8B31700C8CBCE /* NSString+Random.m in Sources */,
+				F7CC306B18D9843200189A03 /* JDStatusBarStyle.m in Sources */,
+				F7CC306118D9705400189A03 /* Circle.m in Sources */,
 				F7CC304818D941FB00189A03 /* PECropRectView.m in Sources */,
 				F792915318D6B6EE009FCA79 /* CLTrackingXMLGenerator.m in Sources */,
 				F7CC304C18D941FB00189A03 /* PEResizeControl.m in Sources */,
@@ -548,7 +591,10 @@
 				F7B47DD418D8AA0200C8CBCE /* UIImage+CLEncryption.m in Sources */,
 				F7C9344E18D8067C004B154F /* CLTextMarker.m in Sources */,
 				F73BF77318C6DB39006FB928 /* main.m in Sources */,
+				F7CC306C18D9843200189A03 /* JDStatusBarView.m in Sources */,
+				F7CC306218D9705400189A03 /* ETActivityIndicatorView.m in Sources */,
 				F7C9345918D820DB004B154F /* CLHomeViewController.m in Sources */,
+				F7CC306A18D9843200189A03 /* JDStatusBarNotification.m in Sources */,
 				F7E004E618C6E66000FA63DC /* UIViewController+CWPopup.m in Sources */,
 				F7CC303B18D9405300189A03 /* CLUtilities.m in Sources */,
 				F7CC304A18D941FB00189A03 /* PECropViewController.m in Sources */,
@@ -628,7 +674,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JIAQI LIU (4997CKN8MT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -646,7 +692,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "28F84BB2-5352-4004-BD38-DFBDF935CB62";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -668,7 +714,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JIAQI LIU (4997CKN8MT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -680,7 +726,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "28F84BB2-5352-4004-BD38-DFBDF935CB62";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

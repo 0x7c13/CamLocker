@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 OSU. All rights reserved.
 //
 
-#import "NSData+CLEncryption.h"
 #import "CLFileManager.h"
+#import "NSData+CLEncryption.h"
 #import <CommonCrypto/CommonDigest.h>
 
 @implementation CLFileManager
@@ -22,7 +22,7 @@
     usingDataEncryption:(BOOL)yesOrNo
                 withKey:(NSString *)key
 {
-    NSData *imageData = UIImagePNGRepresentation(image);
+    NSData *imageData = UIImageJPEGRepresentation(image, 1);
     
     if (yesOrNo) {
         if (!key) return;

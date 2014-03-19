@@ -12,5 +12,7 @@
 
 + (void)addShadowToUIView: (UIView *)view;
 + (void)addShadowToUIImageView: (UIImageView *)view;
++ (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
++ (UIImage *)imageWithImage:(UIImage *)sourceImage scaledToWidth:(float)i_width;
 
 @end

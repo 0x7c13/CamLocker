@@ -33,11 +33,11 @@
         
         for (UIImage *image in hiddenImages) {
             
-            NSString *fileName = [[image hashValue] stringByAppendingString:@".png"];
+            NSString *fileName = [[image hashValue] stringByAppendingString:@".jpg"];
             [self.hiddenImagePaths addObject:[CLFileManager imageFilePathWithFileName:fileName]];
              
             [CLFileManager saveImageToDisk:image
-                              withFileName:[fileName stringByAppendingString:@".cl"]
+                              withFileName:[fileName stringByAppendingString:@".camLocker"]
                        usingDataEncryption:YES
                                    withKey:self.keyOfHiddenImages];
         }
@@ -59,22 +59,30 @@
     return self;
 }
 
-- (NSArray *)hiddenImages
+- (void)decryptHiddenImagesWithCompletionBlock:(void (^)(NSArray *images))block
 {
     NSMutableArray *hiddenImages = [[NSMutableArray alloc] initWithCapacity:self.hiddenImagePaths.count];
-    for (NSString *imagePath in self.hiddenImagePaths) {
-        NSData *hiddenImageData = [NSData dataWithContentsOfFile:[imagePath stringByAppendingString:@".cl"]];
-        hiddenImageData = [hiddenImageData AES256DecryptWithKey:self.keyOfHiddenImages];
-        [hiddenImages addObject:[UIImage imageWithData:hiddenImageData]];
-    }
-    return hiddenImages;
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        for (NSString *imagePath in self.hiddenImagePaths) {
+            
+            NSData *hiddenImageData = [NSData dataWithContentsOfFile:[imagePath stringByAppendingString:@".camLocker"]];
+            hiddenImageData = [hiddenImageData AES256DecryptWithKey:self.keyOfHiddenImages];
+            [hiddenImages addObject:[UIImage imageWithData:hiddenImageData]];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            block(hiddenImages);
+        });
+    });
 }
 
 - (void)deleteContent
 {
     for (NSString *imagePath in self.hiddenImagePaths) {
-        [[NSFileManager defaultManager] removeItemAtPath:[imagePath stringByAppendingString:@".cl"] error:nil];
+        [[NSFileManager defaultManager] removeItemAtPath:[imagePath stringByAppendingString:@".camLocker"] error:nil];
     }
     [super deleteContent];
 }
+
 @end

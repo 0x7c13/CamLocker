@@ -29,14 +29,14 @@
     [[UINavigationBar appearance] setBarStyle:UIBarStyleBlackTranslucent];
     [[UIToolbar appearance] setBarStyle:UIBarStyleBlackTranslucent];
     
-    /*
-     // Test methods
-     if ([CLMarkerManager sharedManager].markers.count == 0) {
-     
-     [[CLMarkerManager sharedManager] addImageMarkerWithMarkerImage:[UIImage imageNamed:@"Markers/target_1.jpg"] hiddenImages:@[[UIImage imageNamed:@"Markers/target_6.jpg"]]];
-     [[CLMarkerManager sharedManager] addTextMarkerWithMarkerImage:[UIImage imageNamed:@"Markers/target_2.jpg"] hiddenText:@"hello"];
-     }
-     */
+    
+//     // Test methods
+//     if ([CLMarkerManager sharedManager].markers.count == 0) {
+//     
+//         [[CLMarkerManager sharedManager] addImageMarkerWithMarkerImage:[UIImage imageNamed:@"Markers/large.jpg"] hiddenImages:@[[UIImage imageNamed:@"Markers/target_6.jpg"]]];
+//         [[CLMarkerManager sharedManager] addTextMarkerWithMarkerImage:[UIImage imageNamed:@"Markers/target_2.jpg"] hiddenText:@"hello"];
+//     }
+    
     
     // Override point for customization after application launch.
     return YES;

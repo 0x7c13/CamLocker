@@ -12,9 +12,12 @@
 #import "CLMarkerManager.h"
 #import "CLTrackingXMLGenerator.h"
 #import "CLScanViewController.h"
+#import "ETActivityIndicatorView.h"
+#import "JDStatusBarNotification.h"
 #import "EAGLView.h"
 
 @interface CLScanViewController (){
+    BOOL isDecrypting;
     BOOL isPopupViewPresented;
     int targetIndex;
     CLMarker *targetMarker;
@@ -35,69 +38,65 @@
     [super viewDidLoad];
     
     targetIndex = 0;
+    isDecrypting = NO;
     isPopupViewPresented = NO;
     self.showButton.hidden = YES;
-    
-    [[CLMarkerManager sharedManager] activateMarkers];
-    
-	NSString* trackingDataFile = [[CLMarkerManager sharedManager] trackingFilePath];
+}
 
-	if(trackingDataFile)
-	{
-		bool success = m_metaioSDK->setTrackingConfiguration([trackingDataFile UTF8String]);
-		if( !success)
-			NSLog(@"No success loading the tracking configuration");
-	} else {
-        NSLog(@"Cannot open file on disk");
-    }
-    /*
-    // loadimage
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    ETActivityIndicatorView *etActivity = [[ETActivityIndicatorView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2 - 30, self.view.frame.size.height/1.3 -30, 60, 60)];
+    [etActivity startAnimating];
+    [self.glView addSubview:etActivity];
     
-    for (int i = 1; i <= numberOfImagePlanes; i++) {
-        NSString* imagePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%d", i] ofType:@"jpg" inDirectory:@"photos"];
+    [[CLMarkerManager sharedManager] activateMarkersWithCompletionBlock:^{
         
+        NSString* trackingDataFile = [[CLMarkerManager sharedManager] trackingFilePath];
+        
+        if(trackingDataFile)
+        {
+            bool success = m_metaioSDK->setTrackingConfiguration([trackingDataFile UTF8String]);
+            if( !success)
+                NSLog(@"No success loading the tracking configuration");
+        } else {
+            NSLog(@"Cannot open file on disk");
+        }
+        
+        // load frame
+
+        NSString* imagePath = [[NSBundle mainBundle] pathForResource:@"Markers/frame.png" ofType:nil];
+
         if (imagePath)
         {
-            m_imagePlane[i] = m_metaioSDK->createGeometryFromImage([imagePath UTF8String]);
-            if (m_imagePlane[i]) {
-                m_imagePlane[i]->setScale(metaio::Vector3d(8.0, 8.0, 8.0));
+            imagePlane = m_metaioSDK->createGeometryFromImage([imagePath UTF8String]);
+            if (imagePlane) {
+                imagePlane->setScale(metaio::Vector3d(3.0, 3.0, 3.0));
             }
-            else NSLog(@"Error: could not load image plane");
-        }
-    }
-    
-    // start with markerless tracking
-    [self setActiveTrackingConfig:0];
-     */
+        } else NSLog(@"Error: could not load image plane");
+        
+        
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(handleEnteredBackground)
+                                                     name: UIApplicationDidEnterBackgroundNotification
+                                                   object: nil];
+        
+        [etActivity stopAnimating];
+        [etActivity removeFromSuperview];
+    }];
 
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleEnteredBackground)
-                                                 name: UIApplicationDidEnterBackgroundNotification
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleBecomeActive)
-                                                 name: UIApplicationDidBecomeActiveNotification
-                                               object: nil];
 }
 
 - (void)handleEnteredBackground
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:UIApplicationDidEnterBackgroundNotification];
     [[CLMarkerManager sharedManager] deactivateMarkers];
-}
-
-- (void)handleBecomeActive
-{
-    [[CLMarkerManager sharedManager] activateMarkers];
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-}
-
-- (void) viewDidAppear:(BOOL)animated
-{
-	[super viewDidAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -124,6 +123,7 @@
         CLMarker *marker = [[CLMarkerManager sharedManager] markerByCosName:cosName];
         
         if (marker) {
+            imagePlane->setCoordinateSystemID(trackingValues[0].coordinateSystemID);
             targetMarker = marker;
             self.showButton.hidden = NO;
         }
@@ -145,13 +145,14 @@
 
 - (IBAction)exit:(id)sender {
     
-    [[NSNotificationCenter defaultCenter] removeObserver:UIApplicationDidBecomeActiveNotification];
     [[NSNotificationCenter defaultCenter] removeObserver:UIApplicationDidEnterBackgroundNotification];
     [[CLMarkerManager sharedManager] deactivateMarkers];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)showButtonPressed:(id)sender {
+    
+    if (isDecrypting) return;
     
     if ([targetMarker isKindOfClass:[CLTextMarker class]]) {
         
@@ -162,15 +163,27 @@
         [self presentPopupViewController:textVC animated:YES completion:nil];
         
     } else if ([targetMarker isKindOfClass:[CLImageMarker class]]) {
+
+        isDecrypting = YES;
         
-        isPopupViewPresented = YES;
-        CLImageViewController *imageVC = [[CLImageViewController alloc] initWithNibName:@"CLImageViewController" bundle:nil];
-        imageVC.hiddenImage = [[(CLImageMarker *)targetMarker hiddenImages] objectAtIndex:0];
-        imageVC.delegate = self;
-        [self presentPopupViewController:imageVC animated:YES completion:nil];
+        [JDStatusBarNotification showWithStatus:@"Decrypting..." styleName:JDStatusBarStyleError];
+        
+        [(CLImageMarker *)targetMarker decryptHiddenImagesWithCompletionBlock:^(NSArray *images){
+           
+            isPopupViewPresented = YES;
+            CLImageViewController *imageVC = [[CLImageViewController alloc] initWithNibName:@"CLImageViewController" bundle:nil];
+            imageVC.hiddenImage = [images objectAtIndex:0];
+            imageVC.delegate = self;
+            [self presentPopupViewController:imageVC animated:YES completion:nil];
+            isDecrypting = NO;
+            [JDStatusBarNotification showWithStatus:@"Decryption succeeded!" dismissAfter:1.0f styleName:JDStatusBarStyleSuccess];
+        }];
     }
-    
-    self.showButton.hidden = YES;
+}
+
+-(BOOL)prefersStatusBarHidden
+{
+    return NO;
 }
 
 @end

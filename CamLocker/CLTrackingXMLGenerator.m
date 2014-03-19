@@ -13,6 +13,7 @@
 + (NSString *)generateTrackingXMLStringUsingMarkerImageFileNames:(NSArray *)markerImageFileNames
                                                         cosNames:(NSArray *)cosNames
 {
+    /*
     // protection
     if (markerImageFileNames == nil || cosNames == nil) {
         NSLog(@"Names shouldn't be empty");
@@ -32,6 +33,7 @@
             return nil;
         }
     }
+     */
     
     NSString *xmlString;
     

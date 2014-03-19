@@ -22,16 +22,17 @@
 - (CLMarker *)markerByCosName:(NSString *)cosName;
 
 - (void)addTextMarkerWithMarkerImage:(UIImage *)image
-                           hiddenText:(NSString *)hiddenText;
+                          hiddenText:(NSString *)hiddenText;
 
 - (void)addImageMarkerWithMarkerImage:(UIImage *)image
-                          hiddenImages:(NSArray *)hiddenImages;
+                         hiddenImages:(NSArray *)hiddenImages
+                  withCompletionBlock:(void (^)())block;
 
 - (void)deleteMarkerByCosName:(NSString *)cosName;
 
 - (void)deleteAllMarkers;
 
-- (void)activateMarkers;
+- (void)activateMarkersWithCompletionBlock:(void (^)())block;
 - (void)deactivateMarkers;
 
 - (NSString *)trackingFilePath;

@@ -71,14 +71,22 @@
 }
 
 -(void)addImageMarkerWithMarkerImage:(UIImage *)image
-                        hiddenImages:(NSArray *)hiddenImages {
-    
-    [self.markers addObject:[[CLImageMarker alloc]initWithMarkerImage:image hiddenImages:hiddenImages]];
-
-    NSData *markerData = [NSKeyedArchiver archivedDataWithRootObject:self.markers];
-    markerData = [markerData AES256EncryptWithKey:[self camLockerMarkersKey]];
-    [[NSUserDefaults standardUserDefaults] setObject:markerData forKey:kMarkers];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+                        hiddenImages:(NSArray *)hiddenImages
+                 withCompletionBlock:(void (^)())block
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        [self.markers addObject:[[CLImageMarker alloc]initWithMarkerImage:image hiddenImages:hiddenImages]];
+        
+        NSData *markerData = [NSKeyedArchiver archivedDataWithRootObject:self.markers];
+        markerData = [markerData AES256EncryptWithKey:[self camLockerMarkersKey]];
+        [[NSUserDefaults standardUserDefaults] setObject:markerData forKey:kMarkers];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            block();
+        });
+    });
 }
 
 -(void)deleteMarkerByCosName:(NSString *)cosName
@@ -130,11 +138,17 @@
     return [CLTrackingXMLGenerator generateTrackingXMLStringUsingMarkerImageFileNames:imageMarkerNames cosNames:cosNames];
 }
 
-- (void)activateMarkers
+- (void)activateMarkersWithCompletionBlock:(void (^)())block
 {
-    for (CLMarker *marker in self.markers) {
-        [marker activate];
-    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        for (CLMarker *marker in self.markers) {
+            [marker activate];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            block();
+        });
+    });
 }
 
 - (void)deactivateMarkers
