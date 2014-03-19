@@ -35,7 +35,6 @@
                           withFileName:[self.markerImageFileName stringByAppendingString:@".cl"]
                    usingDataEncryption:YES
                                withKey:self.key];
-        NSLog(@"%@", self.markerImagePath);
     }
     return self;
 }

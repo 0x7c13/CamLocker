@@ -13,6 +13,7 @@
 @interface CLMarkerManager : NSObject
 
 @property (nonatomic, readonly) NSMutableArray *markers;
+@property (nonatomic) UIImage *tempMarkerImage;
 
 + (instancetype)sharedManager;
 

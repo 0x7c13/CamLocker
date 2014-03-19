@@ -21,7 +21,6 @@
 
 @end
 
-
 @implementation CLMarkerManager
 
 - (instancetype)init

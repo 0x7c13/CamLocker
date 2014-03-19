@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 OSU. All rights reserved.
 //
 
+#import "TestFlight.h"
 #import "NSString+Random.h"
 #import "CLAppDelegate.h"
 #import "CLMarkerManager.h"
@@ -14,14 +15,28 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [TestFlight takeOff:@"73277e89-0014-4d1e-9209-85f4593c61f7"];
+    
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"])
     {
-        
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
         [[NSUserDefaults standardUserDefaults] setObject:[NSString randomAlphanumericStringWithLength:kLengthOfKey] forKey:@"CamLockerMarkersKey"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         // This is the first launch ever
     }
+    
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setBarStyle:UIBarStyleBlackTranslucent];
+    [[UIToolbar appearance] setBarStyle:UIBarStyleBlackTranslucent];
+    
+    /*
+     // Test methods
+     if ([CLMarkerManager sharedManager].markers.count == 0) {
+     
+     [[CLMarkerManager sharedManager] addImageMarkerWithMarkerImage:[UIImage imageNamed:@"Markers/target_1.jpg"] hiddenImages:@[[UIImage imageNamed:@"Markers/target_6.jpg"]]];
+     [[CLMarkerManager sharedManager] addTextMarkerWithMarkerImage:[UIImage imageNamed:@"Markers/target_2.jpg"] hiddenText:@"hello"];
+     }
+     */
     
     // Override point for customization after application launch.
     return YES;

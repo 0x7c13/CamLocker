@@ -29,7 +29,7 @@
                     <items>
                         <navigationItem title="Hidden Text" id="scm-29-qQn">
                             <barButtonItem key="rightBarButtonItem" title="close " id="jDv-dF-gkE">
-                                <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <action selector="quitButtonPressed:" destination="-1" id="rLe-AA-Lsd"/>
                                 </connections>

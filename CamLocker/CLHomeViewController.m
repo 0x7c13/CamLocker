@@ -10,6 +10,7 @@
 #import "CLMarkerManager.h"
 #import "CLMarker.h"
 #import "CLImageMarker.h"
+#import "CLFileManager.h"
 #import "CLTextMarker.h"
 
 @interface CLHomeViewController ()
@@ -23,14 +24,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    if ([CLMarkerManager sharedManager].markers.count == 0) {
-        
-        NSLog(@"Prepare to add markers");
-        
-        NSArray *hiddenImages = @[[UIImage imageNamed:@"Markers/target_6.jpg"]];
-        [[CLMarkerManager sharedManager] addImageMarkerWithMarkerImage:[UIImage imageNamed:@"Markers/target_1.jpg"] hiddenImages:hiddenImages];
-        [[CLMarkerManager sharedManager] addTextMarkerWithMarkerImage:[UIImage imageNamed:@"Markers/target_2.jpg"] hiddenText:@"hello"];
-    }
+    NSLog(@"%@", [CLFileManager imageFilePathWithFileName:nil]);
+    
 }
 
 @end
