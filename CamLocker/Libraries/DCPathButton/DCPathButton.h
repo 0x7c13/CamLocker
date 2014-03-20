@@ -20,8 +20,8 @@ typedef enum{
 @protocol DCPathButtonDelegate <NSObject>
 @optional
 
-- (void)open;
-- (void)close;
+- (void)pathButtonWillOpen;
+- (void)pathButtonWillClose;
 - (void)button_0_action;
 - (void)button_1_action;
 - (void)button_2_action;
@@ -32,7 +32,7 @@ typedef enum{
 @end
 
 @class DCPathButton;
-@interface DCPathButton : UIView<DCSubButtonDelegate, DCCenterButtonDelegate>
+@interface DCPathButton : UIView <DCSubButtonDelegate, DCCenterButtonDelegate>
 
 - (id)initDCPathButtonWithSubButtons:(NSInteger)buttonCount
                          totalRadius:(CGFloat)totalRadius
@@ -66,6 +66,7 @@ typedef enum{
 @property (strong, nonatomic) NSMutableArray *buttons;
 
 - (void)subButtonImage:(NSString *)imageName withTag:(NSInteger)tag;
+- (void)close;
 
 //  -- Parameter illustrte
 //

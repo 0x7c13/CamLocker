@@ -28,7 +28,8 @@
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setBarStyle:UIBarStyleBlackTranslucent];
     [[UIToolbar appearance] setBarStyle:UIBarStyleBlackTranslucent];
-    
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
 //     // Test methods
 //     if ([CLMarkerManager sharedManager].markers.count == 0) {

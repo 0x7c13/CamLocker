@@ -59,6 +59,29 @@
     return newImage;
 }
 
++ (CAShapeLayer *) addDashedBorderToView:(UIView *)view withColor: (CGColorRef) color {
+    CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+    
+    CGSize frameSize = view.frame.size;
+    
+    CGRect shapeRect = CGRectMake(0.0f, 0.0f, frameSize.width, frameSize.height);
+    [shapeLayer setBounds:shapeRect];
+    [shapeLayer setPosition:CGPointMake( frameSize.width/2,frameSize.height/2)];
+    
+    [shapeLayer setFillColor:[[UIColor clearColor] CGColor]];
+    [shapeLayer setStrokeColor:color];
+    [shapeLayer setLineWidth:5.0f];
+    [shapeLayer setLineJoin:kCALineJoinRound];
+    [shapeLayer setLineDashPattern:
+     [NSArray arrayWithObjects:[NSNumber numberWithInt:10],
+      [NSNumber numberWithInt:5],
+      nil]];
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:shapeRect cornerRadius:15.0];
+    [shapeLayer setPath:path.CGPath];
+    
+    return shapeLayer;
+}
+
 #pragma mark - Fonts
 
 + (UIFont *)textFieldFont

@@ -57,5 +57,13 @@
     self.highlighted = NO;
 }
 
+- (void)hide
+{
+    [_delegate buttonAppear:self];
+    [_delegate buttonShrink:self];
+    [_delegate cinfigureExpandStatus];
+    [_delegate bottomFinalLocation:CGPointMake(finalLocation.x - startLocation.x, finalLocation.y - startLocation.y)];
+    self.highlighted = NO;
+}
 
 @end

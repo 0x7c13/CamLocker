@@ -181,9 +181,14 @@
     }
 }
 
--(BOOL)prefersStatusBarHidden
+- (BOOL)prefersStatusBarHidden
 {
     return NO;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
 }
 
 @end

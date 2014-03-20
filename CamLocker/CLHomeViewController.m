@@ -18,9 +18,12 @@
 #import "UIColor+MLPFlatColors.h"
 #import "DCPathButton.h"
 
-@interface CLHomeViewController () <DCPathButtonDelegate>
+@interface CLHomeViewController () <DCPathButtonDelegate> {
+    BOOL needsToDisplayStarupAnimation;
+}
 
 @property (nonatomic) PulsingHaloLayer *halo;
+@property (nonatomic) DCPathButton *dcPathButton;
 
 @end
 
@@ -40,7 +43,7 @@
     
     self.halo = [PulsingHaloLayer layer];
     self.halo.position = CGPointMake(160, 320);
-    self.halo.radius = 300;
+    self.halo.radius = 180;
     self.halo.backgroundColor = [UIColor flatWhiteColor].CGColor;
     [self.view.layer insertSublayer:self.halo atIndex:1];
     
@@ -57,23 +60,100 @@
     [CLUtilities addShadowToUIView:self.hideInfoButton];
     [CLUtilities addShadowToUIView:self.unlockButton];
     
-    DCPathButton *dcPathButton = [[DCPathButton alloc]
-                                  initDCPathButtonWithSubButtons:5
-                                  totalRadius:110
-                                  centerRadius:60
-                                  subRadius:40
-                                  centerImage:@"circle-2"
-                                  centerBackground:nil
-                                  subImages:^(DCPathButton *dc){
-                                      [dc subButtonImage:@"locker" withTag:0];
-                                      [dc subButtonImage:@"camera" withTag:1];
-                                      [dc subButtonImage:@"facebook" withTag:2];
-                                      [dc subButtonImage:@"twitter" withTag:3];
-                                      [dc subButtonImage:@"settings" withTag:4];
-                                  }
-                                  subImageBackground:nil
-                                  inLocationX:165 locationY:320 toParentView:self.view];
-    dcPathButton.delegate = self;
+    self.dcPathButton = [[DCPathButton alloc]
+                          initDCPathButtonWithSubButtons:5
+                          totalRadius:110
+                          centerRadius:60
+                          subRadius:37
+                          centerImage:@"circle-2"
+                          centerBackground:nil
+                          subImages:^(DCPathButton *dc){
+                              [dc subButtonImage:@"locker" withTag:0];
+                              [dc subButtonImage:@"camera" withTag:1];
+                              [dc subButtonImage:@"facebook" withTag:2];
+                              [dc subButtonImage:@"twitter" withTag:3];
+                              [dc subButtonImage:@"settings" withTag:4];
+                          }
+                          subImageBackground:nil
+                          inLocationX:165 locationY:320 toParentView:self.view];
+    self.dcPathButton.delegate = self;
+    
+    // Animation setup
+    [self animationSetup];
+    needsToDisplayStarupAnimation = YES;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleDidEnterBackground)
+                                                 name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleDidBecomeActive)
+                                                 name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
+- (void)animationSetup
+{
+    self.camLockerLogoLabel.frame = CGRectMake(20, 210, 280, 120);
+    self.camLockerLogoLabel.alpha = 0.0f;
+    self.dcPathButton.alpha = 0.0f;
+    self.dcPathButton.userInteractionEnabled = NO;
+    self.halo.hidden = YES;
+}
+
+- (void)executeAnimation
+{
+    [self animationSetup];
+    if (self.dcPathButton.isExpanded) {
+        [self.dcPathButton close];
+    }
+    
+    [UIView animateWithDuration:1.0f animations:^{
+        
+        self.camLockerLogoLabel.alpha = 1.0f;
+    } completion:^(BOOL finished){
+        
+        [UIView animateWithDuration:0.7f animations:^{
+            
+            self.camLockerLogoLabel.frame = CGRectMake(20, 45, 280, 120);
+        } completion:^(BOOL finished){
+            
+            [UIView animateWithDuration:0.7f animations:^{
+                
+                self.dcPathButton.alpha = 1.0f;
+            } completion:^(BOOL finished){
+                
+                self.dcPathButton.userInteractionEnabled = YES;
+                self.halo.hidden = NO;
+            }];
+        }];
+    }];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (needsToDisplayStarupAnimation) {
+        [self executeAnimation];
+        needsToDisplayStarupAnimation = NO;
+    }
+    
+}
+
+- (void)handleDidEnterBackground
+{
+    [self animationSetup];
+    needsToDisplayStarupAnimation = YES;
+    if (self.dcPathButton.isExpanded) {
+        [self.dcPathButton close];
+    }
+}
+
+- (void)handleDidBecomeActive
+{
+    if (needsToDisplayStarupAnimation) {
+        [self executeAnimation];
+        needsToDisplayStarupAnimation = NO;
+    }
 }
 
 - (IBAction)deleteAllDataButtonPressed:(id)sender {
@@ -96,6 +176,11 @@
     alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
     
     [alertView show];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    [self.dcPathButton close];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
@@ -128,12 +213,12 @@
     [self deleteAllDataButtonPressed:nil];
 }
 
-- (void)open
+- (void)pathButtonWillOpen
 {
     self.halo.hidden = YES;
 }
 
-- (void)close
+- (void)pathButtonWillClose
 {
     self.halo.hidden = NO;
 }

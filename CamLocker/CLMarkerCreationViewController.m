@@ -6,10 +6,12 @@
 //  Copyright (c) 2014 OSU. All rights reserved.
 //
 
-#import "SWSnapshotStackView.h"
+#import "CLUtilities.h"
 #import "CLMarkerManager.h"
 #import "CLMarkerCreationViewController.h"
 #import "PECropViewController.h"
+#import "SWSnapshotStackView.h"
+#import "UIColor+MLPFlatColors.h"
 
 @interface CLMarkerCreationViewController () <PECropViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -37,6 +39,10 @@
     UIImageView *background = [[UIImageView alloc] initWithFrame:self.view.frame];
     background.image = [UIImage imageNamed:@"bg_3.jpg"];
     [self.view insertSubview:background atIndex:0];
+    
+    [self.addImageButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.addImageButton
+                                                                    withColor:[UIColor flatWhiteColor].CGColor]];
+    
 }
 
 - (IBAction)addMarkerButtonPressed:(id)sender {
@@ -44,7 +50,13 @@
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
     picker.allowsEditing = NO;
+    
+#if TARGET_IPHONE_SIMULATOR
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+#else
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+#endif
+    picker.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     
     [self presentViewController:picker animated:YES completion:NULL];
     
@@ -82,6 +94,22 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)executeAnimation
+{
+    CGRect initRect = self.imageView.frame;
+    self.imageView.frame = CGRectMake(initRect.origin.x - 25, initRect.origin.y - 25, initRect.size.width + 50, initRect.size.height + 50);
+    [UIView animateWithDuration:1.2f animations:^{
+        self.imageView.alpha = 1.0f;
+        self.imageView.frame = initRect;
+        } completion:^(BOOL finished){
+    }];
+}
+
+-(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+}
+
 #pragma mark - UIImagePickerControllerDelegate methods
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
@@ -89,12 +117,14 @@
     
     UIImage *chosenImage = info[UIImagePickerControllerOriginalImage];
     self.imageView.image = chosenImage;
+    self.imageView.alpha = 0.0f;
     self.imageView.hidden = NO;
     self.editButton.hidden = NO;
     self.nextStepButton.hidden = NO;
     self.addImageButton.hidden = YES;
     
-    [picker dismissViewControllerAnimated:YES completion:NULL];
+    [self executeAnimation];
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
@@ -119,5 +149,6 @@
 {
     [CLMarkerManager sharedManager].tempMarkerImage = self.imageView.image;
 }
+
 
 @end

@@ -31,4 +31,6 @@
 @property (weak, nonatomic) id<DCCenterButtonDelegate> delegate;
 @property (nonatomic) CGPoint finalLocation;
 
+- (void)hide;
+
 @end

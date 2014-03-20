@@ -95,6 +95,11 @@ static CGFloat const kDCPathButtonDefaultReverseRotation = -M_PI*2;
     return self;
 }
 
+- (void)close
+{
+    [self.centerButton hide];
+}
+
 #pragma mark - configure the center button and the sub button
 
 - (void)configureCenterButton:(CGFloat)centerRadius image:(NSString *)imageName backgroundImage:(NSString *)backgroundImageName{
@@ -467,15 +472,15 @@ static CGFloat const kDCPathButtonDefaultReverseRotation = -M_PI*2;
     if (!self.isExpanded) {
         self.frame = CGRectMake(0, 0, self.totalRaiuds*2, self.totalRaiuds*2);
         self.center = CGPointMake(self.selflastLocation.x, self.selflastLocation.y);
-        if ([_delegate respondsToSelector:@selector(open)]) {
-            [_delegate open];
+        if ([_delegate respondsToSelector:@selector(pathButtonWillOpen)]) {
+            [_delegate pathButtonWillOpen];
         }
     }
     else{
         self.frame = CGRectMake(0, 0, self.centerRadius*2, self.centerRadius*2);
         self.center = CGPointMake(self.selflastLocation.x, self.selflastLocation.y);
-        if ([_delegate respondsToSelector:@selector(open)]) {
-            [_delegate close];
+        if ([_delegate respondsToSelector:@selector(pathButtonWillClose)]) {
+            [_delegate pathButtonWillClose];
         }
     }
     !_expanded? (_expanded = YES):(_expanded = NO);
