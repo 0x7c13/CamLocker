@@ -59,4 +59,41 @@
     return newImage;
 }
 
+#pragma mark - Fonts
+
++ (UIFont *)textFieldFont
+{
+    return [UIFont fontWithName:@"OpenSans" size:16.0];
+}
+
++ (UIFont *)descriptionTextFont
+{
+    return [UIFont fontWithName:@"OpenSans" size:15.0];
+}
+
++ (UIFont *)titleFont
+{
+    return [UIFont fontWithName:@"OpenSans-Light" size:24];
+}
+
++ (UIFont *)swipeToContinueFont
+{
+    return [UIFont fontWithName:@"OpenSans" size:10.0];
+}
+
++ (UIFont *)tosLabelFont
+{
+    return [UIFont fontWithName:@"OpenSans" size:12.0];
+}
+
++ (UIFont *)tosLabelSmallerFont
+{
+    return [UIFont fontWithName:@"OpenSans" size:9.0];
+}
+
++ (UIFont *)confirmationLabelFont
+{
+    return [UIFont fontWithName:@"OpenSans" size:14];
+}
+
 @end

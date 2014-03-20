@@ -6,13 +6,15 @@
 //  Copyright (c) 2014 OSU. All rights reserved.
 //
 
+#import "SWSnapshotStackView.h"
 #import "CLMarkerManager.h"
 #import "CLMarkerCreationViewController.h"
 #import "PECropViewController.h"
 
 @interface CLMarkerCreationViewController () <PECropViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+
+@property (strong, nonatomic) IBOutlet SWSnapshotStackView *imageView;
 @property (weak, nonatomic) IBOutlet UIButton *addImageButton;
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
 @property (weak, nonatomic) IBOutlet UIButton *nextStepButton;
@@ -26,9 +28,15 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.imageView.contentMode = UIViewContentModeRedraw;
+    self.imageView.displayAsStack = NO;
     self.imageView.hidden = YES;
     self.editButton.hidden = YES;
     self.nextStepButton.hidden = YES;
+    
+    UIImageView *background = [[UIImageView alloc] initWithFrame:self.view.frame];
+    background.image = [UIImage imageNamed:@"bg_3.jpg"];
+    [self.view insertSubview:background atIndex:0];
 }
 
 - (IBAction)addMarkerButtonPressed:(id)sender {

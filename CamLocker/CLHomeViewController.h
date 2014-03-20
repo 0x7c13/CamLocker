@@ -10,4 +10,9 @@
 
 @interface CLHomeViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIButton *hideInfoButton;
+@property (weak, nonatomic) IBOutlet UIButton *unlockButton;
+@property (weak, nonatomic) IBOutlet UILabel *camLockerLogoLabel;
+@property (weak, nonatomic) IBOutlet UIButton *deleteDataButton;
+
 @end

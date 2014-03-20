@@ -15,4 +15,12 @@
 + (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
 + (UIImage *)imageWithImage:(UIImage *)sourceImage scaledToWidth:(float)i_width;
 
++ (UIFont *)textFieldFont;
++ (UIFont *)descriptionTextFont;
++ (UIFont *)titleFont;
++ (UIFont *)swipeToContinueFont;
++ (UIFont *)tosLabelFont;
++ (UIFont *)tosLabelSmallerFont;
++ (UIFont *)confirmationLabelFont;
+
 @end

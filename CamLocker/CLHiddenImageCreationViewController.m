@@ -8,6 +8,7 @@
 
 #import "CLMarkerManager.h"
 #import "CLHiddenImageCreationViewController.h"
+#import "SWSnapshotStackView.h"
 #import "JDStatusBarNotification.h"
 #import "ETActivityIndicatorView.h"
 
@@ -15,7 +16,9 @@
     BOOL isEncrypting;
 }
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+
+
+@property (weak, nonatomic) IBOutlet SWSnapshotStackView *imageView;
 @property (weak, nonatomic) IBOutlet UIButton *doneButton;
 @property (weak, nonatomic) IBOutlet UIButton *addImageButton;
 
@@ -30,8 +33,14 @@
     // Do any additional setup after loading the view.
 
     isEncrypting = NO;
+    self.imageView.contentMode = UIViewContentModeRedraw;
+    self.imageView.displayAsStack = NO;
     self.imageView.hidden = YES;
     self.doneButton.hidden = YES;
+    
+    UIImageView *background = [[UIImageView alloc] initWithFrame:self.view.frame];
+    background.image = [UIImage imageNamed:@"bg_3.jpg"];
+    [self.view insertSubview:background atIndex:0];
 }
 
 - (IBAction)addImageButtonPressed:(id)sender {
