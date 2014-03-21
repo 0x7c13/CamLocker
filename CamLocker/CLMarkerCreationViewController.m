@@ -12,14 +12,17 @@
 #import "PECropViewController.h"
 #import "SWSnapshotStackView.h"
 #import "UIColor+MLPFlatColors.h"
+#import "SIAlertView.h"
 
-@interface CLMarkerCreationViewController () <PECropViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
-
+@interface CLMarkerCreationViewController () <PECropViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
+    BOOL hasEdited;
+}
 
 @property (strong, nonatomic) IBOutlet SWSnapshotStackView *imageView;
 @property (weak, nonatomic) IBOutlet UIButton *addImageButton;
-@property (weak, nonatomic) IBOutlet UIButton *editButton;
-@property (weak, nonatomic) IBOutlet UIButton *nextStepButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *editButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *nextStepButton;
+
 
 @end
 
@@ -30,19 +33,19 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [CLUtilities addBackgroundImageToView:self.view];
+    
     self.imageView.contentMode = UIViewContentModeRedraw;
     self.imageView.displayAsStack = NO;
     self.imageView.hidden = YES;
-    self.editButton.hidden = YES;
-    self.nextStepButton.hidden = YES;
     
-    UIImageView *background = [[UIImageView alloc] initWithFrame:self.view.frame];
-    background.image = [UIImage imageNamed:@"bg_3.jpg"];
-    [self.view insertSubview:background atIndex:0];
-    
+    hasEdited = NO;
+}
+
+- (void)viewDidLayoutSubviews
+{
     [self.addImageButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.addImageButton
                                                                     withColor:[UIColor flatWhiteColor].CGColor]];
-    
 }
 
 - (IBAction)addMarkerButtonPressed:(id)sender {
@@ -64,6 +67,21 @@
 
 - (IBAction)editButtonPressed:(id)sender {
     
+    if (!self.imageView.image) {
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Oops" andMessage:@"Please take a photo first."];
+        [alertView addButtonWithTitle:@"OK"
+                                 type:SIAlertViewButtonTypeDestructive
+                              handler:nil];
+        alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
+        alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
+        alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
+        alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
+        alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
+        
+        [alertView show];
+        return;
+    }
+    
     PECropViewController *controller = [[PECropViewController alloc] init];
     controller.delegate = self;
     controller.image = self.imageView.image;
@@ -84,6 +102,41 @@
     }
     
     [self presentViewController:navigationController animated:YES completion:NULL];
+    hasEdited = YES;
+}
+
+- (IBAction)nextStepButtonPressed:(id)sender {
+    
+    if (!self.imageView.image) {
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Oops" andMessage:@"Please take a photo first."];
+        [alertView addButtonWithTitle:@"OK"
+                                 type:SIAlertViewButtonTypeDestructive
+                              handler:nil];
+        alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
+        alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
+        alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
+        alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
+        alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
+        
+        [alertView show];
+        return;
+    } else if (!hasEdited) {
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Hint" andMessage:@"To make your marker easier to be detected, you may need to crop your image. Press edit button to manipulate if you need."];
+        [alertView addButtonWithTitle:@"OK"
+                                 type:SIAlertViewButtonTypeDestructive
+                              handler:nil];
+        alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
+        alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
+        alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
+        alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
+        alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
+        
+        [alertView show];
+        hasEdited = YES;
+        return;
+    } else {
+        [self performSegueWithIdentifier:@"markerChosenSegue" sender:sender];
+    }
 }
 
 - (IBAction)retakeButtonPressed:(id)sender {
@@ -91,6 +144,7 @@
 }
 
 - (IBAction)cancelButtonPressed:(id)sender {
+    [[CLMarkerManager sharedManager] setTempMarkerImage:nil];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -99,8 +153,8 @@
     CGRect initRect = self.imageView.frame;
     self.imageView.frame = CGRectMake(initRect.origin.x - 25, initRect.origin.y - 25, initRect.size.width + 50, initRect.size.height + 50);
     [UIView animateWithDuration:1.2f animations:^{
-        self.imageView.alpha = 1.0f;
-        self.imageView.frame = initRect;
+            self.imageView.alpha = 1.0f;
+            self.imageView.frame = initRect;
         } completion:^(BOOL finished){
     }];
 }
@@ -108,6 +162,7 @@
 -(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
 #pragma mark - UIImagePickerControllerDelegate methods
@@ -119,8 +174,6 @@
     self.imageView.image = chosenImage;
     self.imageView.alpha = 0.0f;
     self.imageView.hidden = NO;
-    self.editButton.hidden = NO;
-    self.nextStepButton.hidden = NO;
     self.addImageButton.hidden = YES;
     
     [self executeAnimation];
@@ -138,6 +191,9 @@
 {
     [controller dismissViewControllerAnimated:YES completion:NULL];
     self.imageView.image = croppedImage;
+    self.imageView.alpha = 0.0f;
+    
+    [self executeAnimation];
 }
 
 - (void)cropViewControllerDidCancel:(PECropViewController *)controller

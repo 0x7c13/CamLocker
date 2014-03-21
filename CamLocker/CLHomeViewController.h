@@ -14,5 +14,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *unlockButton;
 @property (weak, nonatomic) IBOutlet UILabel *camLockerLogoLabel;
 @property (weak, nonatomic) IBOutlet UIButton *deleteDataButton;
+@property (weak, nonatomic) IBOutlet UILabel *bottomLabel;
 
 @end

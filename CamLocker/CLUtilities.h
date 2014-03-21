@@ -15,7 +15,9 @@
 + (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
 + (UIImage *)imageWithImage:(UIImage *)sourceImage scaledToWidth:(float)i_width;
 + (CAShapeLayer *) addDashedBorderToView:(UIView *)view withColor: (CGColorRef) color;
-    
+
++ (void)addBackgroundImageToView:(UIView *)view;
+
 + (UIFont *)textFieldFont;
 + (UIFont *)descriptionTextFont;
 + (UIFont *)titleFont;

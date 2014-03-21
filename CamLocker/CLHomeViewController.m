@@ -16,6 +16,7 @@
 #import "SIAlertView.h"
 #import "PulsingHaloLayer.h"
 #import "UIColor+MLPFlatColors.h"
+#import "JDStatusBarNotification.h"
 #import "DCPathButton.h"
 
 @interface CLHomeViewController () <DCPathButtonDelegate> {
@@ -36,14 +37,12 @@
     
     NSLog(@"%@", [CLFileManager imageFilePathWithFileName:nil]);
 
-    self.view.backgroundColor = [UIColor flatDarkBlackColor];
-    UIImageView *background = [[UIImageView alloc] initWithFrame:self.view.frame];
-    background.image = [UIImage imageNamed:@"bg_3.jpg"];
-    [self.view insertSubview:background atIndex:0];
+    [CLUtilities addBackgroundImageToView:self.view];
     
+    CGFloat locationY = DEVICE_IS_4INCH_IPHONE ? 320 : 260;
     self.halo = [PulsingHaloLayer layer];
-    self.halo.position = CGPointMake(160, 320);
-    self.halo.radius = 180;
+    self.halo.position = CGPointMake(160, locationY);
+    self.halo.radius = 170;
     self.halo.backgroundColor = [UIColor flatWhiteColor].CGColor;
     [self.view.layer insertSublayer:self.halo atIndex:1];
     
@@ -75,7 +74,7 @@
                               [dc subButtonImage:@"settings" withTag:4];
                           }
                           subImageBackground:nil
-                          inLocationX:165 locationY:320 toParentView:self.view];
+                          inLocationX:165 locationY:locationY toParentView:self.view];
     self.dcPathButton.delegate = self;
     
     // Animation setup
@@ -92,10 +91,12 @@
 
 - (void)animationSetup
 {
-    self.camLockerLogoLabel.frame = CGRectMake(20, 210, 280, 120);
+    CGFloat locationY = DEVICE_IS_4INCH_IPHONE ? 210 : 170;
+    self.camLockerLogoLabel.frame = CGRectMake(20, locationY, 280, 120);
     self.camLockerLogoLabel.alpha = 0.0f;
     self.dcPathButton.alpha = 0.0f;
     self.dcPathButton.userInteractionEnabled = NO;
+    self.bottomLabel.alpha = 0.0f;
     self.halo.hidden = YES;
 }
 
@@ -114,6 +115,7 @@
         [UIView animateWithDuration:0.7f animations:^{
             
             self.camLockerLogoLabel.frame = CGRectMake(20, 45, 280, 120);
+            self.bottomLabel.alpha = 1.0f;
         } completion:^(BOOL finished){
             
             [UIView animateWithDuration:0.7f animations:^{
@@ -166,13 +168,14 @@
     [alertView addButtonWithTitle:@"Yes"
                              type:SIAlertViewButtonTypeDestructive
                           handler:^(SIAlertView *alertView) {
-
+  
                               [[CLMarkerManager sharedManager] deleteAllMarkers];
+                              [JDStatusBarNotification showWithStatus:@"All markers have been removed!" dismissAfter:2 styleName:JDStatusBarStyleWarning];
                           }];
     alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
     alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
     alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
-    alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:17.0];
+    alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
     alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
     
     [alertView show];
@@ -197,7 +200,22 @@
 
 - (void)button_1_action{
     NSLog(@"Button Press Tag 1!!");
-    [self performSegueWithIdentifier:@"metaioSegue" sender:nil];
+    if ([CLMarkerManager sharedManager].markers.count > 0) {
+        [self performSegueWithIdentifier:@"metaioSegue" sender:nil];
+    } else {
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Oops" andMessage:@"No markers are found, please create one first!"];
+        [alertView addButtonWithTitle:@"OK"
+                                 type:SIAlertViewButtonTypeDestructive
+                              handler:^(SIAlertView *alertView) {
+                              }];
+        alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
+        alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
+        alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
+        alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
+        alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
+        
+        [alertView show];
+    }
 }
 
 - (void)button_2_action{

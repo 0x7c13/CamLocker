@@ -82,6 +82,13 @@
     return shapeLayer;
 }
 
++ (void)addBackgroundImageToView:(UIView *)view
+{
+    UIImageView *background = [[UIImageView alloc] initWithFrame:view.frame];
+    background.image = [UIImage imageNamed:@"bg_3.jpg"];
+    [view insertSubview:background atIndex:0];
+}
+
 #pragma mark - Fonts
 
 + (UIFont *)textFieldFont

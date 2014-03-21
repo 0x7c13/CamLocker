@@ -13,14 +13,16 @@
 #import "JDStatusBarNotification.h"
 #import "ETActivityIndicatorView.h"
 #import "UIColor+MLPFlatColors.h"
+#import "SIAlertView.h"
 
 @interface CLHiddenImageCreationViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
     BOOL isEncrypting;
 }
 
 @property (weak, nonatomic) IBOutlet SWSnapshotStackView *imageView;
-@property (weak, nonatomic) IBOutlet UIButton *doneButton;
 @property (weak, nonatomic) IBOutlet UIButton *addImageButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *addMoreButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 
 @end
 
@@ -32,16 +34,16 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
+    [CLUtilities addBackgroundImageToView:self.view];
+    
     isEncrypting = NO;
     self.imageView.contentMode = UIViewContentModeRedraw;
     self.imageView.displayAsStack = NO;
     self.imageView.hidden = YES;
-    self.doneButton.hidden = YES;
-    
-    UIImageView *background = [[UIImageView alloc] initWithFrame:self.view.frame];
-    background.image = [UIImage imageNamed:@"bg_3.jpg"];
-    [self.view insertSubview:background atIndex:0];
-    
+}
+
+- (void)viewDidLayoutSubviews
+{
     [self.addImageButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.addImageButton
                                                                     withColor:[UIColor flatWhiteColor].CGColor]];
 }
@@ -58,25 +60,63 @@
     [self presentViewController:picker animated:YES completion:nil];
 }
 
+- (IBAction)addMoreButtonPressed:(id)sender {
+    
+}
+
+
 - (IBAction)doneButtonPressed:(id)sender {
     
     if (isEncrypting) return;
-    isEncrypting = YES;
-    ETActivityIndicatorView *etActivity = [[ETActivityIndicatorView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2 - 30, self.view.frame.size.height/2 -30, 60, 60)];
-    [etActivity startAnimating];
-    [self.view addSubview:etActivity];
-    [JDStatusBarNotification showWithStatus:@"Encrypting Data..." styleName:JDStatusBarStyleError];
+    if (!self.imageView.image) {
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Oops" andMessage:@"Please add a photo."];
+        [alertView addButtonWithTitle:@"OK"
+                                 type:SIAlertViewButtonTypeDestructive
+                              handler:nil];
+        alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
+        alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
+        alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
+        alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
+        alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
+        
+        [alertView show];
+        return;
+    }
     
-    [[CLMarkerManager sharedManager] addImageMarkerWithMarkerImage:[CLMarkerManager sharedManager].tempMarkerImage
-                                                      hiddenImages:@[self.imageView.image]
-                                               withCompletionBlock:^{
-                                                   [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.0f styleName:JDStatusBarStyleSuccess];
-                                                   [CLMarkerManager sharedManager].tempMarkerImage = nil;
-                                                   [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-                                                   [etActivity stopAnimating];
-                                                   [etActivity removeFromSuperview];
-                                                   isEncrypting = NO;
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Almost there" andMessage:@"Are you ready to create this marker?"];
+    [alertView addButtonWithTitle:@"No"
+                             type:SIAlertViewButtonTypeCancel
+                          handler:^(SIAlertView *alertView) {
+                          }];
+    [alertView addButtonWithTitle:@"Yes"
+                             type:SIAlertViewButtonTypeDestructive
+                          handler:^(SIAlertView *alertView) {
+                              
+                              isEncrypting = YES;
+                              ETActivityIndicatorView *etActivity = [[ETActivityIndicatorView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2 - 30, self.view.frame.size.height/2 -30, 60, 60)];
+                              [etActivity startAnimating];
+                              [self.view addSubview:etActivity];
+                              [JDStatusBarNotification showWithStatus:@"Encrypting Data..." styleName:JDStatusBarStyleError];
+                              
+                              [[CLMarkerManager sharedManager] addImageMarkerWithMarkerImage:[CLMarkerManager sharedManager].tempMarkerImage
+                                                                                hiddenImages:@[self.imageView.image]
+                                                                         withCompletionBlock:^{
+                                                                             [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.0f styleName:JDStatusBarStyleSuccess];
+                                                                             [CLMarkerManager sharedManager].tempMarkerImage = nil;
+                                                                             [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                                                                             [etActivity stopAnimating];
+                                                                             [etActivity removeFromSuperview];
+                                                                             isEncrypting = NO;
+                              
+                                                                            }];
     }];
+    alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
+    alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
+    alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
+    alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
+    alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
+    
+    [alertView show];
 }
 
 - (void)executeAnimation
@@ -105,7 +145,6 @@
     self.imageView.image = chosenImage;
     self.imageView.alpha = 0.0f;
     self.imageView.hidden = NO;
-    self.doneButton.hidden = NO;
     self.addImageButton.hidden = YES;
     
     [self executeAnimation];

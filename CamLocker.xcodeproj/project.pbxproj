@@ -81,6 +81,10 @@
 		F7A0FE1518DAD28300EDE06A /* bg_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F7A0FE1418DAD28300EDE06A /* bg_2.jpg */; };
 		F7A0FE1718DAD33100EDE06A /* bg_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F7A0FE1618DAD33100EDE06A /* bg_3.jpg */; };
 		F7A0FE1B18DAE01500EDE06A /* SWSnapshotStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = F7A0FE1A18DAE01500EDE06A /* SWSnapshotStackView.m */; };
+		F7A1C67318DBE7C2004F724A /* LXActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = F7A1C67218DBE7C2004F724A /* LXActionSheet.m */; };
+		F7A1C67718DBF629004F724A /* UIView+Explode.m in Sources */ = {isa = PBXBuildFile; fileRef = F7A1C67618DBF629004F724A /* UIView+Explode.m */; };
+		F7A1C67A18DC0DCA004F724A /* CLMarkerTypeChosenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7A1C67918DC0DCA004F724A /* CLMarkerTypeChosenViewController.m */; };
+		F7A1C67D18DC10B5004F724A /* CLHiddenTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7A1C67C18DC10B5004F724A /* CLHiddenTextViewController.m */; };
 		F7B47DD118D8A78500C8CBCE /* NSData+CLEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = F7B47DD018D8A78500C8CBCE /* NSData+CLEncryption.m */; };
 		F7B47DD418D8AA0200C8CBCE /* UIImage+CLEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = F7B47DD318D8AA0200C8CBCE /* UIImage+CLEncryption.m */; };
 		F7B47DD718D8B31700C8CBCE /* NSString+Random.m in Sources */ = {isa = PBXBuildFile; fileRef = F7B47DD618D8B31700C8CBCE /* NSString+Random.m */; };
@@ -218,6 +222,14 @@
 		F7A0FE1618DAD33100EDE06A /* bg_3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg_3.jpg; sourceTree = "<group>"; };
 		F7A0FE1918DAE01500EDE06A /* SWSnapshotStackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWSnapshotStackView.h; sourceTree = "<group>"; };
 		F7A0FE1A18DAE01500EDE06A /* SWSnapshotStackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWSnapshotStackView.m; sourceTree = "<group>"; };
+		F7A1C67118DBE7C2004F724A /* LXActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXActionSheet.h; sourceTree = "<group>"; };
+		F7A1C67218DBE7C2004F724A /* LXActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXActionSheet.m; sourceTree = "<group>"; };
+		F7A1C67518DBF629004F724A /* UIView+Explode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Explode.h"; sourceTree = "<group>"; };
+		F7A1C67618DBF629004F724A /* UIView+Explode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Explode.m"; sourceTree = "<group>"; };
+		F7A1C67818DC0DCA004F724A /* CLMarkerTypeChosenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLMarkerTypeChosenViewController.h; sourceTree = "<group>"; };
+		F7A1C67918DC0DCA004F724A /* CLMarkerTypeChosenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLMarkerTypeChosenViewController.m; sourceTree = "<group>"; };
+		F7A1C67B18DC10B5004F724A /* CLHiddenTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLHiddenTextViewController.h; sourceTree = "<group>"; };
+		F7A1C67C18DC10B5004F724A /* CLHiddenTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLHiddenTextViewController.m; sourceTree = "<group>"; };
 		F7B47DCF18D8A78500C8CBCE /* NSData+CLEncryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+CLEncryption.h"; sourceTree = "<group>"; };
 		F7B47DD018D8A78500C8CBCE /* NSData+CLEncryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+CLEncryption.m"; sourceTree = "<group>"; };
 		F7B47DD218D8AA0200C8CBCE /* UIImage+CLEncryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+CLEncryption.h"; sourceTree = "<group>"; };
@@ -449,6 +461,10 @@
 				F7B47DD918D8D75200C8CBCE /* CLMarkerCreationViewController.m */,
 				F7CC304F18D946DB00189A03 /* CLHiddenImageCreationViewController.h */,
 				F7CC305018D946DB00189A03 /* CLHiddenImageCreationViewController.m */,
+				F7A1C67818DC0DCA004F724A /* CLMarkerTypeChosenViewController.h */,
+				F7A1C67918DC0DCA004F724A /* CLMarkerTypeChosenViewController.m */,
+				F7A1C67B18DC10B5004F724A /* CLHiddenTextViewController.h */,
+				F7A1C67C18DC10B5004F724A /* CLHiddenTextViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -594,6 +610,24 @@
 			path = SWSnapshotStackView;
 			sourceTree = "<group>";
 		};
+		F7A1C67018DBE7C2004F724A /* LXActionSheet */ = {
+			isa = PBXGroup;
+			children = (
+				F7A1C67118DBE7C2004F724A /* LXActionSheet.h */,
+				F7A1C67218DBE7C2004F724A /* LXActionSheet.m */,
+			);
+			path = LXActionSheet;
+			sourceTree = "<group>";
+		};
+		F7A1C67418DBF629004F724A /* LetterPressExplosion */ = {
+			isa = PBXGroup;
+			children = (
+				F7A1C67518DBF629004F724A /* UIView+Explode.h */,
+				F7A1C67618DBF629004F724A /* UIView+Explode.m */,
+			);
+			path = LetterPressExplosion;
+			sourceTree = "<group>";
+		};
 		F7CC303C18D941FB00189A03 /* PEPhotoCropEditor */ = {
 			isa = PBXGroup;
 			children = (
@@ -652,6 +686,8 @@
 		F7E004E218C6E66000FA63DC /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F7A1C67418DBF629004F724A /* LetterPressExplosion */,
+				F7A1C67018DBE7C2004F724A /* LXActionSheet */,
 				F7A0FE1818DAE01500EDE06A /* SWSnapshotStackView */,
 				F7A0FDD618DAC40000EDE06A /* DCPathButton */,
 				F7A0FDBE18DAAC6A00EDE06A /* SIAlertView */,
@@ -724,6 +760,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = OSU;
 				TargetAttributes = {
+					F73BF76218C6DB39006FB928 = {
+						DevelopmentTeam = 4997CKN8MT;
+					};
 					F73BF78318C6DB39006FB928 = {
 						TestTargetID = F73BF76218C6DB39006FB928;
 					};
@@ -820,6 +859,7 @@
 				F7A0FDBD18DAA60300EDE06A /* UIColor+MLPFlatColors.m in Sources */,
 				F7CC304818D941FB00189A03 /* PECropRectView.m in Sources */,
 				F792915318D6B6EE009FCA79 /* CLTrackingXMLGenerator.m in Sources */,
+				F7A1C67318DBE7C2004F724A /* LXActionSheet.m in Sources */,
 				F7CC304C18D941FB00189A03 /* PEResizeControl.m in Sources */,
 				F7C9345418D81755004B154F /* CLMarkerManager.m in Sources */,
 				F7B47DD118D8A78500C8CBCE /* NSData+CLEncryption.m in Sources */,
@@ -827,6 +867,7 @@
 				F7E004E118C6E54C00FA63DC /* CLImageViewController.m in Sources */,
 				F7B47DD418D8AA0200C8CBCE /* UIImage+CLEncryption.m in Sources */,
 				F7C9344E18D8067C004B154F /* CLTextMarker.m in Sources */,
+				F7A1C67718DBF629004F724A /* UIView+Explode.m in Sources */,
 				F73BF77318C6DB39006FB928 /* main.m in Sources */,
 				F7CC306C18D9843200189A03 /* JDStatusBarView.m in Sources */,
 				F7A0FDBC18DAA60300EDE06A /* PulsingHaloLayer.m in Sources */,
@@ -843,6 +884,8 @@
 				F7E004EF18C6EEC500FA63DC /* CLTextViewController.m in Sources */,
 				F7A0FDC518DAAC6A00EDE06A /* SIAlertView.m in Sources */,
 				F7C9345118D80DB9004B154F /* CLImageMarker.m in Sources */,
+				F7A1C67A18DC0DCA004F724A /* CLMarkerTypeChosenViewController.m in Sources */,
+				F7A1C67D18DC10B5004F724A /* CLHiddenTextViewController.m in Sources */,
 				F7A0FDF018DAC40000EDE06A /* DCPathButton.m in Sources */,
 				F73BF7C218C6DDFF006FB928 /* MetaioSDKViewController.mm in Sources */,
 				F7B47DDA18D8D75200C8CBCE /* CLMarkerCreationViewController.m in Sources */,
@@ -938,7 +981,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "76F32337-1B67-4D5E-A3C3-2DA1DF79C598";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -973,7 +1016,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "76F32337-1B67-4D5E-A3C3-2DA1DF79C598";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -986,6 +1029,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++98";
 				CLANG_CXX_LIBRARY = "libstdc++";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -1010,6 +1054,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++98";
 				CLANG_CXX_LIBRARY = "libstdc++";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",

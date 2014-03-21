@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Markus. All rights reserved.
 //
 
+#import "UIColor+MLPFlatColors.h"
 #import "JDStatusBarStyle.h"
 
 NSString *const JDStatusBarStyleError   = @"JDStatusBarStyleError";
@@ -67,16 +68,26 @@ NSString *const JDStatusBarStyleDark    = @"JDStatusBarStyleDark";
     
     // JDStatusBarStyleWarning
     else if ([styleName isEqualToString:JDStatusBarStyleWarning]) {
+        /*
         style.barColor = [UIColor colorWithRed:0.900 green:0.734 blue:0.034 alpha:1.000];
         style.textColor = [UIColor darkGrayColor];
+        style.progressBarColor = style.textColor;
+         */
+        style.barColor = [UIColor flatRedColor];
+        style.textColor = [UIColor flatWhiteColor];
         style.progressBarColor = style.textColor;
         return style;
     }
     
     // JDStatusBarStyleSuccess
     else if ([styleName isEqualToString:JDStatusBarStyleSuccess]) {
+        /*
         style.barColor = [UIColor colorWithRed:0.588 green:0.797 blue:0.000 alpha:1.000];
         style.textColor = [UIColor whiteColor];
+        style.progressBarColor = [UIColor colorWithRed:0.106 green:0.594 blue:0.319 alpha:1.000];
+         */
+        style.barColor = [UIColor flatDarkGreenColor];
+        style.textColor = [UIColor flatWhiteColor];
         style.progressBarColor = [UIColor colorWithRed:0.106 green:0.594 blue:0.319 alpha:1.000];
         style.progressBarHeight = 1.0+1.0/[[UIScreen mainScreen] scale];
         return style;
