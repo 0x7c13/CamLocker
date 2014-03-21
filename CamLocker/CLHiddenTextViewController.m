@@ -13,10 +13,13 @@
 #import "SIAlertView.h"
 #import "JDStatusBarNotification.h"
 
-@interface CLHiddenTextViewController ()
+@interface CLHiddenTextViewController () {
+    BOOL isKeyboardShown;
+}
 
 @property (weak, nonatomic) IBOutlet UIButton *addTextButton;
 @property (weak, nonatomic) IBOutlet UITextView *textView;
+@property (weak, nonatomic) IBOutlet UIView *textViewContainer;
 
 @end
 
@@ -29,8 +32,20 @@
     
     [CLUtilities addBackgroundImageToView:self.view];
     
+    isKeyboardShown = NO;
     self.textView.font = [UIFont fontWithName:@"OpenSans" size:15];
-    self.textView.hidden = YES;
+    self.textViewContainer.hidden = YES;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShown:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLayoutSubviews
@@ -71,7 +86,7 @@
     
     [self.addTextButton setTitle:@"" forState:UIControlStateNormal];
     self.addTextButton.userInteractionEnabled = NO;
-    self.textView.hidden = NO;
+    self.textViewContainer.hidden = NO;
     [self.textView becomeFirstResponder];
 }
 
@@ -79,15 +94,47 @@
     [self.textView resignFirstResponder];
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark keyboard settings
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)moveTextViewForKeyboard:(NSNotification*)aNotification up:(BOOL)up {
+    NSDictionary* userInfo = [aNotification userInfo];
+    NSTimeInterval animationDuration;
+    UIViewAnimationCurve animationCurve;
+    CGRect keyboardEndFrame;
+    
+    [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] getValue:&animationCurve];
+    [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] getValue:&animationDuration];
+    [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardEndFrame];
+    
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    [UIView setAnimationCurve:animationCurve];
+    
+    CGRect newFrame = self.textView.frame;
+    CGRect keyboardFrame = [self.view convertRect:keyboardEndFrame toView:nil];
+    if (DEVICE_IS_4INCH_IPHONE) {
+        keyboardFrame.size.height -= self.navigationController.toolbar.frame.size.height;
+    }
+    newFrame.size.height -= keyboardFrame.size.height * (up?1:-1);
+    self.textView.frame = newFrame;
+    
+    [UIView commitAnimations];
 }
-*/
+
+- (void)keyboardWillShown:(NSNotification*)aNotification
+{
+    if (!isKeyboardShown) {
+        isKeyboardShown = YES;
+        [self moveTextViewForKeyboard:aNotification up:YES];
+    }
+}
+
+- (void)keyboardWillHide:(NSNotification*)aNotification
+{
+    if (isKeyboardShown) {
+        [self moveTextViewForKeyboard:aNotification up:NO];
+        isKeyboardShown = NO;
+    }
+}
 
 @end

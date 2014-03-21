@@ -453,7 +453,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TsZ-gE-XOl">
-                                <rect key="frame" x="35" y="159" width="250" height="325"/>
+                                <rect key="frame" x="35" y="149" width="250" height="325"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="90"/>
                                 <state key="normal" title="+">
@@ -465,28 +465,34 @@
                                     <action selector="addTextButtonPressed:" destination="eWM-gE-8Sw" eventType="touchUpInside" id="uDx-u8-Lj9"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="mBj-KY-4GJ">
-                                <rect key="frame" x="50" y="170" width="220" height="300"/>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L5r-j7-XfF">
+                                <rect key="frame" x="50" y="160" width="220" height="300"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
-                            </textView>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="mBj-KY-4GJ">
+                                        <rect key="frame" x="0.0" y="-10" width="220" height="300"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
+                                    </textView>
+                                </subviews>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="mBj-KY-4GJ" firstAttribute="top" secondItem="MTb-Ea-DZA" secondAttribute="bottom" constant="43" id="4cy-BQ-kTh"/>
-                            <constraint firstAttribute="trailing" secondItem="mBj-KY-4GJ" secondAttribute="trailing" constant="50" id="AaJ-l7-I8u"/>
-                            <constraint firstItem="mBj-KY-4GJ" firstAttribute="leading" secondItem="hxr-eV-DpM" secondAttribute="leading" constant="50" id="C8l-wC-FG3"/>
-                            <constraint firstItem="Lri-03-fyp" firstAttribute="top" secondItem="TsZ-gE-XOl" secondAttribute="bottom" constant="40" id="GTN-Md-4yt"/>
+                            <constraint firstAttribute="trailing" secondItem="L5r-j7-XfF" secondAttribute="trailing" constant="50" id="0ff-Cd-tyh"/>
+                            <constraint firstItem="TsZ-gE-XOl" firstAttribute="top" secondItem="MTb-Ea-DZA" secondAttribute="bottom" constant="22" id="8Pp-Ps-3O0"/>
+                            <constraint firstItem="Lri-03-fyp" firstAttribute="top" secondItem="L5r-j7-XfF" secondAttribute="bottom" constant="64" id="BZV-V1-gT1"/>
                             <constraint firstItem="MTb-Ea-DZA" firstAttribute="leading" secondItem="hxr-eV-DpM" secondAttribute="leading" constant="30" id="KcS-6c-jCU"/>
-                            <constraint firstAttribute="trailing" secondItem="TsZ-gE-XOl" secondAttribute="trailing" constant="35" id="PMD-6l-nWQ"/>
-                            <constraint firstItem="Lri-03-fyp" firstAttribute="top" secondItem="mBj-KY-4GJ" secondAttribute="bottom" constant="54" id="PZ0-Dy-yes"/>
-                            <constraint firstItem="TsZ-gE-XOl" firstAttribute="top" secondItem="MTb-Ea-DZA" secondAttribute="bottom" constant="32" id="RYa-Ue-vOU"/>
                             <constraint firstItem="MTb-Ea-DZA" firstAttribute="top" secondItem="oXz-ph-J30" secondAttribute="bottom" constant="11" id="TN9-L9-K9W"/>
-                            <constraint firstItem="TsZ-gE-XOl" firstAttribute="leading" secondItem="hxr-eV-DpM" secondAttribute="leading" constant="35" id="dgI-CI-Cah"/>
+                            <constraint firstAttribute="trailing" secondItem="TsZ-gE-XOl" secondAttribute="trailing" constant="35" id="XDI-kd-xCA"/>
+                            <constraint firstItem="Lri-03-fyp" firstAttribute="top" secondItem="TsZ-gE-XOl" secondAttribute="bottom" constant="50" id="fDN-iW-EBi"/>
+                            <constraint firstItem="L5r-j7-XfF" firstAttribute="top" secondItem="MTb-Ea-DZA" secondAttribute="bottom" constant="33" id="kMH-dA-YGI"/>
+                            <constraint firstItem="L5r-j7-XfF" firstAttribute="leading" secondItem="hxr-eV-DpM" secondAttribute="leading" constant="50" id="kgv-Zf-vAL"/>
                             <constraint firstAttribute="trailing" secondItem="MTb-Ea-DZA" secondAttribute="trailing" constant="30" id="miI-Jy-Z6m"/>
+                            <constraint firstItem="TsZ-gE-XOl" firstAttribute="leading" secondItem="hxr-eV-DpM" secondAttribute="leading" constant="35" id="qoa-8q-iaB"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="7Yg-Tb-USO" appends="YES" id="wI7-Nn-rKm"/>
@@ -507,6 +513,7 @@
                     <connections>
                         <outlet property="addTextButton" destination="TsZ-gE-XOl" id="tKn-D3-F6Y"/>
                         <outlet property="textView" destination="mBj-KY-4GJ" id="e2f-EQ-Z7T"/>
+                        <outlet property="textViewContainer" destination="L5r-j7-XfF" id="KUw-Fu-0FX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iid-ue-AUP" userLabel="First Responder" sceneMemberID="firstResponder"/>

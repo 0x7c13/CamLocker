@@ -85,6 +85,11 @@
 		F7A1C67718DBF629004F724A /* UIView+Explode.m in Sources */ = {isa = PBXBuildFile; fileRef = F7A1C67618DBF629004F724A /* UIView+Explode.m */; };
 		F7A1C67A18DC0DCA004F724A /* CLMarkerTypeChosenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7A1C67918DC0DCA004F724A /* CLMarkerTypeChosenViewController.m */; };
 		F7A1C67D18DC10B5004F724A /* CLHiddenTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7A1C67C18DC10B5004F724A /* CLHiddenTextViewController.m */; };
+		F7A1C68D18DC3836004F724A /* settings_new.png in Resources */ = {isa = PBXBuildFile; fileRef = F7A1C68818DC3836004F724A /* settings_new.png */; };
+		F7A1C68E18DC3836004F724A /* twitter_new.png in Resources */ = {isa = PBXBuildFile; fileRef = F7A1C68918DC3836004F724A /* twitter_new.png */; };
+		F7A1C68F18DC3836004F724A /* locker_new.png in Resources */ = {isa = PBXBuildFile; fileRef = F7A1C68A18DC3836004F724A /* locker_new.png */; };
+		F7A1C69018DC3836004F724A /* facebook_new.png in Resources */ = {isa = PBXBuildFile; fileRef = F7A1C68B18DC3836004F724A /* facebook_new.png */; };
+		F7A1C69118DC3836004F724A /* camera_new.png in Resources */ = {isa = PBXBuildFile; fileRef = F7A1C68C18DC3836004F724A /* camera_new.png */; };
 		F7B47DD118D8A78500C8CBCE /* NSData+CLEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = F7B47DD018D8A78500C8CBCE /* NSData+CLEncryption.m */; };
 		F7B47DD418D8AA0200C8CBCE /* UIImage+CLEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = F7B47DD318D8AA0200C8CBCE /* UIImage+CLEncryption.m */; };
 		F7B47DD718D8B31700C8CBCE /* NSString+Random.m in Sources */ = {isa = PBXBuildFile; fileRef = F7B47DD618D8B31700C8CBCE /* NSString+Random.m */; };
@@ -230,6 +235,11 @@
 		F7A1C67918DC0DCA004F724A /* CLMarkerTypeChosenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLMarkerTypeChosenViewController.m; sourceTree = "<group>"; };
 		F7A1C67B18DC10B5004F724A /* CLHiddenTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLHiddenTextViewController.h; sourceTree = "<group>"; };
 		F7A1C67C18DC10B5004F724A /* CLHiddenTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLHiddenTextViewController.m; sourceTree = "<group>"; };
+		F7A1C68818DC3836004F724A /* settings_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_new.png; sourceTree = "<group>"; };
+		F7A1C68918DC3836004F724A /* twitter_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = twitter_new.png; sourceTree = "<group>"; };
+		F7A1C68A18DC3836004F724A /* locker_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = locker_new.png; sourceTree = "<group>"; };
+		F7A1C68B18DC3836004F724A /* facebook_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebook_new.png; sourceTree = "<group>"; };
+		F7A1C68C18DC3836004F724A /* camera_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_new.png; sourceTree = "<group>"; };
 		F7B47DCF18D8A78500C8CBCE /* NSData+CLEncryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+CLEncryption.h"; sourceTree = "<group>"; };
 		F7B47DD018D8A78500C8CBCE /* NSData+CLEncryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+CLEncryption.m"; sourceTree = "<group>"; };
 		F7B47DD218D8AA0200C8CBCE /* UIImage+CLEncryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+CLEncryption.h"; sourceTree = "<group>"; };
@@ -587,6 +597,11 @@
 		F7A0FE0118DAC77500EDE06A /* UIRes */ = {
 			isa = PBXGroup;
 			children = (
+				F7A1C68818DC3836004F724A /* settings_new.png */,
+				F7A1C68918DC3836004F724A /* twitter_new.png */,
+				F7A1C68A18DC3836004F724A /* locker_new.png */,
+				F7A1C68B18DC3836004F724A /* facebook_new.png */,
+				F7A1C68C18DC3836004F724A /* camera_new.png */,
 				F7A0FE1618DAD33100EDE06A /* bg_3.jpg */,
 				F7A0FE1418DAD28300EDE06A /* bg_2.jpg */,
 				F7A0FE1218DACCCF00EDE06A /* bg_1.jpg */,
@@ -799,9 +814,11 @@
 				F7A0FE1718DAD33100EDE06A /* bg_3.jpg in Resources */,
 				F7A0FDFF18DAC40000EDE06A /* dc-centerHighLight.png in Resources */,
 				F7A0FDD018DABD4A00EDE06A /* OpenSans-Bold.ttf in Resources */,
+				F7A1C69118DC3836004F724A /* camera_new.png in Resources */,
 				F7A0FDF918DAC40000EDE06A /* dc-button_1.png in Resources */,
 				F7A0FE1118DACAB500EDE06A /* settings.png in Resources */,
 				F7A0FE0C18DACA1A00EDE06A /* facebook.png in Resources */,
+				F7A1C68F18DC3836004F724A /* locker_new.png in Resources */,
 				F7A0FDD318DABD4A00EDE06A /* OpenSans-Light.ttf in Resources */,
 				F7A0FE0D18DACA1A00EDE06A /* twitter.png in Resources */,
 				F7A0FDF418DAC40000EDE06A /* custom_3.png in Resources */,
@@ -819,10 +836,12 @@
 				F7A0FDF218DAC40000EDE06A /* custom_1.png in Resources */,
 				F7A0FE0518DAC89E00EDE06A /* circle-2.png in Resources */,
 				F7A0FDFD18DAC40000EDE06A /* dc-buttonBackground_.png in Resources */,
+				F7A1C68D18DC3836004F724A /* settings_new.png in Resources */,
 				F7A0FDFB18DAC40000EDE06A /* dc-button_3.png in Resources */,
 				F7A0FDF618DAC40000EDE06A /* custom_5.png in Resources */,
 				F7A0FDD118DABD4A00EDE06A /* OpenSans-BoldItalic.ttf in Resources */,
 				F7A0FDFA18DAC40000EDE06A /* dc-button_2.png in Resources */,
+				F7A1C68E18DC3836004F724A /* twitter_new.png in Resources */,
 				F7E004EE18C6EEC500FA63DC /* CLTextViewController.xib in Resources */,
 				F7CC305A18D94C9600189A03 /* README.md in Resources */,
 				F7A0FE1318DACCCF00EDE06A /* bg_1.jpg in Resources */,
@@ -833,6 +852,7 @@
 				F7A0FE0F18DACA1A00EDE06A /* camera.png in Resources */,
 				F7A0FDF518DAC40000EDE06A /* custom_4.png in Resources */,
 				F7A0FDD218DABD4A00EDE06A /* OpenSans-Italic.ttf in Resources */,
+				F7A1C69018DC3836004F724A /* facebook_new.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

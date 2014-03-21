@@ -67,11 +67,11 @@
                           centerImage:@"circle-2"
                           centerBackground:nil
                           subImages:^(DCPathButton *dc){
-                              [dc subButtonImage:@"locker" withTag:0];
-                              [dc subButtonImage:@"camera" withTag:1];
-                              [dc subButtonImage:@"facebook" withTag:2];
-                              [dc subButtonImage:@"twitter" withTag:3];
-                              [dc subButtonImage:@"settings" withTag:4];
+                              [dc subButtonImage:@"locker_new" withTag:0];
+                              [dc subButtonImage:@"camera_new" withTag:1];
+                              [dc subButtonImage:@"facebook_new" withTag:2];
+                              [dc subButtonImage:@"twitter_new" withTag:3];
+                              [dc subButtonImage:@"settings_new" withTag:4];
                           }
                           subImageBackground:nil
                           inLocationX:165 locationY:locationY toParentView:self.view];
