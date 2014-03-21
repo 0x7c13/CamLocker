@@ -798,8 +798,11 @@ static SIAlertView *__si_alert_current_view;
 - (CGFloat)heightForTitleLabel
 {
     if (self.titleLabel) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         CGSize size = [self.title sizeWithFont:self.titleLabel.font
                                    minFontSize:
+#pragma clang diagnostic pop
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_6_0
                        self.titleLabel.font.pointSize * self.titleLabel.minimumScaleFactor
 #else
@@ -818,9 +821,12 @@ static SIAlertView *__si_alert_current_view;
     CGFloat minHeight = MESSAGE_MIN_LINE_COUNT * self.messageLabel.font.lineHeight;
     if (self.messageLabel) {
         CGFloat maxHeight = MESSAGE_MAX_LINE_COUNT * self.messageLabel.font.lineHeight;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         CGSize size = [self.message sizeWithFont:self.messageLabel.font
                                constrainedToSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)
                                    lineBreakMode:self.messageLabel.lineBreakMode];
+#pragma clang diagnostic pop
         return MAX(minHeight, size.height);
     }
     return minHeight;

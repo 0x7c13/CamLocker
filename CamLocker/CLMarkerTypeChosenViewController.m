@@ -8,8 +8,13 @@
 
 #import "CLUtilities.h"
 #import "CLMarkerTypeChosenViewController.h"
+#import "UIColor+MLPFlatColors.h"
 
 @interface CLMarkerTypeChosenViewController ()
+
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UIButton *imageButton;
+@property (weak, nonatomic) IBOutlet UIButton *textButton;
 
 @end
 
@@ -21,6 +26,13 @@
     // Do any additional setup after loading the view.
     
     [CLUtilities addBackgroundImageToView:self.view];
+    
+    //[self.titleLabel.layer addSublayer:[CLUtilities addDashedBorderToView:self.titleLabel
+    //                                                            withColor:[UIColor flatWhiteColor].CGColor]];
+    [self.imageButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.imageButton
+                                                                 withColor:[UIColor flatWhiteColor].CGColor]];
+    [self.textButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.textButton
+                                                                withColor:[UIColor flatWhiteColor].CGColor]];
 }
 
 @end

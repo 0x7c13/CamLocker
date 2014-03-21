@@ -18,7 +18,6 @@
     CGPoint kDCPathButtonSubButtonTag_4_AppearLocation;
     CGPoint kDCPathButtonSubButtonTag_5_AppearLocation;
     CGPoint kDCPathButtonSubButtonFinalLocation;
-    
 }
 
 @end
