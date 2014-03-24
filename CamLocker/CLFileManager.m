@@ -7,6 +7,8 @@
 //
 
 #import "CLFileManager.h"
+#import "CLKeyGenerator.h"
+#import "NSString+Random.h"
 #import "NSData+CLEncryption.h"
 #import <CommonCrypto/CommonDigest.h>
 
@@ -26,7 +28,7 @@
     
     if (yesOrNo) {
         if (!key) return;
-        imageData = [imageData AES256EncryptWithKey:key];
+        imageData = [imageData AES256EncryptWithKey:[CLKeyGenerator hiddenKeyForKey:key]];
     }
     
     NSString *filePath = [[self class] imageFilePathWithFileName:fileName];
@@ -44,13 +46,29 @@
     return filePath;
 }
 
-+ (NSString *)documentsPathForFileName:(NSString *)fileName
++ (void)saveMainKeyStringToDisk:(NSString *)string
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
-    NSString *documentsPath = [paths objectAtIndex:0];
-    
-    return [documentsPath stringByAppendingPathComponent:fileName];
+    NSString *filePath = [self documentsPathForFileName:[@"I Love Vicky! ~.~!" hashValue]];
+    NSData *keyData = [[filePath dataUsingEncoding:NSUTF8StringEncoding] AES256EncryptWithKey:@"I Love CJ! ^.^!"];
+    [keyData writeToFile:filePath atomically:YES];
 }
 
++ (NSString *)mainKeyString
+{
+    NSString *filePath = [self documentsPathForFileName:[@"I Love Vicky! ~.~!" hashValue]];
+    NSData *keyData = [[NSData dataWithContentsOfFile:filePath] AES256DecryptWithKey:@"I Love CJ! ^.^!"];
+    return [[NSString alloc] initWithData:keyData encoding:NSUTF8StringEncoding];
+}
+
++ (NSString *)documentsPathForFileName:(NSString *)fileName
+{
+    return [[self documentsPath] stringByAppendingPathComponent:fileName];
+}
+
++ (NSString *)documentsPath
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+    return [paths objectAtIndex:0];
+}
 
 @end

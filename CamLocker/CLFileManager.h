@@ -20,5 +20,11 @@
 + (NSString *)saveXMLStringToDisk: (NSString *)xmlString
                      withFileName: (NSString *)fileName;
 
++ (NSString *)documentsPath;
++ (NSString *)documentsPathForFileName:(NSString *)fileName;
+
++ (void)saveMainKeyStringToDisk:(NSString *)string;
+
++ (NSString *)mainKeyString;
 
 @end

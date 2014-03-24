@@ -10,6 +10,7 @@
 #import "UIImage+CLEncryption.h"
 #import "NSData+CLEncryption.h"
 #import "NSString+Random.h"
+#import "CLKeyGenerator.h"
 #import "CLFileManager.h"
 #import "CLUtilities.h"
 #import "CLMarker.h"
@@ -63,7 +64,7 @@
 - (void)activate
 {
     NSData *markerImageData = [NSData dataWithContentsOfFile:[self.markerImagePath stringByAppendingString:@".camLocker"]];
-    markerImageData = [markerImageData AES256DecryptWithKey:self.key];
+    markerImageData = [markerImageData AES256DecryptWithKey:[CLKeyGenerator hiddenKeyForKey:self.key]];
     UIImage *markerImage = [UIImage imageWithData:markerImageData];
     [CLFileManager saveImageToDisk:markerImage
                       withFileName:self.markerImageFileName

@@ -40,6 +40,7 @@
 		F73BF7C518C6E00B006FB928 /* CLScanViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = F73BF7C318C6E00B006FB928 /* CLScanViewController.mm */; };
 		F78ACD0B18C8D7E500A4247A /* CLFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F78ACD0A18C8D7E500A4247A /* CLFileManager.m */; };
 		F792915318D6B6EE009FCA79 /* CLTrackingXMLGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = F792915218D6B6EE009FCA79 /* CLTrackingXMLGenerator.m */; };
+		F79B545718E0027B009F97FB /* CLKeyGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = F79B545618E0027B009F97FB /* CLKeyGenerator.m */; };
 		F7A0FDBC18DAA60300EDE06A /* PulsingHaloLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F7A0FDB818DAA60300EDE06A /* PulsingHaloLayer.m */; };
 		F7A0FDBD18DAA60300EDE06A /* UIColor+MLPFlatColors.m in Sources */ = {isa = PBXBuildFile; fileRef = F7A0FDBB18DAA60300EDE06A /* UIColor+MLPFlatColors.m */; };
 		F7A0FDC418DAAC6A00EDE06A /* SIAlertView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F7A0FDBF18DAAC6A00EDE06A /* SIAlertView.bundle */; };
@@ -90,6 +91,8 @@
 		F7A1C68F18DC3836004F724A /* locker_new.png in Resources */ = {isa = PBXBuildFile; fileRef = F7A1C68A18DC3836004F724A /* locker_new.png */; };
 		F7A1C69018DC3836004F724A /* facebook_new.png in Resources */ = {isa = PBXBuildFile; fileRef = F7A1C68B18DC3836004F724A /* facebook_new.png */; };
 		F7A1C69118DC3836004F724A /* camera_new.png in Resources */ = {isa = PBXBuildFile; fileRef = F7A1C68C18DC3836004F724A /* camera_new.png */; };
+		F7A1C69418DC41B6004F724A /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F7A1C69318DC41B6004F724A /* icon.png */; };
+		F7A1C69618DC427A004F724A /* icon_dev.png in Resources */ = {isa = PBXBuildFile; fileRef = F7A1C69518DC427A004F724A /* icon_dev.png */; };
 		F7B47DD118D8A78500C8CBCE /* NSData+CLEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = F7B47DD018D8A78500C8CBCE /* NSData+CLEncryption.m */; };
 		F7B47DD418D8AA0200C8CBCE /* UIImage+CLEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = F7B47DD318D8AA0200C8CBCE /* UIImage+CLEncryption.m */; };
 		F7B47DD718D8B31700C8CBCE /* NSString+Random.m in Sources */ = {isa = PBXBuildFile; fileRef = F7B47DD618D8B31700C8CBCE /* NSString+Random.m */; };
@@ -176,6 +179,8 @@
 		F78ACD0A18C8D7E500A4247A /* CLFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFileManager.m; sourceTree = "<group>"; };
 		F792915118D6B6EE009FCA79 /* CLTrackingXMLGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLTrackingXMLGenerator.h; sourceTree = "<group>"; };
 		F792915218D6B6EE009FCA79 /* CLTrackingXMLGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLTrackingXMLGenerator.m; sourceTree = "<group>"; };
+		F79B545518E0027B009F97FB /* CLKeyGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLKeyGenerator.h; sourceTree = "<group>"; };
+		F79B545618E0027B009F97FB /* CLKeyGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLKeyGenerator.m; sourceTree = "<group>"; };
 		F7A0FDB718DAA60300EDE06A /* PulsingHaloLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PulsingHaloLayer.h; sourceTree = "<group>"; };
 		F7A0FDB818DAA60300EDE06A /* PulsingHaloLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PulsingHaloLayer.m; sourceTree = "<group>"; };
 		F7A0FDBA18DAA60300EDE06A /* UIColor+MLPFlatColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+MLPFlatColors.h"; sourceTree = "<group>"; };
@@ -240,6 +245,8 @@
 		F7A1C68A18DC3836004F724A /* locker_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = locker_new.png; sourceTree = "<group>"; };
 		F7A1C68B18DC3836004F724A /* facebook_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebook_new.png; sourceTree = "<group>"; };
 		F7A1C68C18DC3836004F724A /* camera_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_new.png; sourceTree = "<group>"; };
+		F7A1C69318DC41B6004F724A /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		F7A1C69518DC427A004F724A /* icon_dev.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_dev.png; sourceTree = "<group>"; };
 		F7B47DCF18D8A78500C8CBCE /* NSData+CLEncryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+CLEncryption.h"; sourceTree = "<group>"; };
 		F7B47DD018D8A78500C8CBCE /* NSData+CLEncryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+CLEncryption.m"; sourceTree = "<group>"; };
 		F7B47DD218D8AA0200C8CBCE /* UIImage+CLEncryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+CLEncryption.h"; sourceTree = "<group>"; };
@@ -508,6 +515,8 @@
 				F7B47DD318D8AA0200C8CBCE /* UIImage+CLEncryption.m */,
 				F7B47DD518D8B31700C8CBCE /* NSString+Random.h */,
 				F7B47DD618D8B31700C8CBCE /* NSString+Random.m */,
+				F79B545518E0027B009F97FB /* CLKeyGenerator.h */,
+				F79B545618E0027B009F97FB /* CLKeyGenerator.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -597,6 +606,8 @@
 		F7A0FE0118DAC77500EDE06A /* UIRes */ = {
 			isa = PBXGroup;
 			children = (
+				F7A1C69518DC427A004F724A /* icon_dev.png */,
+				F7A1C69318DC41B6004F724A /* icon.png */,
 				F7A1C68818DC3836004F724A /* settings_new.png */,
 				F7A1C68918DC3836004F724A /* twitter_new.png */,
 				F7A1C68A18DC3836004F724A /* locker_new.png */,
@@ -809,6 +820,7 @@
 			files = (
 				F7CC305B18D94C9600189A03 /* release_notes.md in Resources */,
 				F7A0FE1518DAD28300EDE06A /* bg_2.jpg in Resources */,
+				F7A1C69418DC41B6004F724A /* icon.png in Resources */,
 				F7A0FE0E18DACA1A00EDE06A /* locker.png in Resources */,
 				F7A0FDC418DAAC6A00EDE06A /* SIAlertView.bundle in Resources */,
 				F7A0FE1718DAD33100EDE06A /* bg_3.jpg in Resources */,
@@ -828,6 +840,7 @@
 				F7A0FDFC18DAC40000EDE06A /* dc-button_4.png in Resources */,
 				F7A0FDD418DABD4A00EDE06A /* OpenSans-LightItalic.ttf in Resources */,
 				F7A0FDF818DAC40000EDE06A /* dc-button_0.png in Resources */,
+				F7A1C69618DC427A004F724A /* icon_dev.png in Resources */,
 				F7A0FE0718DAC8CB00EDE06A /* circle-1.png in Resources */,
 				F7CC304B18D941FB00189A03 /* PEPhotoCropEditor.bundle in Resources */,
 				F7A0FDFE18DAC40000EDE06A /* dc-center.png in Resources */,
@@ -874,6 +887,7 @@
 				F7CC304D18D941FB00189A03 /* UIImage+PECrop.m in Sources */,
 				F73BF7C518C6E00B006FB928 /* CLScanViewController.mm in Sources */,
 				F7B47DD718D8B31700C8CBCE /* NSString+Random.m in Sources */,
+				F79B545718E0027B009F97FB /* CLKeyGenerator.m in Sources */,
 				F7CC306B18D9843200189A03 /* JDStatusBarStyle.m in Sources */,
 				F7CC306118D9705400189A03 /* Circle.m in Sources */,
 				F7A0FDBD18DAA60300EDE06A /* UIColor+MLPFlatColors.m in Sources */,

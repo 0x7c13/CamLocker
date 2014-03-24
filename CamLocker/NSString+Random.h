@@ -10,6 +10,7 @@
 
 @interface NSString (Random)
 
+- (NSString *)hashValue;
 + (NSString *)randomAlphanumericStringWithLength:(NSInteger)length;
 
 @end

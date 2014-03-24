@@ -15,6 +15,6 @@
     #import <Foundation/Foundation.h>
 #endif
 
-#define kLengthOfKey 20
+#define kLengthOfKey 30
 #define kMarkerDefaultWidth 200.0f
 #define DEVICE_IS_4INCH_IPHONE ([[UIScreen mainScreen] bounds].size.height == 568)

@@ -11,6 +11,7 @@
 #import "UIImage+CLEncryption.h"
 #import "CLFileManager.h"
 #import "CLImageMarker.h"
+#import "CLKeyGenerator.h"
 
 @interface CLImageMarker ()
 
@@ -68,7 +69,7 @@
         for (NSString *imagePath in self.hiddenImagePaths) {
             
             NSData *hiddenImageData = [NSData dataWithContentsOfFile:[imagePath stringByAppendingString:@".camLocker"]];
-            hiddenImageData = [hiddenImageData AES256DecryptWithKey:self.keyOfHiddenImages];
+            hiddenImageData = [hiddenImageData AES256DecryptWithKey:[CLKeyGenerator hiddenKeyForKey:self.keyOfHiddenImages]];
             [hiddenImages addObject:[UIImage imageWithData:hiddenImageData]];
         }
         dispatch_async(dispatch_get_main_queue(), ^{

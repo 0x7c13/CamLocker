@@ -10,6 +10,8 @@
 #import "NSString+Random.h"
 #import "CLAppDelegate.h"
 #import "CLMarkerManager.h"
+#import "CLFileManager.h"
+#import "NSString+Random.h"
 
 @implementation CLAppDelegate
 
@@ -19,10 +21,11 @@
     
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"])
     {
+        NSDictionary *OpenUDID = [[NSUserDefaults standardUserDefaults] objectForKey:@"OpenUDID"];
+        NSString *mainKey = [[OpenUDID objectForKey:@"OpenUDID" ] stringByAppendingString:[NSString randomAlphanumericStringWithLength:kLengthOfKey]];
+        [CLFileManager saveMainKeyStringToDisk:mainKey];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
-        [[NSUserDefaults standardUserDefaults] setObject:[NSString randomAlphanumericStringWithLength:kLengthOfKey] forKey:@"CamLockerMarkersKey"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        // This is the first launch ever
     }
     
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
@@ -31,15 +34,6 @@
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
-//     // Test methods
-//     if ([CLMarkerManager sharedManager].markers.count == 0) {
-//     
-//         [[CLMarkerManager sharedManager] addImageMarkerWithMarkerImage:[UIImage imageNamed:@"Markers/large.jpg"] hiddenImages:@[[UIImage imageNamed:@"Markers/target_6.jpg"]]];
-//         [[CLMarkerManager sharedManager] addTextMarkerWithMarkerImage:[UIImage imageNamed:@"Markers/target_2.jpg"] hiddenText:@"hello"];
-//     }
-    
-    
-    // Override point for customization after application launch.
     return YES;
 }
 							
