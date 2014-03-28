@@ -118,6 +118,9 @@
 		F7CC306A18D9843200189A03 /* JDStatusBarNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = F7CC306518D9843200189A03 /* JDStatusBarNotification.m */; };
 		F7CC306B18D9843200189A03 /* JDStatusBarStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F7CC306718D9843200189A03 /* JDStatusBarStyle.m */; };
 		F7CC306C18D9843200189A03 /* JDStatusBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = F7CC306918D9843200189A03 /* JDStatusBarView.m */; };
+		F7D2765C18E5E4EA007A593C /* PhotoBorder.png in Resources */ = {isa = PBXBuildFile; fileRef = F7D2765818E5E4EA007A593C /* PhotoBorder.png */; };
+		F7D2765D18E5E4EA007A593C /* PhotoBorder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F7D2765918E5E4EA007A593C /* PhotoBorder@2x.png */; };
+		F7D2765E18E5E4EA007A593C /* PhotoStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D2765B18E5E4EA007A593C /* PhotoStackView.m */; };
 		F7E004DE18C6E36700FA63DC /* Markers in Resources */ = {isa = PBXBuildFile; fileRef = F7E004DD18C6E36700FA63DC /* Markers */; };
 		F7E004E118C6E54C00FA63DC /* CLImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7E004E018C6E54C00FA63DC /* CLImageViewController.m */; };
 		F7E004E618C6E66000FA63DC /* UIViewController+CWPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = F7E004E518C6E66000FA63DC /* UIViewController+CWPopup.m */; };
@@ -296,6 +299,10 @@
 		F7CC306718D9843200189A03 /* JDStatusBarStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDStatusBarStyle.m; sourceTree = "<group>"; };
 		F7CC306818D9843200189A03 /* JDStatusBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDStatusBarView.h; sourceTree = "<group>"; };
 		F7CC306918D9843200189A03 /* JDStatusBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDStatusBarView.m; sourceTree = "<group>"; };
+		F7D2765818E5E4EA007A593C /* PhotoBorder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PhotoBorder.png; sourceTree = "<group>"; };
+		F7D2765918E5E4EA007A593C /* PhotoBorder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PhotoBorder@2x.png"; sourceTree = "<group>"; };
+		F7D2765A18E5E4EA007A593C /* PhotoStackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoStackView.h; sourceTree = "<group>"; };
+		F7D2765B18E5E4EA007A593C /* PhotoStackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoStackView.m; sourceTree = "<group>"; };
 		F7E004DD18C6E36700FA63DC /* Markers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Markers; sourceTree = "<group>"; };
 		F7E004DF18C6E54C00FA63DC /* CLImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLImageViewController.h; sourceTree = "<group>"; };
 		F7E004E018C6E54C00FA63DC /* CLImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLImageViewController.m; sourceTree = "<group>"; };
@@ -709,9 +716,21 @@
 			path = JDStatusBarNotification;
 			sourceTree = "<group>";
 		};
+		F7D2765718E5E4EA007A593C /* PhotoStack */ = {
+			isa = PBXGroup;
+			children = (
+				F7D2765818E5E4EA007A593C /* PhotoBorder.png */,
+				F7D2765918E5E4EA007A593C /* PhotoBorder@2x.png */,
+				F7D2765A18E5E4EA007A593C /* PhotoStackView.h */,
+				F7D2765B18E5E4EA007A593C /* PhotoStackView.m */,
+			);
+			path = PhotoStack;
+			sourceTree = "<group>";
+		};
 		F7E004E218C6E66000FA63DC /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F7D2765718E5E4EA007A593C /* PhotoStack */,
 				F7A1C67418DBF629004F724A /* LetterPressExplosion */,
 				F7A1C67018DBE7C2004F724A /* LXActionSheet */,
 				F7A0FE1818DAE01500EDE06A /* SWSnapshotStackView */,
@@ -847,6 +866,7 @@
 				F73BF77F18C6DB39006FB928 /* Images.xcassets in Resources */,
 				F73BF77118C6DB39006FB928 /* InfoPlist.strings in Resources */,
 				F7A0FDF218DAC40000EDE06A /* custom_1.png in Resources */,
+				F7D2765D18E5E4EA007A593C /* PhotoBorder@2x.png in Resources */,
 				F7A0FE0518DAC89E00EDE06A /* circle-2.png in Resources */,
 				F7A0FDFD18DAC40000EDE06A /* dc-buttonBackground_.png in Resources */,
 				F7A1C68D18DC3836004F724A /* settings_new.png in Resources */,
@@ -856,6 +876,7 @@
 				F7A0FDFA18DAC40000EDE06A /* dc-button_2.png in Resources */,
 				F7A1C68E18DC3836004F724A /* twitter_new.png in Resources */,
 				F7E004EE18C6EEC500FA63DC /* CLTextViewController.xib in Resources */,
+				F7D2765C18E5E4EA007A593C /* PhotoBorder.png in Resources */,
 				F7CC305A18D94C9600189A03 /* README.md in Resources */,
 				F7A0FE1318DACCCF00EDE06A /* bg_1.jpg in Resources */,
 				F73BF77A18C6DB39006FB928 /* Main.storyboard in Resources */,
@@ -926,6 +947,7 @@
 				F7C9344618D8035C004B154F /* CLMarker.m in Sources */,
 				F7A0FDEF18DAC40000EDE06A /* DCCenterButton.m in Sources */,
 				F73BF77718C6DB39006FB928 /* CLAppDelegate.m in Sources */,
+				F7D2765E18E5E4EA007A593C /* PhotoStackView.m in Sources */,
 				F78ACD0B18C8D7E500A4247A /* CLFileManager.m in Sources */,
 				F73BF7C118C6DDFF006FB928 /* EAGLView.mm in Sources */,
 				F7CC304918D941FB00189A03 /* PECropView.m in Sources */,

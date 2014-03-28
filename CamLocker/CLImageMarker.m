@@ -34,7 +34,12 @@
         
         for (UIImage *image in hiddenImages) {
             
-            NSString *fileName = [[image hashValue] stringByAppendingString:@".jpg"];
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:@"yyyyMMddHHmmss"];
+            [formatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+            NSString *stringFromDate = [formatter stringFromDate:[NSDate date]];
+            
+            NSString *fileName = [[[image hashValue] stringByAppendingString:stringFromDate] stringByAppendingString:@".jpg"];
             [self.hiddenImagePaths addObject:[CLFileManager imageFilePathWithFileName:fileName]];
              
             [CLFileManager saveImageToDisk:image

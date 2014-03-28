@@ -145,24 +145,31 @@
                                     <action selector="addImageButtonPressed:" destination="G8Y-i3-MOv" eventType="touchUpInside" id="6Rd-Ny-x3y"/>
                                 </connections>
                             </button>
-                            <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FR2-zT-7yh" customClass="SWSnapshotStackView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Zx-I8-eOo" customClass="PhotoStackView">
                                 <rect key="frame" x="25" y="135" width="270" height="360"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <gestureRecognizers/>
-                            </imageView>
+                            </view>
+                            <pageControl opaque="NO" userInteractionEnabled="NO" alpha="0.29999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="uX8-OI-urW">
+                                <rect key="frame" x="0.0" y="487" width="320" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </pageControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="g1h-vc-hfS" firstAttribute="top" secondItem="FR2-zT-7yh" secondAttribute="bottom" constant="29" id="705-9T-erV"/>
+                            <constraint firstItem="1Zx-I8-eOo" firstAttribute="leading" secondItem="Gbt-98-jMY" secondAttribute="leading" constant="25" id="5ck-bJ-esB"/>
                             <constraint firstItem="RhH-v1-dEF" firstAttribute="leading" secondItem="Gbt-98-jMY" secondAttribute="leading" constant="30" id="9DD-98-UuC"/>
+                            <constraint firstAttribute="trailing" secondItem="uX8-OI-urW" secondAttribute="trailing" id="BlP-8T-gt3"/>
                             <constraint firstAttribute="trailing" secondItem="vKe-Rc-TCP" secondAttribute="trailing" constant="50" id="Ms8-vM-f96"/>
-                            <constraint firstItem="FR2-zT-7yh" firstAttribute="top" secondItem="RhH-v1-dEF" secondAttribute="bottom" constant="8" id="SNX-Jk-sk5"/>
                             <constraint firstItem="vKe-Rc-TCP" firstAttribute="top" secondItem="RhH-v1-dEF" secondAttribute="bottom" constant="33" id="TDK-sU-pzN"/>
                             <constraint firstItem="vKe-Rc-TCP" firstAttribute="leading" secondItem="Gbt-98-jMY" secondAttribute="leading" constant="50" id="TcM-74-iIb"/>
-                            <constraint firstItem="FR2-zT-7yh" firstAttribute="leading" secondItem="Gbt-98-jMY" secondAttribute="leading" constant="25" id="Z9g-fT-afT"/>
-                            <constraint firstAttribute="trailing" secondItem="FR2-zT-7yh" secondAttribute="trailing" constant="25" id="dGs-oA-zGX"/>
+                            <constraint firstItem="g1h-vc-hfS" firstAttribute="top" secondItem="uX8-OI-urW" secondAttribute="bottom" id="bly-EF-Hyu"/>
                             <constraint firstItem="g1h-vc-hfS" firstAttribute="top" secondItem="vKe-Rc-TCP" secondAttribute="bottom" constant="64" id="fcK-Gy-BHl"/>
+                            <constraint firstItem="g1h-vc-hfS" firstAttribute="top" secondItem="1Zx-I8-eOo" secondAttribute="bottom" constant="29" id="l7w-Jk-Bmh"/>
                             <constraint firstAttribute="trailing" secondItem="RhH-v1-dEF" secondAttribute="trailing" constant="30" id="lSh-F6-KWR"/>
+                            <constraint firstItem="1Zx-I8-eOo" firstAttribute="top" secondItem="RhH-v1-dEF" secondAttribute="bottom" constant="8" id="n2D-HZ-r82"/>
+                            <constraint firstAttribute="trailing" secondItem="1Zx-I8-eOo" secondAttribute="trailing" constant="25" id="olf-mv-BmU"/>
+                            <constraint firstItem="uX8-OI-urW" firstAttribute="leading" secondItem="Gbt-98-jMY" secondAttribute="leading" id="px1-R1-Kgd"/>
                             <constraint firstItem="RhH-v1-dEF" firstAttribute="top" secondItem="qq7-os-nwk" secondAttribute="bottom" constant="11" id="ute-TQ-h1y"/>
                         </constraints>
                     </view>
@@ -189,7 +196,8 @@
                         <outlet property="addImageButton" destination="vKe-Rc-TCP" id="AMU-fY-1tq"/>
                         <outlet property="addMoreButton" destination="lUh-Vw-3mw" id="wpu-Zj-mvT"/>
                         <outlet property="doneButton" destination="yaP-f4-hYw" id="5sP-dz-j1j"/>
-                        <outlet property="imageView" destination="FR2-zT-7yh" id="hEW-85-pNY"/>
+                        <outlet property="pageControl" destination="uX8-OI-urW" id="dHr-5g-WE1"/>
+                        <outlet property="photoStack" destination="1Zx-I8-eOo" id="u4n-fT-Oyi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4I9-6p-ptH" userLabel="First Responder" sceneMemberID="firstResponder"/>

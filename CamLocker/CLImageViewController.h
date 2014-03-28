@@ -13,7 +13,7 @@
 @interface CLImageViewController : UIViewController
 
 @property (nonatomic, weak) id<CLImageViewControllerDelegate> delegate;
-@property (nonatomic) UIImage *hiddenImage;
+@property (nonatomic) NSArray *hiddenImages;
 
 @end
 

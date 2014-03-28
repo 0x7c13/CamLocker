@@ -41,6 +41,18 @@
     isDecrypting = NO;
     isPopupViewPresented = NO;
     self.showButton.hidden = YES;
+    
+    // load frame
+    
+    NSString* imagePath = [[NSBundle mainBundle] pathForResource:@"Markers/frame.png" ofType:nil];
+    
+    if (imagePath)
+    {
+        imagePlane = m_metaioSDK->createGeometryFromImage([imagePath UTF8String]);
+        if (imagePlane) {
+            imagePlane->setScale(metaio::Vector3d(3.0, 3.0, 3.0));
+        }
+    } else NSLog(@"Error: could not load image plane");
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -62,19 +74,6 @@
         } else {
             NSLog(@"Cannot open file on disk");
         }
-        
-        // load frame
-
-        NSString* imagePath = [[NSBundle mainBundle] pathForResource:@"Markers/frame.png" ofType:nil];
-
-        if (imagePath)
-        {
-            imagePlane = m_metaioSDK->createGeometryFromImage([imagePath UTF8String]);
-            if (imagePlane) {
-                imagePlane->setScale(metaio::Vector3d(3.0, 3.0, 3.0));
-            }
-        } else NSLog(@"Error: could not load image plane");
-        
         
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(handleEnteredBackground)
@@ -115,6 +114,7 @@
 	if (trackingValues.empty() || !trackingValues[0].isTrackingState())
 	{
         self.showButton.hidden = YES;
+        imagePlane->setVisible(0);
 	}
 	else
 	{
@@ -124,6 +124,7 @@
         
         if (marker) {
             imagePlane->setCoordinateSystemID(trackingValues[0].coordinateSystemID);
+            imagePlane->setVisible(true);
             targetMarker = marker;
             self.showButton.hidden = NO;
         }
@@ -154,6 +155,9 @@
     
     if (isDecrypting) return;
     
+    self.showButton.hidden = YES;
+    imagePlane->setVisible(false);
+    
     if ([targetMarker isKindOfClass:[CLTextMarker class]]) {
         
         isPopupViewPresented = YES;
@@ -172,7 +176,7 @@
            
             isPopupViewPresented = YES;
             CLImageViewController *imageVC = [[CLImageViewController alloc] initWithNibName:@"CLImageViewController" bundle:nil];
-            imageVC.hiddenImage = [images objectAtIndex:0];
+            imageVC.hiddenImages = images;
             imageVC.delegate = self;
             [self presentPopupViewController:imageVC animated:YES completion:nil];
             isDecrypting = NO;

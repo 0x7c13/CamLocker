@@ -7,11 +7,15 @@
 //
 
 #import "CLImageViewController.h"
+#import "PhotoStackView.h"
+#import "CLUtilities.h"
 
-@interface CLImageViewController ()
+@interface CLImageViewController () <PhotoStackViewDelegate, PhotoStackViewDataSource>
 
+@property (nonatomic) NSMutableArray *photos;
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet PhotoStackView *photoStack;
+
 
 @end
 
@@ -26,7 +30,19 @@
     [self.view addSubview:toolbarBackground];
     [self.view sendSubviewToBack:toolbarBackground];
  
-    self.imageView.image = self.hiddenImage;
+    _photos = [[NSMutableArray alloc] initWithCapacity:self.hiddenImages.count];
+    
+    for (UIImage *image in self.hiddenImages) {
+        
+        UIImage *croppedImage = [CLUtilities imageWithImage:image scaledToWidth:220 + arc4random() % 35];
+        if (croppedImage.size.height > self.photoStack.frame.size.height) {
+            croppedImage = [CLUtilities imageWithImage:croppedImage scaledToHeight:self.photoStack.frame.size.height - 10];
+        }
+        [self.photos addObject:croppedImage];
+    }
+    _photoStack.center = CGPointMake(self.view.center.x, 170);
+    _photoStack.dataSource = self;
+    _photoStack.delegate = self;
 }
 
 - (IBAction)quitButtonPressed:(id)sender {
@@ -34,6 +50,39 @@
         [self.delegate dismissViewController];
     }
 }
+
+#pragma mark -
+#pragma mark Deck DataSource Protocol Methods
+
+-(NSUInteger)numberOfPhotosInPhotoStackView:(PhotoStackView *)photoStack {
+    return [self.photos count];
+}
+
+-(UIImage *)photoStackView:(PhotoStackView *)photoStack photoForIndex:(NSUInteger)index {
+    return [self.photos objectAtIndex:index];
+}
+
+
+
+#pragma mark -
+#pragma mark Deck Delegate Protocol Methods
+
+-(void)photoStackView:(PhotoStackView *)photoStackView willStartMovingPhotoAtIndex:(NSUInteger)index {
+    // User started moving a photo
+}
+
+-(void)photoStackView:(PhotoStackView *)photoStackView willFlickAwayPhotoFromIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex {
+    // User flicked the photo away, revealing the next one in the stack
+}
+
+-(void)photoStackView:(PhotoStackView *)photoStackView didRevealPhotoAtIndex:(NSUInteger)index {
+    //self.pageControl.currentPage = index;
+}
+
+-(void)photoStackView:(PhotoStackView *)photoStackView didSelectPhotoAtIndex:(NSUInteger)index {
+    NSLog(@"selected %d", index);
+}
+
 
 
 @end

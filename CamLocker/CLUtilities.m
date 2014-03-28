@@ -59,6 +59,21 @@
     return newImage;
 }
 
++ (UIImage*)imageWithImage:(UIImage*)sourceImage scaledToHeight:(float)i_height
+{
+    float oldHeight = sourceImage.size.height;
+    float scaleFactor = i_height / oldHeight;
+    
+    float newWidth = sourceImage.size.width * scaleFactor;
+    float newHeight = oldHeight * scaleFactor;
+    
+    UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+    [sourceImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
 + (CAShapeLayer *) addDashedBorderToView:(UIView *)view withColor: (CGColorRef) color {
     CAShapeLayer *shapeLayer = [CAShapeLayer layer];
     

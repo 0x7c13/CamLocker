@@ -27,6 +27,8 @@
     [self.view sendSubviewToBack:toolbarBackground];
     
     self.textView.text = self.hiddenText;
+    self.textView.textColor = [UIColor whiteColor];
+    self.textView.font = [UIFont fontWithName:@"OpenSans" size:17.0];
 }
 
 - (IBAction)quitButtonPressed:(id)sender {

@@ -14,12 +14,16 @@
 #import "ETActivityIndicatorView.h"
 #import "UIColor+MLPFlatColors.h"
 #import "SIAlertView.h"
+#import "PhotoStackView.h"
 
-@interface CLHiddenImageCreationViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
+@interface CLHiddenImageCreationViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, PhotoStackViewDataSource, PhotoStackViewDelegate> {
     BOOL isEncrypting;
 }
 
-@property (weak, nonatomic) IBOutlet SWSnapshotStackView *imageView;
+@property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
+@property (nonatomic) NSMutableArray *hiddenImages;
+@property (nonatomic) NSMutableArray *photos;
+@property (weak, nonatomic) IBOutlet PhotoStackView *photoStack;
 @property (weak, nonatomic) IBOutlet UIButton *addImageButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addMoreButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
@@ -37,9 +41,15 @@
     [CLUtilities addBackgroundImageToView:self.view];
     
     isEncrypting = NO;
-    self.imageView.contentMode = UIViewContentModeRedraw;
-    self.imageView.displayAsStack = NO;
-    self.imageView.hidden = YES;
+    
+    _hiddenImages = [[NSMutableArray alloc]init];
+    _photos = [[NSMutableArray alloc]init];
+    
+    _photoStack.center = CGPointMake(self.view.center.x, 170);
+    _photoStack.dataSource = self;
+    _photoStack.delegate = self;
+    self.photoStack.hidden = YES;
+    self.pageControl.hidden = YES;
 }
 
 - (void)viewDidLayoutSubviews
@@ -62,13 +72,21 @@
 
 - (IBAction)addMoreButtonPressed:(id)sender {
     
+    if (isEncrypting) return;
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.delegate = self;
+    picker.allowsEditing = NO;
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    picker.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    
+    [self presentViewController:picker animated:YES completion:nil];
 }
 
 
 - (IBAction)doneButtonPressed:(id)sender {
     
     if (isEncrypting) return;
-    if (!self.imageView.image) {
+    if (self.photos.count == 0) {
         SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Oops" andMessage:@"Please add a photo."];
         [alertView addButtonWithTitle:@"OK"
                                  type:SIAlertViewButtonTypeDestructive
@@ -93,14 +111,16 @@
                           handler:^(SIAlertView *alertView) {
                               
                               isEncrypting = YES;
+                              self.photoStack.userInteractionEnabled = NO;
                               ETActivityIndicatorView *etActivity = [[ETActivityIndicatorView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2 - 30, self.view.frame.size.height/2 -30, 60, 60)];
                               [etActivity startAnimating];
                               [self.view addSubview:etActivity];
                               [JDStatusBarNotification showWithStatus:@"Encrypting Data..." styleName:JDStatusBarStyleError];
                               
                               [[CLMarkerManager sharedManager] addImageMarkerWithMarkerImage:[CLMarkerManager sharedManager].tempMarkerImage
-                                                                                hiddenImages:@[self.imageView.image]
+                                                                                hiddenImages:self.hiddenImages
                                                                          withCompletionBlock:^{
+                                                                              self.photoStack.userInteractionEnabled = YES;
                                                                              [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.0f styleName:JDStatusBarStyleSuccess];
                                                                              [CLMarkerManager sharedManager].tempMarkerImage = nil;
                                                                              [self.navigationController dismissViewControllerAnimated:YES completion:nil];
@@ -119,6 +139,7 @@
     [alertView show];
 }
 
+/*
 - (void)executeAnimation
 {
     CGRect initRect = self.imageView.frame;
@@ -129,6 +150,7 @@
     } completion:^(BOOL finished){
     }];
 }
+ */
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
@@ -142,12 +164,21 @@
 {
     
     UIImage *chosenImage = info[UIImagePickerControllerOriginalImage];
-    self.imageView.image = chosenImage;
-    self.imageView.alpha = 0.0f;
-    self.imageView.hidden = NO;
+    [self.hiddenImages addObject:chosenImage];
+    
+    UIImage *croppedImage = [CLUtilities imageWithImage:chosenImage scaledToWidth:220 + arc4random() % 35];
+    if (croppedImage.size.height > self.photoStack.frame.size.height) {
+        croppedImage = [CLUtilities imageWithImage:croppedImage scaledToHeight:self.photoStack.frame.size.height - 10];
+    }
+    [self.photos insertObject:croppedImage atIndex:0];
+    [self.photoStack reloadData];
+     self.pageControl.numberOfPages = [self.photos count];
+    // self.photoStack.alpha = 0.0f;
+    self.photoStack.hidden = NO;
+    self.pageControl.hidden = NO;
     self.addImageButton.hidden = YES;
     
-    [self executeAnimation];
+    //[self executeAnimation];
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -156,6 +187,38 @@
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
+
+#pragma mark -
+#pragma mark Deck DataSource Protocol Methods
+
+-(NSUInteger)numberOfPhotosInPhotoStackView:(PhotoStackView *)photoStack {
+    return [self.photos count];
+}
+
+-(UIImage *)photoStackView:(PhotoStackView *)photoStack photoForIndex:(NSUInteger)index {
+    return [self.photos objectAtIndex:index];
+}
+
+
+
+#pragma mark -
+#pragma mark Deck Delegate Protocol Methods
+
+-(void)photoStackView:(PhotoStackView *)photoStackView willStartMovingPhotoAtIndex:(NSUInteger)index {
+    // User started moving a photo
+}
+
+-(void)photoStackView:(PhotoStackView *)photoStackView willFlickAwayPhotoFromIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex {
+    // User flicked the photo away, revealing the next one in the stack
+}
+
+-(void)photoStackView:(PhotoStackView *)photoStackView didRevealPhotoAtIndex:(NSUInteger)index {
+    self.pageControl.currentPage = index;
+}
+
+-(void)photoStackView:(PhotoStackView *)photoStackView didSelectPhotoAtIndex:(NSUInteger)index {
+    NSLog(@"selected %d", index);
+}
 
 
 @end

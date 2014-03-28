@@ -14,6 +14,7 @@
 + (void)addShadowToUIImageView: (UIImageView *)view;
 + (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
 + (UIImage *)imageWithImage:(UIImage *)sourceImage scaledToWidth:(float)i_width;
++ (UIImage *)imageWithImage:(UIImage*)sourceImage scaledToHeight:(float)i_height;
 + (CAShapeLayer *) addDashedBorderToView:(UIView *)view withColor: (CGColorRef) color;
 
 + (void)addBackgroundImageToView:(UIView *)view;

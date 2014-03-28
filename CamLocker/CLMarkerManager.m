@@ -31,7 +31,6 @@
         NSData *markerData = [[NSUserDefaults standardUserDefaults] objectForKey:kMarkers];
         markerData = [markerData AES256DecryptWithKey:[CLKeyGenerator mainKeyForKey:[CLFileManager mainKeyString]]];
         if (!(_markers = [NSKeyedUnarchiver unarchiveObjectWithData:markerData])) {
-            NSLog(@"No markers are found");
             _markers = [[NSMutableArray alloc] init];
         }
     }
