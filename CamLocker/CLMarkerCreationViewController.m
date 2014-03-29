@@ -44,8 +44,10 @@
 
 - (void)viewDidLayoutSubviews
 {
-    [self.addImageButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.addImageButton
+    if (self.addImageButton.layer.sublayers.count != 2) {
+        [self.addImageButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.addImageButton
                                                                     withColor:[UIColor flatWhiteColor].CGColor]];
+    }
 }
 
 - (IBAction)addMarkerButtonPressed:(id)sender {
@@ -58,6 +60,7 @@
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
 #else
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    picker.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
 #endif
     picker.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     
@@ -152,7 +155,7 @@
 {
     CGRect initRect = self.imageView.frame;
     self.imageView.frame = CGRectMake(initRect.origin.x - 25, initRect.origin.y - 25, initRect.size.width + 50, initRect.size.height + 50);
-    [UIView animateWithDuration:1.2f animations:^{
+    [UIView animateWithDuration:1.0f animations:^{
             self.imageView.alpha = 1.0f;
             self.imageView.frame = initRect;
         } completion:^(BOOL finished){
@@ -161,7 +164,7 @@
 
 -(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 

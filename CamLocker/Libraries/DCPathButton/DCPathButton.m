@@ -89,7 +89,7 @@ static CGFloat const kDCPathButtonDefaultReverseRotation = -M_PI*2;
             [self.buttons addObject:subButton];
         }
         imageBlock(self);
-        [self.parentView addSubview:self];
+        [self.parentView insertSubview:self atIndex:1];
     }
     return self;
 }

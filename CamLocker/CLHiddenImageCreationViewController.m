@@ -15,14 +15,20 @@
 #import "UIColor+MLPFlatColors.h"
 #import "SIAlertView.h"
 #import "PhotoStackView.h"
+#import "ANBlurredImageView.h"
+#import "URBMediaFocusViewController.h"
 
-@interface CLHiddenImageCreationViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, PhotoStackViewDataSource, PhotoStackViewDelegate> {
+@interface CLHiddenImageCreationViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, PhotoStackViewDataSource, PhotoStackViewDelegate, URBMediaFocusViewControllerDelegate> {
     BOOL isEncrypting;
 }
 
-@property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 @property (nonatomic) NSMutableArray *hiddenImages;
 @property (nonatomic) NSMutableArray *photos;
+@property (nonatomic) URBMediaFocusViewController *mediaFocusController;
+
+@property (weak, nonatomic) IBOutlet UIView *masterView;
+@property (weak, nonatomic) IBOutlet ANBlurredImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 @property (weak, nonatomic) IBOutlet PhotoStackView *photoStack;
 @property (weak, nonatomic) IBOutlet UIButton *addImageButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addMoreButton;
@@ -38,7 +44,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    [CLUtilities addBackgroundImageToView:self.view];
+    self.mediaFocusController = [[URBMediaFocusViewController alloc] init];
+	self.mediaFocusController.delegate = self;
+    
+    [CLUtilities addBackgroundImageToView:self.masterView];
     
     isEncrypting = NO;
     
@@ -50,13 +59,19 @@
     _photoStack.delegate = self;
     self.photoStack.hidden = YES;
     self.pageControl.hidden = YES;
-}
-
-- (void)viewDidLayoutSubviews
-{
+    
+    [_imageView setHidden:YES];
+    [_imageView setFramesCount:5];
+    [_imageView setBlurAmount:1];
+    
+    
+    if (!DEVICE_IS_4INCH_IPHONE) {
+        self.addImageButton.frame = CGRectMake(50, 160, 220, 237);
+    }
     [self.addImageButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.addImageButton
                                                                     withColor:[UIColor flatWhiteColor].CGColor]];
 }
+
 
 - (IBAction)addImageButtonPressed:(id)sender {
     
@@ -110,25 +125,35 @@
                              type:SIAlertViewButtonTypeDestructive
                           handler:^(SIAlertView *alertView) {
                               
+                              self.navigationController.navigationBar.userInteractionEnabled = NO;
                               isEncrypting = YES;
-                              self.photoStack.userInteractionEnabled = NO;
-                              ETActivityIndicatorView *etActivity = [[ETActivityIndicatorView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2 - 30, self.view.frame.size.height/2 -30, 60, 60)];
-                              [etActivity startAnimating];
-                              [self.view addSubview:etActivity];
-                              [JDStatusBarNotification showWithStatus:@"Encrypting Data..." styleName:JDStatusBarStyleError];
+                              self.imageView.hidden = NO;
+                              self.imageView.image = [CLUtilities screenShotForView:self.masterView];
+                              self.imageView.baseImage = self.imageView.image;
+                              [self.imageView generateBlurFramesWithCompletionBlock:^{
+                                  
+                                  [self.imageView blurInAnimationWithDuration:0.25f];
+                                  self.photoStack.userInteractionEnabled = NO;
+                                  ETActivityIndicatorView *etActivity = [[ETActivityIndicatorView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2 - 30, self.view.frame.size.height/2 -30, 60, 60)];
+                                  etActivity.color = [UIColor flatWhiteColor];
+                                  [etActivity startAnimating];
+                                  [self.view addSubview:etActivity];
+                                  [JDStatusBarNotification showWithStatus:@"Encrypting Data..." styleName:JDStatusBarStyleError];
+                                  
+                                  [[CLMarkerManager sharedManager] addImageMarkerWithMarkerImage:[CLMarkerManager sharedManager].tempMarkerImage
+                                                                                    hiddenImages:self.hiddenImages
+                                                                             withCompletionBlock:^{
+                                                                                 self.photoStack.userInteractionEnabled = YES;
+                                                                                 [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.0f styleName:JDStatusBarStyleSuccess];
+                                                                                 [CLMarkerManager sharedManager].tempMarkerImage = nil;
+                                                                                 [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                                                                                 [etActivity removeFromSuperview];
+                                                                                 isEncrypting = NO;
+                                                                                 self.navigationController.navigationBar.userInteractionEnabled = YES;
+                                                                             }];
+                              }];
+
                               
-                              [[CLMarkerManager sharedManager] addImageMarkerWithMarkerImage:[CLMarkerManager sharedManager].tempMarkerImage
-                                                                                hiddenImages:self.hiddenImages
-                                                                         withCompletionBlock:^{
-                                                                              self.photoStack.userInteractionEnabled = YES;
-                                                                             [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.0f styleName:JDStatusBarStyleSuccess];
-                                                                             [CLMarkerManager sharedManager].tempMarkerImage = nil;
-                                                                             [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-                                                                             [etActivity stopAnimating];
-                                                                             [etActivity removeFromSuperview];
-                                                                             isEncrypting = NO;
-                              
-                                                                            }];
     }];
     alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
     alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
@@ -164,7 +189,7 @@
 {
     
     UIImage *chosenImage = info[UIImagePickerControllerOriginalImage];
-    [self.hiddenImages addObject:chosenImage];
+    [self.hiddenImages insertObject:chosenImage atIndex:0];
     
     UIImage *croppedImage = [CLUtilities imageWithImage:chosenImage scaledToWidth:220 + arc4random() % 35];
     if (croppedImage.size.height > self.photoStack.frame.size.height) {
@@ -218,6 +243,8 @@
 
 -(void)photoStackView:(PhotoStackView *)photoStackView didSelectPhotoAtIndex:(NSUInteger)index {
     NSLog(@"selected %d", index);
+    
+    [self.mediaFocusController showImage:self.hiddenImages[index] fromView:photoStackView];
 }
 
 

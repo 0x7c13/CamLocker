@@ -38,6 +38,10 @@
 		F73BF7C118C6DDFF006FB928 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = F73BF7BE18C6DDFF006FB928 /* EAGLView.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F73BF7C218C6DDFF006FB928 /* MetaioSDKViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = F73BF7C018C6DDFF006FB928 /* MetaioSDKViewController.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F73BF7C518C6E00B006FB928 /* CLScanViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = F73BF7C318C6E00B006FB928 /* CLScanViewController.mm */; };
+		F77344E018E659DD004FB792 /* ANBlurredImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F77344DD18E659DD004FB792 /* ANBlurredImageView.m */; };
+		F77344E118E659DD004FB792 /* UIImage+BoxBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = F77344DF18E659DD004FB792 /* UIImage+BoxBlur.m */; };
+		F77344E318E65E52004FB792 /* bg_4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F77344E218E65E52004FB792 /* bg_4.jpg */; };
+		F77344E818E675EA004FB792 /* URBMediaFocusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F77344E718E675EA004FB792 /* URBMediaFocusViewController.m */; };
 		F78ACD0B18C8D7E500A4247A /* CLFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F78ACD0A18C8D7E500A4247A /* CLFileManager.m */; };
 		F792915318D6B6EE009FCA79 /* CLTrackingXMLGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = F792915218D6B6EE009FCA79 /* CLTrackingXMLGenerator.m */; };
 		F79B545718E0027B009F97FB /* CLKeyGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = F79B545618E0027B009F97FB /* CLKeyGenerator.m */; };
@@ -121,6 +125,22 @@
 		F7D2765C18E5E4EA007A593C /* PhotoBorder.png in Resources */ = {isa = PBXBuildFile; fileRef = F7D2765818E5E4EA007A593C /* PhotoBorder.png */; };
 		F7D2765D18E5E4EA007A593C /* PhotoBorder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F7D2765918E5E4EA007A593C /* PhotoBorder@2x.png */; };
 		F7D2765E18E5E4EA007A593C /* PhotoStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D2765B18E5E4EA007A593C /* PhotoStackView.m */; };
+		F7D2767B18E60C8E007A593C /* AEFloatConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D2766118E60C8E007A593C /* AEFloatConverter.m */; };
+		F7D2767C18E60C8E007A593C /* EZAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D2766318E60C8E007A593C /* EZAudio.m */; };
+		F7D2767D18E60C8E007A593C /* EZAudioFile.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D2766518E60C8E007A593C /* EZAudioFile.m */; };
+		F7D2767E18E60C8E007A593C /* EZAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D2766718E60C8E007A593C /* EZAudioPlayer.m */; };
+		F7D2767F18E60C8E007A593C /* EZAudioPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D2766918E60C8E007A593C /* EZAudioPlot.m */; };
+		F7D2768018E60C8E007A593C /* EZAudioPlotGL.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D2766B18E60C8E007A593C /* EZAudioPlotGL.m */; };
+		F7D2768118E60C8E007A593C /* EZAudioPlotGLKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D2766D18E60C8E007A593C /* EZAudioPlotGLKViewController.m */; };
+		F7D2768218E60C8E007A593C /* EZMicrophone.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D2766F18E60C8E007A593C /* EZMicrophone.m */; };
+		F7D2768318E60C8E007A593C /* EZOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D2767118E60C8E007A593C /* EZOutput.m */; };
+		F7D2768418E60C8E007A593C /* EZPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D2767318E60C8E007A593C /* EZPlot.m */; };
+		F7D2768518E60C8E007A593C /* EZRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D2767518E60C8E007A593C /* EZRecorder.m */; };
+		F7D2768618E60C8E007A593C /* TPCircularBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = F7D2767618E60C8E007A593C /* TPCircularBuffer.c */; };
+		F7D2768718E60C8E007A593C /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = F7D2767918E60C8E007A593C /* CHANGELOG */; };
+		F7D2768818E60C8E007A593C /* VERSION in Resources */ = {isa = PBXBuildFile; fileRef = F7D2767A18E60C8E007A593C /* VERSION */; };
+		F7D2768B18E60EFC007A593C /* CLHiddenVoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D2768A18E60EFC007A593C /* CLHiddenVoiceViewController.m */; };
+		F7D2769118E61193007A593C /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D2769018E61193007A593C /* GLKit.framework */; };
 		F7E004DE18C6E36700FA63DC /* Markers in Resources */ = {isa = PBXBuildFile; fileRef = F7E004DD18C6E36700FA63DC /* Markers */; };
 		F7E004E118C6E54C00FA63DC /* CLImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7E004E018C6E54C00FA63DC /* CLImageViewController.m */; };
 		F7E004E618C6E66000FA63DC /* UIViewController+CWPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = F7E004E518C6E66000FA63DC /* UIViewController+CWPopup.m */; };
@@ -178,6 +198,13 @@
 		F73BF7C018C6DDFF006FB928 /* MetaioSDKViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetaioSDKViewController.mm; path = MetaioSDKFiles/MetaioSDKViewController.mm; sourceTree = "<group>"; };
 		F73BF7C318C6E00B006FB928 /* CLScanViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CLScanViewController.mm; sourceTree = "<group>"; };
 		F73BF7C418C6E00B006FB928 /* CLScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLScanViewController.h; sourceTree = "<group>"; };
+		F77344DC18E659DD004FB792 /* ANBlurredImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANBlurredImageView.h; sourceTree = "<group>"; };
+		F77344DD18E659DD004FB792 /* ANBlurredImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANBlurredImageView.m; sourceTree = "<group>"; };
+		F77344DE18E659DD004FB792 /* UIImage+BoxBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BoxBlur.h"; sourceTree = "<group>"; };
+		F77344DF18E659DD004FB792 /* UIImage+BoxBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BoxBlur.m"; sourceTree = "<group>"; };
+		F77344E218E65E52004FB792 /* bg_4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg_4.jpg; sourceTree = "<group>"; };
+		F77344E618E675EA004FB792 /* URBMediaFocusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URBMediaFocusViewController.h; sourceTree = "<group>"; };
+		F77344E718E675EA004FB792 /* URBMediaFocusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URBMediaFocusViewController.m; sourceTree = "<group>"; };
 		F78ACD0918C8D7E500A4247A /* CLFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLFileManager.h; sourceTree = "<group>"; };
 		F78ACD0A18C8D7E500A4247A /* CLFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFileManager.m; sourceTree = "<group>"; };
 		F792915118D6B6EE009FCA79 /* CLTrackingXMLGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLTrackingXMLGenerator.h; sourceTree = "<group>"; };
@@ -303,6 +330,35 @@
 		F7D2765918E5E4EA007A593C /* PhotoBorder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PhotoBorder@2x.png"; sourceTree = "<group>"; };
 		F7D2765A18E5E4EA007A593C /* PhotoStackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoStackView.h; sourceTree = "<group>"; };
 		F7D2765B18E5E4EA007A593C /* PhotoStackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoStackView.m; sourceTree = "<group>"; };
+		F7D2766018E60C8E007A593C /* AEFloatConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AEFloatConverter.h; sourceTree = "<group>"; };
+		F7D2766118E60C8E007A593C /* AEFloatConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AEFloatConverter.m; sourceTree = "<group>"; };
+		F7D2766218E60C8E007A593C /* EZAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZAudio.h; sourceTree = "<group>"; };
+		F7D2766318E60C8E007A593C /* EZAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZAudio.m; sourceTree = "<group>"; };
+		F7D2766418E60C8E007A593C /* EZAudioFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZAudioFile.h; sourceTree = "<group>"; };
+		F7D2766518E60C8E007A593C /* EZAudioFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZAudioFile.m; sourceTree = "<group>"; };
+		F7D2766618E60C8E007A593C /* EZAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZAudioPlayer.h; sourceTree = "<group>"; };
+		F7D2766718E60C8E007A593C /* EZAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZAudioPlayer.m; sourceTree = "<group>"; };
+		F7D2766818E60C8E007A593C /* EZAudioPlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZAudioPlot.h; sourceTree = "<group>"; };
+		F7D2766918E60C8E007A593C /* EZAudioPlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZAudioPlot.m; sourceTree = "<group>"; };
+		F7D2766A18E60C8E007A593C /* EZAudioPlotGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZAudioPlotGL.h; sourceTree = "<group>"; };
+		F7D2766B18E60C8E007A593C /* EZAudioPlotGL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZAudioPlotGL.m; sourceTree = "<group>"; };
+		F7D2766C18E60C8E007A593C /* EZAudioPlotGLKViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZAudioPlotGLKViewController.h; sourceTree = "<group>"; };
+		F7D2766D18E60C8E007A593C /* EZAudioPlotGLKViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZAudioPlotGLKViewController.m; sourceTree = "<group>"; };
+		F7D2766E18E60C8E007A593C /* EZMicrophone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZMicrophone.h; sourceTree = "<group>"; };
+		F7D2766F18E60C8E007A593C /* EZMicrophone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZMicrophone.m; sourceTree = "<group>"; };
+		F7D2767018E60C8E007A593C /* EZOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZOutput.h; sourceTree = "<group>"; };
+		F7D2767118E60C8E007A593C /* EZOutput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZOutput.m; sourceTree = "<group>"; };
+		F7D2767218E60C8E007A593C /* EZPlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZPlot.h; sourceTree = "<group>"; };
+		F7D2767318E60C8E007A593C /* EZPlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZPlot.m; sourceTree = "<group>"; };
+		F7D2767418E60C8E007A593C /* EZRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZRecorder.h; sourceTree = "<group>"; };
+		F7D2767518E60C8E007A593C /* EZRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZRecorder.m; sourceTree = "<group>"; };
+		F7D2767618E60C8E007A593C /* TPCircularBuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TPCircularBuffer.c; sourceTree = "<group>"; };
+		F7D2767718E60C8E007A593C /* TPCircularBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPCircularBuffer.h; sourceTree = "<group>"; };
+		F7D2767918E60C8E007A593C /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
+		F7D2767A18E60C8E007A593C /* VERSION */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VERSION; sourceTree = "<group>"; };
+		F7D2768918E60EFC007A593C /* CLHiddenVoiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLHiddenVoiceViewController.h; sourceTree = "<group>"; };
+		F7D2768A18E60EFC007A593C /* CLHiddenVoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLHiddenVoiceViewController.m; sourceTree = "<group>"; };
+		F7D2769018E61193007A593C /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		F7E004DD18C6E36700FA63DC /* Markers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Markers; sourceTree = "<group>"; };
 		F7E004DF18C6E54C00FA63DC /* CLImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLImageViewController.h; sourceTree = "<group>"; };
 		F7E004E018C6E54C00FA63DC /* CLImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLImageViewController.m; sourceTree = "<group>"; };
@@ -319,6 +375,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7D2769118E61193007A593C /* GLKit.framework in Frameworks */,
 				F7CC305918D94C9600189A03 /* libTestFlight.a in Frameworks */,
 				F73BF7BB18C6DD36006FB928 /* libxml2.dylib in Frameworks */,
 				F73BF7B918C6DD31006FB928 /* libz.dylib in Frameworks */,
@@ -377,6 +434,7 @@
 		F73BF76518C6DB39006FB928 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F7D2769018E61193007A593C /* GLKit.framework */,
 				F73BF7BA18C6DD36006FB928 /* libxml2.dylib */,
 				F73BF7B818C6DD31006FB928 /* libz.dylib */,
 				F73BF7B618C6DD29006FB928 /* metaioSDK.framework */,
@@ -471,24 +529,10 @@
 		F73BF79D18C6DB52006FB928 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				F7C9345718D820DB004B154F /* CLHomeViewController.h */,
-				F7C9345818D820DB004B154F /* CLHomeViewController.m */,
-				F7E004EB18C6EEC500FA63DC /* CLTextViewController.xib */,
-				F7E004EC18C6EEC500FA63DC /* CLTextViewController.m */,
-				F7E004ED18C6EEC500FA63DC /* CLTextViewController.h */,
-				F73BF7C318C6E00B006FB928 /* CLScanViewController.mm */,
-				F73BF7C418C6E00B006FB928 /* CLScanViewController.h */,
-				F7E004E718C6E6CB00FA63DC /* CLImageViewController.xib */,
-				F7E004DF18C6E54C00FA63DC /* CLImageViewController.h */,
-				F7E004E018C6E54C00FA63DC /* CLImageViewController.m */,
-				F7B47DD818D8D75200C8CBCE /* CLMarkerCreationViewController.h */,
-				F7B47DD918D8D75200C8CBCE /* CLMarkerCreationViewController.m */,
-				F7CC304F18D946DB00189A03 /* CLHiddenImageCreationViewController.h */,
-				F7CC305018D946DB00189A03 /* CLHiddenImageCreationViewController.m */,
-				F7A1C67818DC0DCA004F724A /* CLMarkerTypeChosenViewController.h */,
-				F7A1C67918DC0DCA004F724A /* CLMarkerTypeChosenViewController.m */,
-				F7A1C67B18DC10B5004F724A /* CLHiddenTextViewController.h */,
-				F7A1C67C18DC10B5004F724A /* CLHiddenTextViewController.m */,
+				F7D2768C18E60F38007A593C /* Home */,
+				F7D2768F18E60F5D007A593C /* Scanner */,
+				F7D2768E18E60F4F007A593C /* Viewer */,
+				F7D2768D18E60F3F007A593C /* Creator */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -503,6 +547,26 @@
 			);
 			name = MetaioSDK;
 			path = ..;
+			sourceTree = "<group>";
+		};
+		F77344DB18E659DD004FB792 /* ANBlurredImageView */ = {
+			isa = PBXGroup;
+			children = (
+				F77344DC18E659DD004FB792 /* ANBlurredImageView.h */,
+				F77344DD18E659DD004FB792 /* ANBlurredImageView.m */,
+				F77344DE18E659DD004FB792 /* UIImage+BoxBlur.h */,
+				F77344DF18E659DD004FB792 /* UIImage+BoxBlur.m */,
+			);
+			path = ANBlurredImageView;
+			sourceTree = "<group>";
+		};
+		F77344E518E675EA004FB792 /* URBMediaFocusViewController */ = {
+			isa = PBXGroup;
+			children = (
+				F77344E618E675EA004FB792 /* URBMediaFocusViewController.h */,
+				F77344E718E675EA004FB792 /* URBMediaFocusViewController.m */,
+			);
+			path = URBMediaFocusViewController;
 			sourceTree = "<group>";
 		};
 		F792915018D6B6B6009FCA79 /* Utilities */ = {
@@ -613,6 +677,7 @@
 		F7A0FE0118DAC77500EDE06A /* UIRes */ = {
 			isa = PBXGroup;
 			children = (
+				F77344E218E65E52004FB792 /* bg_4.jpg */,
 				F7A1C69518DC427A004F724A /* icon_dev.png */,
 				F7A1C69318DC41B6004F724A /* icon.png */,
 				F7A1C68818DC3836004F724A /* settings_new.png */,
@@ -727,9 +792,101 @@
 			path = PhotoStack;
 			sourceTree = "<group>";
 		};
+		F7D2765F18E60C8E007A593C /* EZAudio */ = {
+			isa = PBXGroup;
+			children = (
+				F7D2766018E60C8E007A593C /* AEFloatConverter.h */,
+				F7D2766118E60C8E007A593C /* AEFloatConverter.m */,
+				F7D2766218E60C8E007A593C /* EZAudio.h */,
+				F7D2766318E60C8E007A593C /* EZAudio.m */,
+				F7D2766418E60C8E007A593C /* EZAudioFile.h */,
+				F7D2766518E60C8E007A593C /* EZAudioFile.m */,
+				F7D2766618E60C8E007A593C /* EZAudioPlayer.h */,
+				F7D2766718E60C8E007A593C /* EZAudioPlayer.m */,
+				F7D2766818E60C8E007A593C /* EZAudioPlot.h */,
+				F7D2766918E60C8E007A593C /* EZAudioPlot.m */,
+				F7D2766A18E60C8E007A593C /* EZAudioPlotGL.h */,
+				F7D2766B18E60C8E007A593C /* EZAudioPlotGL.m */,
+				F7D2766C18E60C8E007A593C /* EZAudioPlotGLKViewController.h */,
+				F7D2766D18E60C8E007A593C /* EZAudioPlotGLKViewController.m */,
+				F7D2766E18E60C8E007A593C /* EZMicrophone.h */,
+				F7D2766F18E60C8E007A593C /* EZMicrophone.m */,
+				F7D2767018E60C8E007A593C /* EZOutput.h */,
+				F7D2767118E60C8E007A593C /* EZOutput.m */,
+				F7D2767218E60C8E007A593C /* EZPlot.h */,
+				F7D2767318E60C8E007A593C /* EZPlot.m */,
+				F7D2767418E60C8E007A593C /* EZRecorder.h */,
+				F7D2767518E60C8E007A593C /* EZRecorder.m */,
+				F7D2767618E60C8E007A593C /* TPCircularBuffer.c */,
+				F7D2767718E60C8E007A593C /* TPCircularBuffer.h */,
+				F7D2767818E60C8E007A593C /* VERSION */,
+			);
+			path = EZAudio;
+			sourceTree = "<group>";
+		};
+		F7D2767818E60C8E007A593C /* VERSION */ = {
+			isa = PBXGroup;
+			children = (
+				F7D2767918E60C8E007A593C /* CHANGELOG */,
+				F7D2767A18E60C8E007A593C /* VERSION */,
+			);
+			path = VERSION;
+			sourceTree = "<group>";
+		};
+		F7D2768C18E60F38007A593C /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				F7C9345718D820DB004B154F /* CLHomeViewController.h */,
+				F7C9345818D820DB004B154F /* CLHomeViewController.m */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
+		F7D2768D18E60F3F007A593C /* Creator */ = {
+			isa = PBXGroup;
+			children = (
+				F7B47DD818D8D75200C8CBCE /* CLMarkerCreationViewController.h */,
+				F7B47DD918D8D75200C8CBCE /* CLMarkerCreationViewController.m */,
+				F7A1C67818DC0DCA004F724A /* CLMarkerTypeChosenViewController.h */,
+				F7A1C67918DC0DCA004F724A /* CLMarkerTypeChosenViewController.m */,
+				F7A1C67B18DC10B5004F724A /* CLHiddenTextViewController.h */,
+				F7A1C67C18DC10B5004F724A /* CLHiddenTextViewController.m */,
+				F7CC304F18D946DB00189A03 /* CLHiddenImageCreationViewController.h */,
+				F7CC305018D946DB00189A03 /* CLHiddenImageCreationViewController.m */,
+				F7D2768918E60EFC007A593C /* CLHiddenVoiceViewController.h */,
+				F7D2768A18E60EFC007A593C /* CLHiddenVoiceViewController.m */,
+			);
+			name = Creator;
+			sourceTree = "<group>";
+		};
+		F7D2768E18E60F4F007A593C /* Viewer */ = {
+			isa = PBXGroup;
+			children = (
+				F7E004EB18C6EEC500FA63DC /* CLTextViewController.xib */,
+				F7E004EC18C6EEC500FA63DC /* CLTextViewController.m */,
+				F7E004ED18C6EEC500FA63DC /* CLTextViewController.h */,
+				F7E004E718C6E6CB00FA63DC /* CLImageViewController.xib */,
+				F7E004DF18C6E54C00FA63DC /* CLImageViewController.h */,
+				F7E004E018C6E54C00FA63DC /* CLImageViewController.m */,
+			);
+			name = Viewer;
+			sourceTree = "<group>";
+		};
+		F7D2768F18E60F5D007A593C /* Scanner */ = {
+			isa = PBXGroup;
+			children = (
+				F73BF7C318C6E00B006FB928 /* CLScanViewController.mm */,
+				F73BF7C418C6E00B006FB928 /* CLScanViewController.h */,
+			);
+			name = Scanner;
+			sourceTree = "<group>";
+		};
 		F7E004E218C6E66000FA63DC /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F77344E518E675EA004FB792 /* URBMediaFocusViewController */,
+				F77344DB18E659DD004FB792 /* ANBlurredImageView */,
+				F7D2765F18E60C8E007A593C /* EZAudio */,
 				F7D2765718E5E4EA007A593C /* PhotoStack */,
 				F7A1C67418DBF629004F724A /* LetterPressExplosion */,
 				F7A1C67018DBE7C2004F724A /* LXActionSheet */,
@@ -838,7 +995,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				F7CC305B18D94C9600189A03 /* release_notes.md in Resources */,
+				F7D2768818E60C8E007A593C /* VERSION in Resources */,
 				F7A0FE1518DAD28300EDE06A /* bg_2.jpg in Resources */,
+				F77344E318E65E52004FB792 /* bg_4.jpg in Resources */,
 				F7A1C69418DC41B6004F724A /* icon.png in Resources */,
 				F7A0FE0E18DACA1A00EDE06A /* locker.png in Resources */,
 				F7A0FDC418DAAC6A00EDE06A /* SIAlertView.bundle in Resources */,
@@ -863,6 +1022,7 @@
 				F7A0FE0718DAC8CB00EDE06A /* circle-1.png in Resources */,
 				F7CC304B18D941FB00189A03 /* PEPhotoCropEditor.bundle in Resources */,
 				F7A0FDFE18DAC40000EDE06A /* dc-center.png in Resources */,
+				F7D2768718E60C8E007A593C /* CHANGELOG in Resources */,
 				F73BF77F18C6DB39006FB928 /* Images.xcassets in Resources */,
 				F73BF77118C6DB39006FB928 /* InfoPlist.strings in Resources */,
 				F7A0FDF218DAC40000EDE06A /* custom_1.png in Resources */,
@@ -907,6 +1067,8 @@
 			files = (
 				F7CC304D18D941FB00189A03 /* UIImage+PECrop.m in Sources */,
 				F73BF7C518C6E00B006FB928 /* CLScanViewController.mm in Sources */,
+				F7D2767D18E60C8E007A593C /* EZAudioFile.m in Sources */,
+				F7D2767F18E60C8E007A593C /* EZAudioPlot.m in Sources */,
 				F7B47DD718D8B31700C8CBCE /* NSString+Random.m in Sources */,
 				F79B545718E0027B009F97FB /* CLKeyGenerator.m in Sources */,
 				F7CC306B18D9843200189A03 /* JDStatusBarStyle.m in Sources */,
@@ -915,23 +1077,34 @@
 				F7CC304818D941FB00189A03 /* PECropRectView.m in Sources */,
 				F792915318D6B6EE009FCA79 /* CLTrackingXMLGenerator.m in Sources */,
 				F7A1C67318DBE7C2004F724A /* LXActionSheet.m in Sources */,
+				F7D2768618E60C8E007A593C /* TPCircularBuffer.c in Sources */,
 				F7CC304C18D941FB00189A03 /* PEResizeControl.m in Sources */,
+				F7D2768118E60C8E007A593C /* EZAudioPlotGLKViewController.m in Sources */,
+				F7D2768B18E60EFC007A593C /* CLHiddenVoiceViewController.m in Sources */,
 				F7C9345418D81755004B154F /* CLMarkerManager.m in Sources */,
 				F7B47DD118D8A78500C8CBCE /* NSData+CLEncryption.m in Sources */,
 				F7CC305118D946DB00189A03 /* CLHiddenImageCreationViewController.m in Sources */,
+				F7D2768418E60C8E007A593C /* EZPlot.m in Sources */,
 				F7E004E118C6E54C00FA63DC /* CLImageViewController.m in Sources */,
 				F7B47DD418D8AA0200C8CBCE /* UIImage+CLEncryption.m in Sources */,
 				F7C9344E18D8067C004B154F /* CLTextMarker.m in Sources */,
+				F7D2768218E60C8E007A593C /* EZMicrophone.m in Sources */,
 				F7A1C67718DBF629004F724A /* UIView+Explode.m in Sources */,
 				F73BF77318C6DB39006FB928 /* main.m in Sources */,
+				F77344E118E659DD004FB792 /* UIImage+BoxBlur.m in Sources */,
 				F7CC306C18D9843200189A03 /* JDStatusBarView.m in Sources */,
 				F7A0FDBC18DAA60300EDE06A /* PulsingHaloLayer.m in Sources */,
+				F7D2767C18E60C8E007A593C /* EZAudio.m in Sources */,
 				F7CC306218D9705400189A03 /* ETActivityIndicatorView.m in Sources */,
 				F7C9345918D820DB004B154F /* CLHomeViewController.m in Sources */,
 				F7CC306A18D9843200189A03 /* JDStatusBarNotification.m in Sources */,
+				F7D2768518E60C8E007A593C /* EZRecorder.m in Sources */,
 				F7E004E618C6E66000FA63DC /* UIViewController+CWPopup.m in Sources */,
 				F7CC303B18D9405300189A03 /* CLUtilities.m in Sources */,
+				F77344E818E675EA004FB792 /* URBMediaFocusViewController.m in Sources */,
+				F7D2768018E60C8E007A593C /* EZAudioPlotGL.m in Sources */,
 				F7A0FDF118DAC40000EDE06A /* DCSubButton.m in Sources */,
+				F7D2768318E60C8E007A593C /* EZOutput.m in Sources */,
 				F7CC304A18D941FB00189A03 /* PECropViewController.m in Sources */,
 				F7A0FDC618DAAC6A00EDE06A /* UIWindow+SIUtils.m in Sources */,
 				F7A0FE0018DAC40000EDE06A /* NSMutableArray+addImage.m in Sources */,
@@ -939,15 +1112,18 @@
 				F7E004EF18C6EEC500FA63DC /* CLTextViewController.m in Sources */,
 				F7A0FDC518DAAC6A00EDE06A /* SIAlertView.m in Sources */,
 				F7C9345118D80DB9004B154F /* CLImageMarker.m in Sources */,
+				F7D2767E18E60C8E007A593C /* EZAudioPlayer.m in Sources */,
 				F7A1C67A18DC0DCA004F724A /* CLMarkerTypeChosenViewController.m in Sources */,
 				F7A1C67D18DC10B5004F724A /* CLHiddenTextViewController.m in Sources */,
 				F7A0FDF018DAC40000EDE06A /* DCPathButton.m in Sources */,
 				F73BF7C218C6DDFF006FB928 /* MetaioSDKViewController.mm in Sources */,
+				F7D2767B18E60C8E007A593C /* AEFloatConverter.m in Sources */,
 				F7B47DDA18D8D75200C8CBCE /* CLMarkerCreationViewController.m in Sources */,
 				F7C9344618D8035C004B154F /* CLMarker.m in Sources */,
 				F7A0FDEF18DAC40000EDE06A /* DCCenterButton.m in Sources */,
 				F73BF77718C6DB39006FB928 /* CLAppDelegate.m in Sources */,
 				F7D2765E18E5E4EA007A593C /* PhotoStackView.m in Sources */,
+				F77344E018E659DD004FB792 /* ANBlurredImageView.m in Sources */,
 				F78ACD0B18C8D7E500A4247A /* CLFileManager.m in Sources */,
 				F73BF7C118C6DDFF006FB928 /* EAGLView.mm in Sources */,
 				F7CC304918D941FB00189A03 /* PECropView.m in Sources */,

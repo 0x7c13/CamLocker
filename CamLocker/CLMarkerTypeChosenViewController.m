@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIButton *imageButton;
 @property (weak, nonatomic) IBOutlet UIButton *textButton;
+@property (weak, nonatomic) IBOutlet UIButton *voiceButton;
 
 @end
 
@@ -32,6 +33,8 @@
     [self.imageButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.imageButton
                                                                  withColor:[UIColor flatWhiteColor].CGColor]];
     [self.textButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.textButton
+                                                                withColor:[UIColor flatWhiteColor].CGColor]];
+    [self.voiceButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.voiceButton
                                                                 withColor:[UIColor flatWhiteColor].CGColor]];
 }
 

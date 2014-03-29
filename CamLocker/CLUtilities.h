@@ -17,6 +17,7 @@
 + (UIImage *)imageWithImage:(UIImage*)sourceImage scaledToHeight:(float)i_height;
 + (CAShapeLayer *) addDashedBorderToView:(UIView *)view withColor: (CGColorRef) color;
 
++ (UIImage *)screenShotForView:(UIView *)view;
 + (void)addBackgroundImageToView:(UIView *)view;
 
 + (UIFont *)textFieldFont;

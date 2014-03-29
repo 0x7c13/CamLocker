@@ -15,6 +15,7 @@
 #import "CLUtilities.h"
 #import "SIAlertView.h"
 #import "PulsingHaloLayer.h"
+#import "ANBlurredImageView.h"
 #import "UIColor+MLPFlatColors.h"
 #import "JDStatusBarNotification.h"
 #import "DCPathButton.h"
@@ -23,6 +24,9 @@
     BOOL needsToDisplayStarupAnimation;
 }
 
+@property (strong, nonatomic) IBOutlet ANBlurredImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIView *buttonView;
+@property (weak, nonatomic) IBOutlet UIView *masterView;
 @property (nonatomic) PulsingHaloLayer *halo;
 @property (nonatomic) DCPathButton *dcPathButton;
 
@@ -37,27 +41,15 @@
     
     NSLog(@"%@", [CLFileManager imageFilePathWithFileName:nil]);
 
-    [CLUtilities addBackgroundImageToView:self.view];
+    [CLUtilities addBackgroundImageToView:self.masterView];
     
     CGFloat locationY = DEVICE_IS_4INCH_IPHONE ? 320 : 260;
-    self.halo = [PulsingHaloLayer layer];
-    self.halo.position = CGPointMake(160, locationY);
-    self.halo.radius = 170;
-    self.halo.backgroundColor = [UIColor flatWhiteColor].CGColor;
-    [self.view.layer insertSublayer:self.halo atIndex:1];
     
     self.camLockerLogoLabel.textColor = [UIColor flatWhiteColor];
-    self.hideInfoButton.backgroundColor = [UIColor flatDarkGrayColor];
-    self.unlockButton.backgroundColor = [UIColor flatDarkGrayColor];
-    self.deleteDataButton.tintColor = [UIColor flatRedColor];
     
-    //self.camLockerLogoLabel.font = [UIFont fontWithName:@"OpenSans" size:50.0];
-    self.hideInfoButton.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:30.0];
-    self.unlockButton.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:30.0];
-    self.deleteDataButton.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:20.0];
-    
-    [CLUtilities addShadowToUIView:self.hideInfoButton];
-    [CLUtilities addShadowToUIView:self.unlockButton];
+    [_imageView setHidden:YES];
+    [_imageView setFramesCount:10];
+    [_imageView setBlurAmount:1];
     
     self.dcPathButton = [[DCPathButton alloc]
                           initDCPathButtonWithSubButtons:5
@@ -74,7 +66,7 @@
                               [dc subButtonImage:@"settings_new" withTag:4];
                           }
                           subImageBackground:nil
-                          inLocationX:165 locationY:locationY toParentView:self.view];
+                          inLocationX:165 locationY:locationY toParentView:self.buttonView];
     self.dcPathButton.delegate = self;
     
     // Animation setup
@@ -97,17 +89,36 @@
     self.dcPathButton.alpha = 0.0f;
     self.dcPathButton.userInteractionEnabled = NO;
     self.bottomLabel.alpha = 0.0f;
-    self.halo.hidden = YES;
+    [self stopHaloAnimation];
+}
+
+- (void)startHaloAnimation
+{
+    [self stopHaloAnimation];
+    CGFloat locationY = DEVICE_IS_4INCH_IPHONE ? 320 : 260;
+    self.halo = [PulsingHaloLayer layer];
+    self.halo.position = CGPointMake(160, locationY);
+    self.halo.radius = 170;
+    self.halo.backgroundColor = [UIColor flatWhiteColor].CGColor;
+    [self.buttonView.layer insertSublayer:self.halo atIndex:0];
+}
+
+- (void)stopHaloAnimation
+{
+    if (self.buttonView.layer.sublayers.count == 2) {
+        [[self.buttonView.layer.sublayers objectAtIndex:0] removeFromSuperlayer];
+    }
 }
 
 - (void)executeAnimation
 {
     [self animationSetup];
+    
     if (self.dcPathButton.isExpanded) {
         [self.dcPathButton close];
     }
     
-    [UIView animateWithDuration:1.0f animations:^{
+    [UIView animateWithDuration:0.7f animations:^{
         
         self.camLockerLogoLabel.alpha = 1.0f;
     } completion:^(BOOL finished){
@@ -118,13 +129,19 @@
             self.bottomLabel.alpha = 1.0f;
         } completion:^(BOOL finished){
             
+            if (!self.imageView.image) {
+                self.imageView.image = [CLUtilities screenShotForView:self.masterView];
+                self.imageView.baseImage = self.imageView.image;
+                [self.imageView generateBlurFramesWithCompletion:^{}];
+            }
+            
             [UIView animateWithDuration:0.7f animations:^{
                 
                 self.dcPathButton.alpha = 1.0f;
             } completion:^(BOOL finished){
                 
                 self.dcPathButton.userInteractionEnabled = YES;
-                self.halo.hidden = NO;
+                [self startHaloAnimation];
             }];
         }];
     }];
@@ -220,10 +237,56 @@
 
 - (void)button_2_action{
     NSLog(@"Button Press Tag 2!!");
+    
+    if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+        
+        SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+        
+        [controller setInitialText:@"Check out CamLocker! Hide and share your images, voice or text in seconds. http://www.camlockerapp.com"];
+        [controller addImage:[UIImage imageNamed:@"icon@2x.png"]];
+        
+        [self presentViewController:controller animated:YES completion:Nil];
+    } else {
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Oops" andMessage:@"Please login with your Facebook account in settings!"];
+        [alertView addButtonWithTitle:@"OK"
+                                 type:SIAlertViewButtonTypeDestructive
+                              handler:^(SIAlertView *alertView) {
+                              }];
+        alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
+        alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
+        alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
+        alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
+        alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
+        
+        [alertView show];
+    }
 }
 
 - (void)button_3_action{
     NSLog(@"Button Press Tag 3!!");
+    
+    if([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
+        
+        SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+        
+        [controller setInitialText:@"Check out CamLocker! Hide and share your images, voice or text in seconds. http://www.camlockerapp.com"];
+        [controller addImage:[UIImage imageNamed:@"icon@2x.png"]];
+        
+        [self presentViewController:controller animated:YES completion:Nil];
+    } else {
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Oops" andMessage:@"Please login with your Twitter account in settings!"];
+        [alertView addButtonWithTitle:@"OK"
+                                 type:SIAlertViewButtonTypeDestructive
+                              handler:^(SIAlertView *alertView) {
+                              }];
+        alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
+        alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
+        alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
+        alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
+        alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
+        
+        [alertView show];
+    }
 }
 
 - (void)button_4_action{
@@ -233,12 +296,17 @@
 
 - (void)pathButtonWillOpen
 {
-    self.halo.hidden = YES;
+    self.imageView.hidden = NO;
+    [self stopHaloAnimation];
+    [self.imageView blurInAnimationWithDuration:0.25f];
 }
 
 - (void)pathButtonWillClose
 {
-    self.halo.hidden = NO;
+    [self.imageView blurOutAnimationWithDuration:0.5f completion:^{
+        self.imageView.hidden = YES;
+        [self startHaloAnimation];
+    }];
 }
 
 @end

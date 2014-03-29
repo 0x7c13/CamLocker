@@ -50,8 +50,10 @@
 
 - (void)viewDidLayoutSubviews
 {
-    [self.addTextButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.addTextButton
+    if (self.addTextButton.layer.sublayers.count != 2) {
+        [self.addTextButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.addTextButton
                                                                    withColor:[UIColor flatWhiteColor].CGColor]];
+    }
 }
 
 - (IBAction)doneButtonPressed:(id)sender {

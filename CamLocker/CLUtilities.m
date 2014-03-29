@@ -100,8 +100,22 @@
 + (void)addBackgroundImageToView:(UIView *)view
 {
     UIImageView *background = [[UIImageView alloc] initWithFrame:view.frame];
-    background.image = [UIImage imageNamed:@"bg_3.jpg"];
+    background.image = [UIImage imageNamed:@"bg_4.jpg"];
     [view insertSubview:background atIndex:0];
+}
+
++ (UIImage *) screenShotForView:(UIView *)view {
+    
+    CGSize size = CGSizeMake(view.frame.size.width, view.frame.size.height);
+    
+    UIGraphicsBeginImageContextWithOptions(size, NO, [UIScreen mainScreen].scale);
+    
+    CGRect rec = CGRectMake(0, 0, view.frame.size.width, view.frame.size.height);
+    [view drawViewHierarchyInRect:rec afterScreenUpdates:YES];
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
 }
 
 #pragma mark - Fonts

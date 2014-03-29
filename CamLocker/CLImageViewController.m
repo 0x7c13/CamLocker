@@ -9,13 +9,15 @@
 #import "CLImageViewController.h"
 #import "PhotoStackView.h"
 #import "CLUtilities.h"
+#import "URBMediaFocusViewController.h"
 
-@interface CLImageViewController () <PhotoStackViewDelegate, PhotoStackViewDataSource>
+@interface CLImageViewController () <PhotoStackViewDelegate, PhotoStackViewDataSource, URBMediaFocusViewControllerDelegate>
 
 @property (nonatomic) NSMutableArray *photos;
+@property (nonatomic) URBMediaFocusViewController *mediaFocusController;
+
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 @property (weak, nonatomic) IBOutlet PhotoStackView *photoStack;
-
 
 @end
 
@@ -40,9 +42,14 @@
         }
         [self.photos addObject:croppedImage];
     }
+    
     _photoStack.center = CGPointMake(self.view.center.x, 170);
     _photoStack.dataSource = self;
     _photoStack.delegate = self;
+    
+    _mediaFocusController = [[URBMediaFocusViewController alloc] init];
+	_mediaFocusController.delegate = self;
+    
 }
 
 - (IBAction)quitButtonPressed:(id)sender {
@@ -81,6 +88,7 @@
 
 -(void)photoStackView:(PhotoStackView *)photoStackView didSelectPhotoAtIndex:(NSUInteger)index {
     NSLog(@"selected %d", index);
+    [self.mediaFocusController showImage:self.hiddenImages[index] fromView:photoStackView];
 }
 
 

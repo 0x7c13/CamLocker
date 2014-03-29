@@ -60,5 +60,6 @@
     -(void)hidePhotoAtIndex:(NSUInteger)index;
     -(void)flipToNextPhoto;
     -(void)reloadData;
+    -(UIView *)topPhoto;
 
 @end
