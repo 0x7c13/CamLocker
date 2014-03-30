@@ -198,14 +198,21 @@
                         </constraints>
                     </view>
                     <toolbarItems>
-                        <barButtonItem width="25" style="plain" systemItem="fixedSpace" id="cQt-Rq-bDk"/>
+                        <barButtonItem style="plain" systemItem="fixedSpace" id="cQt-Rq-bDk"/>
                         <barButtonItem title="Add More" id="lUh-Vw-3mw">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="addMoreButtonPressed:" destination="G8Y-i3-MOv" id="mdv-0E-3Io"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem width="120" style="plain" systemItem="fixedSpace" id="aJU-hO-2ay"/>
+                        <barButtonItem width="49" style="plain" systemItem="fixedSpace" id="cSk-0L-26x"/>
+                        <barButtonItem systemItem="trash" id="N2x-Og-T10">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="trashButtonPressed:" destination="G8Y-i3-MOv" id="ZP9-i6-y63"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem width="80" style="plain" systemItem="fixedSpace" id="aJU-hO-2ay"/>
                         <barButtonItem title="Done" id="yaP-f4-hYw">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
@@ -224,6 +231,7 @@
                         <outlet property="masterView" destination="jvl-e2-GNE" id="l7p-7f-2Lj"/>
                         <outlet property="pageControl" destination="uX8-OI-urW" id="dHr-5g-WE1"/>
                         <outlet property="photoStack" destination="1Zx-I8-eOo" id="u4n-fT-Oyi"/>
+                        <outlet property="trashButton" destination="N2x-Og-T10" id="2W8-sf-lO8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4I9-6p-ptH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -431,7 +439,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RQ7-U9-ENB">
-                                <rect key="frame" x="100" y="275" width="120" height="45"/>
+                                <rect key="frame" x="100" y="280" width="120" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="25"/>
                                 <state key="normal" title="Image">
@@ -443,7 +451,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PwL-9w-0wE">
-                                <rect key="frame" x="100" y="345" width="120" height="45"/>
+                                <rect key="frame" x="100" y="355" width="120" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="25"/>
                                 <state key="normal" title="Voice">
@@ -543,7 +551,7 @@
                         </connections>
                     </view>
                     <toolbarItems>
-                        <barButtonItem width="234" style="plain" systemItem="fixedSpace" id="GAk-rX-hCh"/>
+                        <barButtonItem width="245" style="plain" systemItem="fixedSpace" id="GAk-rX-hCh"/>
                         <barButtonItem title="Done" id="8n0-jH-sXb">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
@@ -620,7 +628,7 @@
                         </constraints>
                     </view>
                     <toolbarItems>
-                        <barButtonItem width="234" style="plain" systemItem="fixedSpace" id="ps3-7J-GUs"/>
+                        <barButtonItem width="245" style="plain" systemItem="fixedSpace" id="ps3-7J-GUs"/>
                         <barButtonItem title="Done" id="6Sn-lT-fdL">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </barButtonItem>

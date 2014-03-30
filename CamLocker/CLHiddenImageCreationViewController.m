@@ -17,6 +17,7 @@
 #import "PhotoStackView.h"
 #import "ANBlurredImageView.h"
 #import "URBMediaFocusViewController.h"
+#import "UIView+Genie.h"
 
 @interface CLHiddenImageCreationViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, PhotoStackViewDataSource, PhotoStackViewDelegate, URBMediaFocusViewControllerDelegate> {
     BOOL isEncrypting;
@@ -33,6 +34,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *addImageButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addMoreButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *trashButton;
 
 @end
 
@@ -59,6 +61,7 @@
     _photoStack.delegate = self;
     self.photoStack.hidden = YES;
     self.pageControl.hidden = YES;
+    self.trashButton.enabled = NO;
     
     [_imageView setHidden:YES];
     [_imageView setFramesCount:5];
@@ -73,6 +76,50 @@
 
 }
 
+- (IBAction)trashButtonPressed:(id)sender {
+    
+    self.photoStack.userInteractionEnabled = NO;
+
+    if (self.photos.count == 1) {
+        [UIView animateWithDuration:1.0f animations:^{
+            self.pageControl.alpha = 0.0f;
+        } completion:^(BOOL finished){
+            self.pageControl.hidden = YES;
+        }];
+    }
+    [[self.photoStack topPhoto] genieInTransitionWithDuration:0.7
+                                              destinationRect:CGRectMake(130, self.view.frame.size.height - 40, 1, 1)
+                                              destinationEdge:BCRectEdgeTop
+                                                   completion:^{
+                                                      
+                                                       [self.photos removeObjectAtIndex:self.pageControl.currentPage];
+                                                       [self.hiddenImages removeObjectAtIndex:self.pageControl.currentPage];
+
+                                                       [self.photoStack reloadData];
+                                                       
+                                                       if (self.pageControl.currentPage == self.pageControl.numberOfPages - 1) {
+                                                           self.pageControl.numberOfPages--;
+                                                           self.pageControl.currentPage = self.pageControl.numberOfPages - 1;
+                                                       } else {
+                                                           self.pageControl.numberOfPages--;
+                                                       }
+                                                       
+                                                       if (self.hiddenImages.count == 0) {
+                                                           
+                                                           self.photoStack.hidden = YES;
+                                                           self.trashButton.enabled = NO;
+                                                           self.pageControl.alpha = 0.3f;
+                                                           self.addImageButton.alpha = 0.0f;
+                                                           self.addImageButton.hidden = NO;
+                                                           
+                                                           [UIView animateWithDuration:1.0f animations:^{
+                                                               self.addImageButton.alpha = 0.3f;
+                                                           } completion:nil];
+                                                       }
+                                                       self.photoStack.userInteractionEnabled = YES;
+                                                   }];
+
+}
 
 - (IBAction)addImageButtonPressed:(id)sender {
     
@@ -203,6 +250,7 @@
     self.photoStack.hidden = NO;
     self.pageControl.hidden = NO;
     self.addImageButton.hidden = YES;
+    self.trashButton.enabled = YES;
     
     //[self executeAnimation];
     [picker dismissViewControllerAnimated:YES completion:nil];
@@ -244,7 +292,6 @@
 
 -(void)photoStackView:(PhotoStackView *)photoStackView didSelectPhotoAtIndex:(NSUInteger)index {
     NSLog(@"selected %d", index);
-    
     [self.mediaFocusController showImage:self.hiddenImages[index] fromView:photoStackView];
 }
 

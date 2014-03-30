@@ -97,6 +97,7 @@
 		F7A1C69118DC3836004F724A /* camera_new.png in Resources */ = {isa = PBXBuildFile; fileRef = F7A1C68C18DC3836004F724A /* camera_new.png */; };
 		F7A1C69418DC41B6004F724A /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F7A1C69318DC41B6004F724A /* icon.png */; };
 		F7A1C69618DC427A004F724A /* icon_dev.png in Resources */ = {isa = PBXBuildFile; fileRef = F7A1C69518DC427A004F724A /* icon_dev.png */; };
+		F7A37A2618E803160022A626 /* UIView+Genie.m in Sources */ = {isa = PBXBuildFile; fileRef = F7A37A2518E803160022A626 /* UIView+Genie.m */; };
 		F7B47DD118D8A78500C8CBCE /* NSData+CLEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = F7B47DD018D8A78500C8CBCE /* NSData+CLEncryption.m */; };
 		F7B47DD418D8AA0200C8CBCE /* UIImage+CLEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = F7B47DD318D8AA0200C8CBCE /* UIImage+CLEncryption.m */; };
 		F7B47DD718D8B31700C8CBCE /* NSString+Random.m in Sources */ = {isa = PBXBuildFile; fileRef = F7B47DD618D8B31700C8CBCE /* NSString+Random.m */; };
@@ -277,6 +278,8 @@
 		F7A1C68C18DC3836004F724A /* camera_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_new.png; sourceTree = "<group>"; };
 		F7A1C69318DC41B6004F724A /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		F7A1C69518DC427A004F724A /* icon_dev.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_dev.png; sourceTree = "<group>"; };
+		F7A37A2418E803160022A626 /* UIView+Genie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Genie.h"; sourceTree = "<group>"; };
+		F7A37A2518E803160022A626 /* UIView+Genie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Genie.m"; sourceTree = "<group>"; };
 		F7B47DCF18D8A78500C8CBCE /* NSData+CLEncryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+CLEncryption.h"; sourceTree = "<group>"; };
 		F7B47DD018D8A78500C8CBCE /* NSData+CLEncryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+CLEncryption.m"; sourceTree = "<group>"; };
 		F7B47DD218D8AA0200C8CBCE /* UIImage+CLEncryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+CLEncryption.h"; sourceTree = "<group>"; };
@@ -726,6 +729,15 @@
 			path = LetterPressExplosion;
 			sourceTree = "<group>";
 		};
+		F7A37A2318E803160022A626 /* UIView+Genie */ = {
+			isa = PBXGroup;
+			children = (
+				F7A37A2418E803160022A626 /* UIView+Genie.h */,
+				F7A37A2518E803160022A626 /* UIView+Genie.m */,
+			);
+			path = "UIView+Genie";
+			sourceTree = "<group>";
+		};
 		F7CC303C18D941FB00189A03 /* PEPhotoCropEditor */ = {
 			isa = PBXGroup;
 			children = (
@@ -884,6 +896,7 @@
 		F7E004E218C6E66000FA63DC /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F7A37A2318E803160022A626 /* UIView+Genie */,
 				F77344E518E675EA004FB792 /* URBMediaFocusViewController */,
 				F77344DB18E659DD004FB792 /* ANBlurredImageView */,
 				F7D2765F18E60C8E007A593C /* EZAudio */,
@@ -1074,6 +1087,7 @@
 				F7CC306B18D9843200189A03 /* JDStatusBarStyle.m in Sources */,
 				F7CC306118D9705400189A03 /* Circle.m in Sources */,
 				F7A0FDBD18DAA60300EDE06A /* UIColor+MLPFlatColors.m in Sources */,
+				F7A37A2618E803160022A626 /* UIView+Genie.m in Sources */,
 				F7CC304818D941FB00189A03 /* PECropRectView.m in Sources */,
 				F792915318D6B6EE009FCA79 /* CLTrackingXMLGenerator.m in Sources */,
 				F7A1C67318DBE7C2004F724A /* LXActionSheet.m in Sources */,
