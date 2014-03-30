@@ -30,11 +30,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [CLUtilities addBackgroundImageToView:self.view];
+    [CLUtilities addBackgroundImageToView:self.view withImageName:@"bg_4.jpg"];
     
     isKeyboardShown = NO;
     self.textView.font = [UIFont fontWithName:@"OpenSans" size:15];
     self.textViewContainer.hidden = YES;
+
+    self.addTextButton.layer.cornerRadius = 15;
 }
 
 - (void)viewDidAppear:(BOOL)animated

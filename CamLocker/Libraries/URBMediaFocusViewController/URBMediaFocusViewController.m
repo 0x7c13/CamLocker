@@ -12,7 +12,7 @@
 
 #import "URBMediaFocusViewController.h"
 
-static const CGFloat __overlayAlpha = 0.7f;						// opacity of the black overlay displayed below the focused image
+//static const CGFloat __overlayAlpha = 0.7f;						// opacity of the black overlay displayed below the focused image
 static const CGFloat __animationDuration = 0.18f;				// the base duration for present/dismiss animations (except physics-related ones)
 static const CGFloat __maximumDismissDelay = 0.5f;				// maximum time of delay (in seconds) between when image view is push out and dismissal animations begin
 static const CGFloat __resistance = 0.0f;						// linear resistance applied to the image’s dynamic item behavior

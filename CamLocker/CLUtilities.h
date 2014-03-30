@@ -18,7 +18,7 @@
 + (CAShapeLayer *) addDashedBorderToView:(UIView *)view withColor: (CGColorRef) color;
 
 + (UIImage *)screenShotForView:(UIView *)view;
-+ (void)addBackgroundImageToView:(UIView *)view;
++ (void)addBackgroundImageToView:(UIView *)view withImageName:(NSString *)name;
 
 + (UIFont *)textFieldFont;
 + (UIFont *)descriptionTextFont;

@@ -74,7 +74,7 @@
     return newImage;
 }
 
-+ (CAShapeLayer *) addDashedBorderToView:(UIView *)view withColor: (CGColorRef) color {
++ (CAShapeLayer *)addDashedBorderToView:(UIView *)view withColor: (CGColorRef) color {
     CAShapeLayer *shapeLayer = [CAShapeLayer layer];
     
     CGSize frameSize = view.frame.size;
@@ -97,14 +97,14 @@
     return shapeLayer;
 }
 
-+ (void)addBackgroundImageToView:(UIView *)view
++ (void)addBackgroundImageToView:(UIView *)view withImageName:(NSString *)name
 {
     UIImageView *background = [[UIImageView alloc] initWithFrame:view.frame];
-    background.image = [UIImage imageNamed:@"bg_4.jpg"];
+    background.image = [UIImage imageNamed:name];
     [view insertSubview:background atIndex:0];
 }
 
-+ (UIImage *) screenShotForView:(UIView *)view {
++ (UIImage *)screenShotForView:(UIView *)view {
     
     CGSize size = CGSizeMake(view.frame.size.width, view.frame.size.height);
     

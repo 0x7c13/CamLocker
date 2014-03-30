@@ -22,7 +22,7 @@
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"])
     {
         NSDictionary *OpenUDID = [[NSUserDefaults standardUserDefaults] objectForKey:@"OpenUDID"];
-        NSString *mainKey = [[OpenUDID objectForKey:@"OpenUDID" ] stringByAppendingString:[NSString randomAlphanumericStringWithLength:kLengthOfKey]];
+        NSString *mainKey = [[[OpenUDID objectForKey:@"OpenUDID" ] stringByAppendingString:[NSString randomAlphanumericStringWithLength:kLengthOfKey]] hashValue];
         [CLFileManager saveMainKeyStringToDisk:mainKey];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
         [[NSUserDefaults standardUserDefaults] synchronize];

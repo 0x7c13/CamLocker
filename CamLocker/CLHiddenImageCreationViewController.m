@@ -47,7 +47,7 @@
     self.mediaFocusController = [[URBMediaFocusViewController alloc] init];
 	self.mediaFocusController.delegate = self;
     
-    [CLUtilities addBackgroundImageToView:self.masterView];
+    [CLUtilities addBackgroundImageToView:self.masterView withImageName:@"bg_4.jpg"];
     
     isEncrypting = NO;
     
@@ -64,12 +64,13 @@
     [_imageView setFramesCount:5];
     [_imageView setBlurAmount:1];
     
-    
+    self.addImageButton.layer.cornerRadius = 15;
     if (!DEVICE_IS_4INCH_IPHONE) {
         self.addImageButton.frame = CGRectMake(50, 160, 220, 237);
     }
     [self.addImageButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.addImageButton
                                                                     withColor:[UIColor flatWhiteColor].CGColor]];
+
 }
 
 
@@ -132,7 +133,7 @@
                               self.imageView.baseImage = self.imageView.image;
                               [self.imageView generateBlurFramesWithCompletionBlock:^{
                                   
-                                  [self.imageView blurInAnimationWithDuration:0.25f];
+                                  [self.imageView blurInAnimationWithDuration:0.3f];
                                   self.photoStack.userInteractionEnabled = NO;
                                   ETActivityIndicatorView *etActivity = [[ETActivityIndicatorView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2 - 30, self.view.frame.size.height/2 -30, 60, 60)];
                                   etActivity.color = [UIColor flatWhiteColor];
@@ -189,13 +190,13 @@
 {
     
     UIImage *chosenImage = info[UIImagePickerControllerOriginalImage];
-    [self.hiddenImages insertObject:chosenImage atIndex:0];
+    [self.hiddenImages insertObject:chosenImage atIndex:self.pageControl.currentPage];
     
     UIImage *croppedImage = [CLUtilities imageWithImage:chosenImage scaledToWidth:220 + arc4random() % 35];
     if (croppedImage.size.height > self.photoStack.frame.size.height) {
         croppedImage = [CLUtilities imageWithImage:croppedImage scaledToHeight:self.photoStack.frame.size.height - 10];
     }
-    [self.photos insertObject:croppedImage atIndex:0];
+    [self.photos insertObject:croppedImage atIndex:self.pageControl.currentPage];
     [self.photoStack reloadData];
      self.pageControl.numberOfPages = [self.photos count];
     // self.photoStack.alpha = 0.0f;

@@ -26,7 +26,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [CLUtilities addBackgroundImageToView:self.view];
+    [CLUtilities addBackgroundImageToView:self.view withImageName:@"bg_4.jpg"];
     
     //[self.titleLabel.layer addSublayer:[CLUtilities addDashedBorderToView:self.titleLabel
     //                                                            withColor:[UIColor flatWhiteColor].CGColor]];

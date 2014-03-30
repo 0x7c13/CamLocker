@@ -23,7 +23,6 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *editButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *nextStepButton;
 
-
 @end
 
 @implementation CLMarkerCreationViewController
@@ -33,13 +32,15 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [CLUtilities addBackgroundImageToView:self.view];
+    [CLUtilities addBackgroundImageToView:self.view withImageName:@"bg_4.jpg"];
     
     self.imageView.contentMode = UIViewContentModeRedraw;
     self.imageView.displayAsStack = NO;
     self.imageView.hidden = YES;
     
     hasEdited = NO;
+    
+    self.addImageButton.layer.cornerRadius = 15;
 }
 
 - (void)viewDidLayoutSubviews
@@ -153,13 +154,15 @@
 
 - (void)executeAnimation
 {
+    NSLog(@"Start animation");
     CGRect initRect = self.imageView.frame;
     self.imageView.frame = CGRectMake(initRect.origin.x - 25, initRect.origin.y - 25, initRect.size.width + 50, initRect.size.height + 50);
-    [UIView animateWithDuration:1.0f animations:^{
-            self.imageView.alpha = 1.0f;
-            self.imageView.frame = initRect;
-        } completion:^(BOOL finished){
-    }];
+    
+    [UIView animateWithDuration:1.0f delay:.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
+        self.imageView.alpha = 1.0f;
+        self.imageView.frame = initRect;
+    }completion:nil];
+    
 }
 
 -(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
@@ -172,36 +175,36 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
+    NSLog(@"Image picked");
     
     UIImage *chosenImage = info[UIImagePickerControllerOriginalImage];
     self.imageView.image = chosenImage;
     self.imageView.alpha = 0.0f;
     self.imageView.hidden = NO;
     self.addImageButton.hidden = YES;
-    
+
+    [picker dismissViewControllerAnimated:NO completion:nil];
     [self executeAnimation];
-    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    [picker dismissViewControllerAnimated:YES completion:NULL];
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - PECropViewControllerDelegate methods
 
 - (void)cropViewController:(PECropViewController *)controller didFinishCroppingImage:(UIImage *)croppedImage
 {
-    [controller dismissViewControllerAnimated:YES completion:NULL];
+    [controller dismissViewControllerAnimated:NO completion:nil];
     self.imageView.image = croppedImage;
     self.imageView.alpha = 0.0f;
-    
     [self executeAnimation];
 }
 
 - (void)cropViewControllerDidCancel:(PECropViewController *)controller
 {
-    [controller dismissViewControllerAnimated:YES completion:NULL];
+    [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

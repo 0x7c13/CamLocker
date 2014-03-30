@@ -41,7 +41,7 @@
     
     NSLog(@"%@", [CLFileManager imageFilePathWithFileName:nil]);
 
-    [CLUtilities addBackgroundImageToView:self.masterView];
+    [CLUtilities addBackgroundImageToView:self.masterView withImageName:@"bg_4.jpg"];
     
     CGFloat locationY = DEVICE_IS_4INCH_IPHONE ? 320 : 260;
     

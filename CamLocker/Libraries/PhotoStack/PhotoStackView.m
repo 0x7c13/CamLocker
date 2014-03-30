@@ -263,7 +263,8 @@ static CGFloat const PhotoRotationOffsetDefault = 4.0f;
     if ([self.delegate respondsToSelector:@selector(photoStackView:didSelectPhotoAtIndex:)]) {
         // No need to highlight the photo if delegate does not implement a
         // selection handler (ie. nothing happens when they tap it)
-        [self sendActionsForControlEvents:UIControlStateHighlighted];
+        
+        [self sendActionsForControlEvents:(UIControlEvents)UIControlStateHighlighted];
     }
 }
 
