@@ -135,7 +135,7 @@
 
 - (IBAction)addMoreButtonPressed:(id)sender {
     
-    if (isEncrypting) return;
+    if (isEncrypting || self.hiddenImages.count == 0) return;
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
     picker.allowsEditing = NO;
@@ -212,18 +212,19 @@
     [alertView show];
 }
 
-/*
+
 - (void)executeAnimation
 {
-    CGRect initRect = self.imageView.frame;
-    self.imageView.frame = CGRectMake(initRect.origin.x - 25, initRect.origin.y - 25, initRect.size.width + 50, initRect.size.height + 50);
-    [UIView animateWithDuration:1.2f animations:^{
-        self.imageView.alpha = 1.0f;
-        self.imageView.frame = initRect;
+    self.photoStack.userInteractionEnabled = NO;
+    UIView *targetView =  [self.photoStack topPhoto];
+    targetView.alpha = 0.0f;
+    [UIView animateWithDuration:0.7f animations:^{
+        targetView.alpha = 1.0f;
     } completion:^(BOOL finished){
+        self.photoStack.userInteractionEnabled = YES;
     }];
 }
- */
+
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
@@ -252,8 +253,8 @@
     self.addImageButton.hidden = YES;
     self.trashButton.enabled = YES;
     
-    //[self executeAnimation];
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    [self executeAnimation];
+    [picker dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker

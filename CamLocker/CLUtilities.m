@@ -100,7 +100,9 @@
 + (void)addBackgroundImageToView:(UIView *)view withImageName:(NSString *)name
 {
     UIImageView *background = [[UIImageView alloc] initWithFrame:view.frame];
-    background.image = [UIImage imageNamed:name];
+    
+    NSInteger index = 1;
+    background.image = [UIImage imageNamed:[NSString stringWithFormat:@"bg_%d.jpg", (int)index]];
     [view insertSubview:background atIndex:0];
 }
 

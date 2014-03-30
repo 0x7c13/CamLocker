@@ -681,6 +681,9 @@
 			isa = PBXGroup;
 			children = (
 				F77344E218E65E52004FB792 /* bg_4.jpg */,
+				F7A0FE1618DAD33100EDE06A /* bg_3.jpg */,
+				F7A0FE1418DAD28300EDE06A /* bg_2.jpg */,
+				F7A0FE1218DACCCF00EDE06A /* bg_1.jpg */,
 				F7A1C69518DC427A004F724A /* icon_dev.png */,
 				F7A1C69318DC41B6004F724A /* icon.png */,
 				F7A1C68818DC3836004F724A /* settings_new.png */,
@@ -688,9 +691,6 @@
 				F7A1C68A18DC3836004F724A /* locker_new.png */,
 				F7A1C68B18DC3836004F724A /* facebook_new.png */,
 				F7A1C68C18DC3836004F724A /* camera_new.png */,
-				F7A0FE1618DAD33100EDE06A /* bg_3.jpg */,
-				F7A0FE1418DAD28300EDE06A /* bg_2.jpg */,
-				F7A0FE1218DACCCF00EDE06A /* bg_1.jpg */,
 				F7A0FE1018DACAB500EDE06A /* settings.png */,
 				F7A0FE0818DACA1A00EDE06A /* facebook.png */,
 				F7A0FE0918DACA1A00EDE06A /* twitter.png */,
