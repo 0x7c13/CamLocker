@@ -30,5 +30,6 @@
 + (NSString *)documentsPath;
 + (NSString *)documentsPathForFileName:(NSString *)fileName;
 
++ (NSInteger) getFileSize:(NSString*) path;
 
 @end

@@ -613,17 +613,24 @@
                                     <action selector="voiceControlButtonPressed:" destination="fit-e8-exS" eventType="touchUpInside" id="AiQ-bq-YMZ"/>
                                 </connections>
                             </button>
-                            <view alpha="0.80000000000000004" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TqA-Mf-Rog" customClass="THProgressView">
-                                <rect key="frame" x="71" y="401" width="179" height="23"/>
+                            <view alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TqA-Mf-Rog" customClass="THProgressView">
+                                <rect key="frame" x="71" y="410" width="179" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="179" id="FXc-fJ-PwT"/>
+                                    <constraint firstAttribute="height" constant="23" id="uHP-U9-j5P"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="TqA-Mf-Rog" firstAttribute="leading" secondItem="YS7-4t-u9v" secondAttribute="leading" constant="71" id="5D0-D6-zng"/>
                             <constraint firstAttribute="trailing" secondItem="Ylg-oh-cQh" secondAttribute="trailing" constant="35" id="DXa-yn-tzv"/>
                             <constraint firstAttribute="trailing" secondItem="gwu-JI-F0h" secondAttribute="trailing" constant="30" id="PUu-Nb-cNR"/>
                             <constraint firstItem="gwu-JI-F0h" firstAttribute="top" secondItem="NVc-2t-55l" secondAttribute="bottom" constant="11" id="XyX-SZ-TXX"/>
+                            <constraint firstItem="oAZ-86-xte" firstAttribute="top" secondItem="TqA-Mf-Rog" secondAttribute="bottom" constant="91" id="YFk-NA-m0c"/>
+                            <constraint firstAttribute="trailing" secondItem="TqA-Mf-Rog" secondAttribute="trailing" constant="70" id="hZW-fD-t9h"/>
                             <constraint firstItem="Ylg-oh-cQh" firstAttribute="leading" secondItem="YS7-4t-u9v" secondAttribute="leading" constant="35" id="hsm-W1-3vU"/>
                             <constraint firstItem="oAZ-86-xte" firstAttribute="top" secondItem="Ylg-oh-cQh" secondAttribute="bottom" constant="50" id="li3-lz-gf1"/>
                             <constraint firstItem="Ylg-oh-cQh" firstAttribute="top" secondItem="gwu-JI-F0h" secondAttribute="bottom" constant="22" id="opI-q5-OhO"/>

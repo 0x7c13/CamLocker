@@ -10,15 +10,15 @@
 #import "CLFileManager.h"
 #import "CLHiddenVoiceViewController.h"
 #import "UIColor+MLPFlatColors.h"
-#import "EZAudio.h"
 #import "THProgressView.h"
 #import "SIAlertView.h"
 #import "JDStatusBarNotification.h"
+#import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
 
-#define kAudioFileName @"tmp.caf"
+#define kAudioFileName @"tmp.aac"
 
-@interface CLHiddenVoiceViewController () <AVAudioPlayerDelegate, EZMicrophoneDelegate> {
+@interface CLHiddenVoiceViewController () <AVAudioPlayerDelegate, AVAudioRecorderDelegate> {
     BOOL canPlayAudio;
     BOOL isEncrypting;
     BOOL audioCreated;
@@ -28,8 +28,7 @@
 @property (weak, nonatomic) IBOutlet THProgressView *progressView;
 
 @property (nonatomic) BOOL isRecording;
-@property (nonatomic) EZMicrophone *microphone;
-@property (nonatomic) EZRecorder *recorder;
+@property (nonatomic) AVAudioRecorder *voiceRecorder;
 @property (nonatomic) AVAudioPlayer *audioPlayer;
 @property (nonatomic) NSTimer *timer;
 @property (nonatomic) CGFloat progress;
@@ -50,8 +49,6 @@
 
     self.voiceControlButton.layer.cornerRadius = 15;
     
-    self.microphone = [EZMicrophone microphoneWithDelegate:self];
-    
     self.progressView.borderTintColor = [UIColor whiteColor];
     self.progressView.progressTintColor = [UIColor whiteColor];
     
@@ -61,7 +58,24 @@
     self.progress = 0.05f;
     self.isRecording = NO;
     self.progressView.hidden = YES;
+}
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    if (self.isRecording) {
+        [self.voiceRecorder stop];
+        [[NSFileManager defaultManager] removeItemAtPath:[CLFileManager voiceFilePathWithFileName:kAudioFileName] error:nil];
+    }
+    if( self.audioPlayer ){
+        if( self.audioPlayer.playing ) [self.audioPlayer stop];
+        self.audioPlayer = nil;
+    }
+    if ([JDStatusBarNotification isVisible]) {
+        [JDStatusBarNotification dismissAnimated:YES];
+    }
+    [self.timer invalidate];
+    [self stopRecording];
 }
 
 - (void)viewDidLayoutSubviews
@@ -93,13 +107,12 @@
     }completion:^(BOOL finished){
         self.progressView.hidden = YES;
         self.progress = 0.05f;
-        [self.progressView setProgress:self.progress animated:NO];
         self.voiceControlButton.userInteractionEnabled = YES;
     }];
 }
 
 - (IBAction)doneButtonPressed:(id)sender {
-    if (isEncrypting) return;
+    if (isEncrypting || self.isRecording) return;
     if (!audioCreated) {
         SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Oops" andMessage:@"Please add a voice record."];
         [alertView addButtonWithTitle:@"OK"
@@ -115,9 +128,7 @@
         return;
     }
     
-    [self.recorder closeAudioFile];
-    
-    
+    //[self.recorder closeAudioFile];
 }
 
 - (IBAction)voiceControlButtonPressed:(id)sender {
@@ -128,7 +139,7 @@
             self.audioPlayer = nil;
         }
         self.isRecording = NO;
-        [self.microphone stopFetchingAudio];
+        [self stopRecording];
         canPlayAudio = YES;
 
         if ([JDStatusBarNotification isVisible]) {
@@ -154,7 +165,7 @@
     if (canPlayAudio) {
         
         [JDStatusBarNotification showWithStatus:@"Playing" styleName:JDStatusBarStyleSuccess];
-        [self.microphone stopFetchingAudio];
+        [self stopRecording];
         self.isRecording = NO;
         NSError *err;
         self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[CLFileManager voiceFilePathWithFileName:kAudioFileName]]
@@ -163,69 +174,54 @@
         [self.audioPlayer play];
         [self.voiceControlButton setTitle:@"Stop" forState:UIControlStateNormal];
         self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(updatePlayingProgress) userInfo:nil repeats:YES];
+        self.progress = 0.05f;
+        [self.progressView setProgress:self.progress animated:NO];
         [self showProgressView];
         
     } else {
         audioCreated = YES;
         canPlayAudio = YES;
         self.isRecording = YES;
-        [self.microphone startFetchingAudio];
+        [self startRecording];
         self.voiceControlButton.titleLabel.font = [UIFont systemFontOfSize:55];
         [self.voiceControlButton setTitle:@"Stop" forState:UIControlStateNormal];
         
         [JDStatusBarNotification showWithStatus:@"Recording" styleName:JDStatusBarStyleError];
         self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(updateProgress) userInfo:nil repeats:YES];
+        self.progress = 0.05f;
+        [self.progressView setProgress:self.progress animated:NO];
         [self showProgressView];
     }
 }
 
 - (void)updatePlayingProgress
 {
+    if (!self.timer.isValid) return;
+
     self.progress = self.audioPlayer.currentTime / self.audioPlayer.duration + 0.05f;
     if (self.progress < 1.0f) {
         [self.progressView setProgress:self.progress animated:YES];
     } else {
-        [self.progressView setProgress:1.0f animated:YES];
+        self.progress = 1.0f;
+        [self.progressView setProgress:self.progress animated:NO];
     }
 }
 
 
 - (void)updateProgress
 {
+    if (!self.timer.isValid) return;
+    
     self.progress += (CGFloat)1.0/600;
     if (self.progress > 1.0f) {
-        self.progress = 0.05f;
+        self.progress = 1.0f;
+        [self.progressView setProgress:self.progress animated:YES];
         [self voiceControlButtonPressed:nil];
         return;
     }
     [self.progressView setProgress:self.progress animated:YES];
 }
 
-#pragma mark - EZMicrophoneDelegate
-
--(void)microphone:(EZMicrophone *)microphone hasAudioStreamBasicDescription:(AudioStreamBasicDescription)audioStreamBasicDescription {
-    // The AudioStreamBasicDescription of the microphone stream. This is useful when configuring the EZRecorder or telling another component what audio format type to expect.
-    
-    // Here's a print function to allow you to inspect it a little easier
-    [EZAudio printASBD:audioStreamBasicDescription];
-    
-    // We can initialize the recorder with this ASBD
-    self.recorder = [EZRecorder recorderWithDestinationURL:[NSURL fileURLWithPath:[CLFileManager voiceFilePathWithFileName:kAudioFileName]]
-                                           andSourceFormat:audioStreamBasicDescription];
-    
-}
-
--(void)microphone:(EZMicrophone *)microphone
-    hasBufferList:(AudioBufferList *)bufferList
-   withBufferSize:(UInt32)bufferSize
-withNumberOfChannels:(UInt32)numberOfChannels {
-    
-    // Getting audio data as a buffer list that can be directly fed into the EZRecorder. This is happening on the audio thread - any UI updating needs a GCD main queue block. This will keep appending data to the tail of the audio file.
-    if( self.isRecording ){
-        [self.recorder appendDataFromBufferList:bufferList
-                                 withBufferSize:bufferSize];
-    }
-}
 
 #pragma mark - AVAudioPlayerDelegate
 /*
@@ -242,5 +238,74 @@ withNumberOfChannels:(UInt32)numberOfChannels {
     self.audioPlayer = nil;
     [self.voiceControlButton setTitle:@"▶︎" forState:UIControlStateNormal];
 }
+
+//**********
+
+#define DOCUMENTS_FOLDER [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
+
+
+- (void) startRecording{
+    
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    NSError *err = nil;
+    [audioSession setCategory :AVAudioSessionCategoryPlayAndRecord error:&err];
+    if(err){
+        NSLog(@"audioSession: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
+        return;
+    }
+    [audioSession setActive:YES error:&err];
+    err = nil;
+    if(err){
+        NSLog(@"audioSession: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
+        return;
+    }
+
+    /*
+    NSMutableDictionary *recordSetting = [[NSMutableDictionary alloc] init];
+    
+    [recordSetting setValue :[NSNumber numberWithInt:kAudioFormatLinearPCM] forKey:AVFormatIDKey];
+    [recordSetting setValue:[NSNumber numberWithFloat:44100.0] forKey:AVSampleRateKey];
+    [recordSetting setValue:[NSNumber numberWithInt: 2] forKey:AVNumberOfChannelsKey];
+    */
+    NSMutableDictionary *recordSetting = [[NSMutableDictionary alloc] init];
+    [recordSetting setValue :[NSNumber numberWithInt:kAudioFormatMPEG4AAC] forKey:AVFormatIDKey];
+    [recordSetting setValue:[NSNumber numberWithFloat:44100] forKey:AVSampleRateKey];
+    [recordSetting setValue:[NSNumber numberWithInt: 2] forKey:AVNumberOfChannelsKey];
+    
+    [recordSetting setValue :[NSNumber numberWithInt:32] forKey:AVLinearPCMBitDepthKey];
+    [recordSetting setValue :[NSNumber numberWithBool:NO] forKey:AVLinearPCMIsBigEndianKey];
+    [recordSetting setValue :[NSNumber numberWithBool:NO] forKey:AVLinearPCMIsFloatKey];
+    
+    NSURL *url = [NSURL fileURLWithPath:[CLFileManager voiceFilePathWithFileName:kAudioFileName]];
+    err = nil;
+    self.voiceRecorder = [[ AVAudioRecorder alloc] initWithURL:url settings:recordSetting error:&err];
+    if(!self.voiceRecorder){
+        NSLog(@"recorder: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
+        UIAlertView *alert =
+        [[UIAlertView alloc] initWithTitle: @"Warning"
+                                   message: [err localizedDescription]
+                                  delegate: nil
+                         cancelButtonTitle:@"OK"
+                         otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
+    //prepare to record
+    [self.voiceRecorder setDelegate:self];
+    [self.voiceRecorder prepareToRecord];
+    self.voiceRecorder.meteringEnabled = YES;
+    
+    // start recording
+    [self.voiceRecorder record];
+    
+}
+
+- (void)stopRecording{
+    
+    [self.voiceRecorder stop];
+    
+}
+
 
 @end

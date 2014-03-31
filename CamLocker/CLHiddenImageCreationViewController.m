@@ -173,6 +173,9 @@
                              type:SIAlertViewButtonTypeDestructive
                           handler:^(SIAlertView *alertView) {
                               
+                              if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+                                  self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+                              }
                               self.navigationController.navigationBar.userInteractionEnabled = NO;
                               self.trashButton.enabled = NO;
                               isEncrypting = YES;
@@ -195,10 +198,13 @@
                                                                                  self.photoStack.userInteractionEnabled = YES;
                                                                                  [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.0f styleName:JDStatusBarStyleSuccess];
                                                                                  [CLMarkerManager sharedManager].tempMarkerImage = nil;
-                                                                                 [self.navigationController dismissViewControllerAnimated:YES completion:nil];
                                                                                  [etActivity removeFromSuperview];
                                                                                  isEncrypting = NO;
+                                                                                 [self.navigationController dismissViewControllerAnimated:YES completion:nil];
                                                                                  self.navigationController.navigationBar.userInteractionEnabled = YES;
+                                                                                 if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+                                                                                     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+                                                                                 }
                                                                              }];
                               }];
 
