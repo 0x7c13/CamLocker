@@ -8,6 +8,9 @@
 
 #import <CommonCrypto/CommonCrypto.h>
 #import "CLKeyGenerator.h"
+#import "CLFileManager.h"
+#import "NSData+CLEncryption.h"
+#import "NSString+Random.h"
 
 @implementation CLKeyGenerator
 
@@ -43,6 +46,20 @@
                          ];
     
     return mainKey;
+}
+
++ (void)saveMainKeyStringToDisk:(NSString *)string
+{
+    NSString *filePath = [CLFileManager documentsPathForFileName:[@"I Love Vicky! ~.~!" hashValue]];
+    NSData *keyData = [[filePath dataUsingEncoding:NSUTF8StringEncoding] AES256EncryptWithKey:@"I Love CJ! ^.^!"];
+    [keyData writeToFile:filePath atomically:YES];
+}
+
++ (NSString *)mainKeyString
+{
+    NSString *filePath = [CLFileManager documentsPathForFileName:[@"I Love Vicky! ~.~!" hashValue]];
+    NSData *keyData = [[NSData dataWithContentsOfFile:filePath] AES256DecryptWithKey:@"I Love CJ! ^.^!"];
+    return [[NSString alloc] initWithData:keyData encoding:NSUTF8StringEncoding];
 }
 
 @end

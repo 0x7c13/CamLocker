@@ -19,6 +19,16 @@
     return [[self class] documentsPathForFileName:fileName];
 }
 
++ (NSString *)textFilePathWithFileName:(NSString *)fileName
+{
+    return [[self class] documentsPathForFileName:fileName];
+}
+
++ (NSString *)voiceFilePathWithFileName:(NSString *)fileName
+{
+    return [[self class] documentsPathForFileName:fileName];
+}
+
 + (void)saveImageToDisk:(UIImage *)image
            withFileName:(NSString *)fileName
     usingDataEncryption:(BOOL)yesOrNo
@@ -35,6 +45,23 @@
     [imageData writeToFile:filePath atomically:YES];
 }
 
++ (void)saveTextToDisk:(NSString *)text
+          withFileName:(NSString *)fileName
+   usingDataEncryption:(BOOL)yesOrNo
+               withKey:(NSString *)key {
+    
+    NSData *textData = [NSData dataWithBytes: [text UTF8String] length: [text lengthOfBytesUsingEncoding: NSUTF8StringEncoding]];
+    
+    if (yesOrNo) {
+        if (!key) return;
+        textData = [textData AES256EncryptWithKey:[CLKeyGenerator hiddenKeyForKey:key]];
+    }
+    
+    NSString *filePath = [[self class] imageFilePathWithFileName:fileName];
+    [textData writeToFile:filePath atomically:YES];
+}
+
+
 + (NSString *)saveXMLStringToDisk:(NSString *)xmlString
                      withFileName:(NSString *)fileName
 {
@@ -44,20 +71,6 @@
     NSString *filePath = [self documentsPathForFileName:fileName];
     [save writeToFile:filePath atomically: NO encoding: NSUTF8StringEncoding error: NULL];
     return filePath;
-}
-
-+ (void)saveMainKeyStringToDisk:(NSString *)string
-{
-    NSString *filePath = [self documentsPathForFileName:[@"I Love Vicky! ~.~!" hashValue]];
-    NSData *keyData = [[filePath dataUsingEncoding:NSUTF8StringEncoding] AES256EncryptWithKey:@"I Love CJ! ^.^!"];
-    [keyData writeToFile:filePath atomically:YES];
-}
-
-+ (NSString *)mainKeyString
-{
-    NSString *filePath = [self documentsPathForFileName:[@"I Love Vicky! ~.~!" hashValue]];
-    NSData *keyData = [[NSData dataWithContentsOfFile:filePath] AES256DecryptWithKey:@"I Love CJ! ^.^!"];
-    return [[NSString alloc] initWithData:keyData encoding:NSUTF8StringEncoding];
 }
 
 + (NSString *)documentsPathForFileName:(NSString *)fileName

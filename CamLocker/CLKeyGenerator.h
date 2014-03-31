@@ -14,4 +14,8 @@
 
 + (NSString *)hiddenKeyForKey:(NSString *)key;
 
++ (void)saveMainKeyStringToDisk:(NSString *)string;
+
++ (NSString *)mainKeyString;
+
 @end

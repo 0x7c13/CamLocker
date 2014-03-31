@@ -162,7 +162,9 @@
         
         isPopupViewPresented = YES;
         CLTextViewController *textVC = [[CLTextViewController alloc] initWithNibName:@"CLTextViewController" bundle:nil];
-        textVC.hiddenText = [(CLTextMarker *)targetMarker hiddenText];
+        [(CLTextMarker *)targetMarker decryptHiddenTextWithCompletionBlock:^(NSString *hiddenText){
+            textVC.hiddenText = hiddenText;
+        }];
         textVC.delegate = self;
         [self presentPopupViewController:textVC animated:YES completion:nil];
         

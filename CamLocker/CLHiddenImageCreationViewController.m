@@ -88,7 +88,7 @@
         }];
     }
     [[self.photoStack topPhoto] genieInTransitionWithDuration:0.7
-                                              destinationRect:CGRectMake(130, self.view.frame.size.height - 40, 1, 1)
+                                              destinationRect:CGRectMake(135, self.view.frame.size.height - 40, 1, 1)
                                               destinationEdge:BCRectEdgeTop
                                                    completion:^{
                                                       
@@ -99,7 +99,7 @@
                                                        
                                                        if (self.pageControl.currentPage == self.pageControl.numberOfPages - 1) {
                                                            self.pageControl.numberOfPages--;
-                                                           self.pageControl.currentPage = self.pageControl.numberOfPages - 1;
+                                                           self.pageControl.currentPage = 0;
                                                        } else {
                                                            self.pageControl.numberOfPages--;
                                                        }
@@ -113,7 +113,7 @@
                                                            self.addImageButton.hidden = NO;
                                                            
                                                            [UIView animateWithDuration:1.0f animations:^{
-                                                               self.addImageButton.alpha = 0.3f;
+                                                               self.addImageButton.alpha = 0.5f;
                                                            } completion:nil];
                                                        }
                                                        self.photoStack.userInteractionEnabled = YES;
@@ -174,9 +174,10 @@
                           handler:^(SIAlertView *alertView) {
                               
                               self.navigationController.navigationBar.userInteractionEnabled = NO;
+                              self.trashButton.enabled = NO;
                               isEncrypting = YES;
                               self.imageView.hidden = NO;
-                              self.imageView.image = [CLUtilities screenShotForView:self.masterView];
+                              self.imageView.image = [CLUtilities snapshotViewForView:self.masterView];
                               self.imageView.baseImage = self.imageView.image;
                               [self.imageView generateBlurFramesWithCompletionBlock:^{
                                   

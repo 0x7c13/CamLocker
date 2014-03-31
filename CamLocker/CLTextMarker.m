@@ -6,11 +6,16 @@
 //  Copyright (c) 2014 OSU. All rights reserved.
 //
 
+#import "NSString+Random.h"
+#import "CLFileManager.h"
 #import "CLTextMarker.h"
+#import "CLKeyGenerator.h"
+#import "NSData+CLEncryption.h"
 
 @interface CLTextMarker ()
 
-@property (nonatomic, copy) NSString *hiddenText;
+@property (nonatomic, copy) NSString *hiddenTextPath;
+@property (nonatomic, copy) NSString *keyOfHiddenText;
 
 @end
 
@@ -22,21 +27,47 @@
     if (!(markerImage && hiddenText)) return nil;
     
     if ((self = [super initWithMarkerImage:markerImage])) {
-        _hiddenText = hiddenText;
+        
+        _keyOfHiddenText = [NSString randomAlphanumericStringWithLength:kLengthOfKey];
+
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyyMMddHHmmss"];
+        [formatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+        NSString *stringFromDate = [formatter stringFromDate:[NSDate date]];
+        
+        NSString *fileName = [[[hiddenText hashValue] stringByAppendingString:stringFromDate] stringByAppendingString:@".txt"];
+        
+        self.hiddenTextPath = [CLFileManager textFilePathWithFileName:fileName];
+        
+        [CLFileManager saveTextToDisk:hiddenText
+                          withFileName:[fileName stringByAppendingString:@".camLocker"]
+                   usingDataEncryption:YES
+                               withKey:self.keyOfHiddenText];
+        
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     [super encodeWithCoder:encoder];
-    [encoder encodeObject:_hiddenText forKey:@"hiddenText"];
+    [encoder encodeObject:_hiddenTextPath forKey:@"hiddenTextPath"];
+    [encoder encodeObject:_keyOfHiddenText forKey:@"keyOfHiddenText"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)decoder {
     if (self = [super initWithCoder:decoder]) {
-        _hiddenText = [decoder decodeObjectForKey:@"hiddenText"];
+        _hiddenTextPath = [decoder decodeObjectForKey:@"hiddenTextPath"];
+        _keyOfHiddenText = [decoder decodeObjectForKey:@"keyOfHiddenText"];
     }
     return self;
+}
+
+- (void)decryptHiddenTextWithCompletionBlock:(void (^)(NSString *hiddenText))completion
+{
+    NSData *hiddenTextData = [NSData dataWithContentsOfFile:[self.hiddenTextPath stringByAppendingString:@".camLocker"]];
+    hiddenTextData = [hiddenTextData AES256DecryptWithKey:[CLKeyGenerator hiddenKeyForKey:self.keyOfHiddenText]];
+    NSString *hiddenText = [[NSString alloc] initWithData:hiddenTextData encoding:NSUTF8StringEncoding];
+    completion(hiddenText);
 }
 
 - (void)deleteContent

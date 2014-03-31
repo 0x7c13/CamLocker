@@ -130,7 +130,7 @@
         } completion:^(BOOL finished){
             
             if (!self.imageView.image) {
-                self.imageView.image = [CLUtilities screenShotForView:self.masterView];
+                self.imageView.image = [CLUtilities snapshotViewForView:self.masterView];
                 self.imageView.baseImage = self.imageView.image;
                 [self.imageView generateBlurFramesWithCompletion:^{}];
             }

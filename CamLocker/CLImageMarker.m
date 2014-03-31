@@ -65,7 +65,7 @@
     return self;
 }
 
-- (void)decryptHiddenImagesWithCompletionBlock:(void (^)(NSArray *images))block
+- (void)decryptHiddenImagesWithCompletionBlock:(void (^)(NSArray *images))completion
 {
     NSMutableArray *hiddenImages = [[NSMutableArray alloc] initWithCapacity:self.hiddenImagePaths.count];
     
@@ -78,7 +78,7 @@
             [hiddenImages addObject:[UIImage imageWithData:hiddenImageData]];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
-            block(hiddenImages);
+            completion(hiddenImages);
         });
     });
 }

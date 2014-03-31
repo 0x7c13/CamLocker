@@ -106,7 +106,7 @@
     [view insertSubview:background atIndex:0];
 }
 
-+ (UIImage *)screenShotForView:(UIView *)view {
++ (UIImage *)snapshotViewForView:(UIView *)view {
     
     CGSize size = CGSizeMake(view.frame.size.width, view.frame.size.height);
     

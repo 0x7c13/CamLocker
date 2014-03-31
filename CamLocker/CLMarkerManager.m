@@ -29,7 +29,7 @@
     if (self = [super init]) {
         
         NSData *markerData = [[NSUserDefaults standardUserDefaults] objectForKey:kMarkers];
-        markerData = [markerData AES256DecryptWithKey:[CLKeyGenerator mainKeyForKey:[CLFileManager mainKeyString]]];
+        markerData = [markerData AES256DecryptWithKey:[CLKeyGenerator mainKeyForKey:[CLKeyGenerator mainKeyString]]];
         if (!(_markers = [NSKeyedUnarchiver unarchiveObjectWithData:markerData])) {
             _markers = [[NSMutableArray alloc] init];
         }
@@ -65,7 +65,7 @@
     
     [self.markers addObject:[[CLTextMarker alloc]initWithMarkerImage:image hiddenText:hiddenText]];
     NSData *markerData = [NSKeyedArchiver archivedDataWithRootObject:self.markers];
-    markerData = [markerData AES256EncryptWithKey:[CLKeyGenerator mainKeyForKey:[CLFileManager mainKeyString]]];
+    markerData = [markerData AES256EncryptWithKey:[CLKeyGenerator mainKeyForKey:[CLKeyGenerator mainKeyString]]];
     [[NSUserDefaults standardUserDefaults] setObject:markerData forKey:kMarkers];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -79,7 +79,7 @@
         [self.markers addObject:[[CLImageMarker alloc]initWithMarkerImage:image hiddenImages:hiddenImages]];
         
         NSData *markerData = [NSKeyedArchiver archivedDataWithRootObject:self.markers];
-        markerData = [markerData AES256EncryptWithKey:[CLKeyGenerator mainKeyForKey:[CLFileManager mainKeyString]]];
+        markerData = [markerData AES256EncryptWithKey:[CLKeyGenerator mainKeyForKey:[CLKeyGenerator mainKeyString]]];
         [[NSUserDefaults standardUserDefaults] setObject:markerData forKey:kMarkers];
         [[NSUserDefaults standardUserDefaults] synchronize];
         

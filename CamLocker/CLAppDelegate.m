@@ -11,7 +11,9 @@
 #import "CLAppDelegate.h"
 #import "CLMarkerManager.h"
 #import "CLFileManager.h"
+#import "CLKeyGenerator.h"
 #import "NSString+Random.h"
+#import <AVFoundation/AVFoundation.h>
 
 @implementation CLAppDelegate
 
@@ -23,7 +25,7 @@
     {
         NSDictionary *OpenUDID = [[NSUserDefaults standardUserDefaults] objectForKey:@"OpenUDID"];
         NSString *mainKey = [[[OpenUDID objectForKey:@"OpenUDID" ] stringByAppendingString:[NSString randomAlphanumericStringWithLength:kLengthOfKey]] hashValue];
-        [CLFileManager saveMainKeyStringToDisk:mainKey];
+        [CLKeyGenerator saveMainKeyStringToDisk:mainKey];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
@@ -33,6 +35,18 @@
     [[UIToolbar appearance] setBarStyle:UIBarStyleBlackTranslucent];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
+    // Remember to configure your audio session
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    NSError *err = NULL;
+    [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:&err];
+    if( err ){
+        NSLog(@"There was an error creating the audio session");
+    }
+    [audioSession overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:NULL];
+    if( err ){
+        NSLog(@"There was an error sending the audio to the speakers");
+    }
     
     return YES;
 }

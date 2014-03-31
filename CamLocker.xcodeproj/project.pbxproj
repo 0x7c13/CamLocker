@@ -123,6 +123,8 @@
 		F7CC306A18D9843200189A03 /* JDStatusBarNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = F7CC306518D9843200189A03 /* JDStatusBarNotification.m */; };
 		F7CC306B18D9843200189A03 /* JDStatusBarStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F7CC306718D9843200189A03 /* JDStatusBarStyle.m */; };
 		F7CC306C18D9843200189A03 /* JDStatusBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = F7CC306918D9843200189A03 /* JDStatusBarView.m */; };
+		F7CC329518E8F30500538C18 /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = F7CC329418E8F30500538C18 /* pause.png */; };
+		F7CC329918E8FE9C00538C18 /* THProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F7CC329818E8FE9C00538C18 /* THProgressView.m */; };
 		F7D2765C18E5E4EA007A593C /* PhotoBorder.png in Resources */ = {isa = PBXBuildFile; fileRef = F7D2765818E5E4EA007A593C /* PhotoBorder.png */; };
 		F7D2765D18E5E4EA007A593C /* PhotoBorder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F7D2765918E5E4EA007A593C /* PhotoBorder@2x.png */; };
 		F7D2765E18E5E4EA007A593C /* PhotoStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D2765B18E5E4EA007A593C /* PhotoStackView.m */; };
@@ -329,6 +331,9 @@
 		F7CC306718D9843200189A03 /* JDStatusBarStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDStatusBarStyle.m; sourceTree = "<group>"; };
 		F7CC306818D9843200189A03 /* JDStatusBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDStatusBarView.h; sourceTree = "<group>"; };
 		F7CC306918D9843200189A03 /* JDStatusBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDStatusBarView.m; sourceTree = "<group>"; };
+		F7CC329418E8F30500538C18 /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pause.png; sourceTree = "<group>"; };
+		F7CC329718E8FE9C00538C18 /* THProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THProgressView.h; sourceTree = "<group>"; };
+		F7CC329818E8FE9C00538C18 /* THProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THProgressView.m; sourceTree = "<group>"; };
 		F7D2765818E5E4EA007A593C /* PhotoBorder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PhotoBorder.png; sourceTree = "<group>"; };
 		F7D2765918E5E4EA007A593C /* PhotoBorder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PhotoBorder@2x.png"; sourceTree = "<group>"; };
 		F7D2765A18E5E4EA007A593C /* PhotoStackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoStackView.h; sourceTree = "<group>"; };
@@ -680,6 +685,7 @@
 		F7A0FE0118DAC77500EDE06A /* UIRes */ = {
 			isa = PBXGroup;
 			children = (
+				F7CC329418E8F30500538C18 /* pause.png */,
 				F77344E218E65E52004FB792 /* bg_4.jpg */,
 				F7A0FE1618DAD33100EDE06A /* bg_3.jpg */,
 				F7A0FE1418DAD28300EDE06A /* bg_2.jpg */,
@@ -793,6 +799,15 @@
 			path = JDStatusBarNotification;
 			sourceTree = "<group>";
 		};
+		F7CC329618E8FE9C00538C18 /* THProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				F7CC329718E8FE9C00538C18 /* THProgressView.h */,
+				F7CC329818E8FE9C00538C18 /* THProgressView.m */,
+			);
+			path = THProgressView;
+			sourceTree = "<group>";
+		};
 		F7D2765718E5E4EA007A593C /* PhotoStack */ = {
 			isa = PBXGroup;
 			children = (
@@ -896,6 +911,7 @@
 		F7E004E218C6E66000FA63DC /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F7CC329618E8FE9C00538C18 /* THProgressView */,
 				F7A37A2318E803160022A626 /* UIView+Genie */,
 				F77344E518E675EA004FB792 /* URBMediaFocusViewController */,
 				F77344DB18E659DD004FB792 /* ANBlurredImageView */,
@@ -1057,6 +1073,7 @@
 				F7A0FDF318DAC40000EDE06A /* custom_2.png in Resources */,
 				F7A0FDCF18DABD4A00EDE06A /* Merriweather-Bold.ttf in Resources */,
 				F7A0FE0F18DACA1A00EDE06A /* camera.png in Resources */,
+				F7CC329518E8F30500538C18 /* pause.png in Resources */,
 				F7A0FDF518DAC40000EDE06A /* custom_4.png in Resources */,
 				F7A0FDD218DABD4A00EDE06A /* OpenSans-Italic.ttf in Resources */,
 				F7A1C69018DC3836004F724A /* facebook_new.png in Resources */,
@@ -1133,6 +1150,7 @@
 				F73BF7C218C6DDFF006FB928 /* MetaioSDKViewController.mm in Sources */,
 				F7D2767B18E60C8E007A593C /* AEFloatConverter.m in Sources */,
 				F7B47DDA18D8D75200C8CBCE /* CLMarkerCreationViewController.m in Sources */,
+				F7CC329918E8FE9C00538C18 /* THProgressView.m in Sources */,
 				F7C9344618D8035C004B154F /* CLMarker.m in Sources */,
 				F7A0FDEF18DAC40000EDE06A /* DCCenterButton.m in Sources */,
 				F73BF77718C6DB39006FB928 /* CLAppDelegate.m in Sources */,
