@@ -26,13 +26,17 @@
 
 - (void)addImageMarkerWithMarkerImage:(UIImage *)image
                          hiddenImages:(NSArray *)hiddenImages
-                  withCompletionBlock:(void (^)())block;
+                  withCompletionBlock:(void (^)())completion;
+
+-(void)addAudioMarkerWithMarkerImage:(UIImage *)image
+                     hiddenAudioData:(NSData *)hiddenAudioData
+                 withCompletionBlock:(void (^)())completion;
 
 - (void)deleteMarkerByCosName:(NSString *)cosName;
 
 - (void)deleteAllMarkers;
 
-- (void)activateMarkersWithCompletionBlock:(void (^)())block;
+- (void)activateMarkersWithCompletionBlock:(void (^)())completion;
 - (void)deactivateMarkers;
 
 - (NSString *)trackingFilePath;

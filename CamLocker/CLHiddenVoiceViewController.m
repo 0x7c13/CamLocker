@@ -8,11 +8,14 @@
 
 #import "CLUtilities.h"
 #import "CLFileManager.h"
+#import "CLMarkerManager.h"
 #import "CLHiddenVoiceViewController.h"
 #import "UIColor+MLPFlatColors.h"
 #import "THProgressView.h"
 #import "SIAlertView.h"
 #import "JDStatusBarNotification.h"
+#import "ETActivityIndicatorView.h"
+#import "ANBlurredImageView.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
 
@@ -26,6 +29,8 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *voiceControlButton;
 @property (weak, nonatomic) IBOutlet THProgressView *progressView;
+@property (weak, nonatomic) IBOutlet ANBlurredImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIView *masterView;
 
 @property (nonatomic) BOOL isRecording;
 @property (nonatomic) AVAudioRecorder *voiceRecorder;
@@ -45,7 +50,7 @@
     
     [[NSFileManager defaultManager] removeItemAtPath:[CLFileManager voiceFilePathWithFileName:kAudioFileName] error:nil];
     
-    [CLUtilities addBackgroundImageToView:self.view withImageName:@"bg_4.jpg"];
+    [CLUtilities addBackgroundImageToView:self.masterView withImageName:@"bg_4.jpg"];
 
     self.voiceControlButton.layer.cornerRadius = 15;
     
@@ -58,31 +63,38 @@
     self.progress = 0.05f;
     self.isRecording = NO;
     self.progressView.hidden = YES;
+    
+    self.voiceControlButton.layer.cornerRadius = 15;
+    if (!DEVICE_IS_4INCH_IPHONE) {
+        self.voiceControlButton.frame = CGRectMake(50, 160, 220, 237);
+    }
+    [self.voiceControlButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.voiceControlButton
+                                                                    withColor:[UIColor flatWhiteColor].CGColor]];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleDidEnterBackground)
+                                                 name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    if (self.isRecording) {
-        [self.voiceRecorder stop];
-        [[NSFileManager defaultManager] removeItemAtPath:[CLFileManager voiceFilePathWithFileName:kAudioFileName] error:nil];
+    if ([JDStatusBarNotification isVisible] && !isEncrypting) {
+        [self.timer invalidate];
+        [self voiceControlButtonPressed:nil];
     }
-    if( self.audioPlayer ){
-        if( self.audioPlayer.playing ) [self.audioPlayer stop];
-        self.audioPlayer = nil;
-    }
-    if ([JDStatusBarNotification isVisible]) {
-        [JDStatusBarNotification dismissAnimated:YES];
-    }
-    [self.timer invalidate];
-    [self stopRecording];
 }
 
-- (void)viewDidLayoutSubviews
+- (void)viewDidDisappear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super viewDidDisappear:animated];
+}
+
+- (void)handleDidEnterBackground
 {
-    if (self.voiceControlButton.layer.sublayers.count != 2) {
-        [self.voiceControlButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.voiceControlButton
-                                                                    withColor:[UIColor flatWhiteColor].CGColor]];
+    if ([JDStatusBarNotification isVisible]) {
+        [self.timer invalidate];
+        [self voiceControlButtonPressed:nil];
     }
 }
 
@@ -112,7 +124,20 @@
 }
 
 - (IBAction)doneButtonPressed:(id)sender {
+    
     if (isEncrypting || self.isRecording) return;
+    
+    if( self.audioPlayer ){
+        if( self.audioPlayer.playing ) [self.audioPlayer stop];
+        self.audioPlayer = nil;
+    }
+    if ([JDStatusBarNotification isVisible]) {
+        [JDStatusBarNotification dismissAnimated:NO];
+    }
+    if (!self.progressView.hidden) {
+        self.progressView.hidden = YES;
+    }
+    
     if (!audioCreated) {
         SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Oops" andMessage:@"Please add a voice record."];
         [alertView addButtonWithTitle:@"OK"
@@ -128,7 +153,66 @@
         return;
     }
     
-    //[self.recorder closeAudioFile];
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Almost there" andMessage:@"Are you ready to create this marker?"];
+    [alertView addButtonWithTitle:@"No"
+                             type:SIAlertViewButtonTypeCancel
+                          handler:^(SIAlertView *alertView) {
+                          }];
+    [alertView addButtonWithTitle:@"Yes"
+                             type:SIAlertViewButtonTypeDestructive
+                          handler:^(SIAlertView *alertView) {
+                              
+                              if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+                                  self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+                              }
+                              self.navigationController.navigationBar.userInteractionEnabled = NO;
+                              //self.trashButton.enabled = NO;
+                              isEncrypting = YES;
+                              
+                              [JDStatusBarNotification showWithStatus:@"Encrypting Data..." styleName:JDStatusBarStyleError];
+                              
+                              self.imageView.hidden = NO;
+                              self.imageView.image = [CLUtilities snapshotViewForView:self.masterView];
+                              self.imageView.baseImage = self.imageView.image;
+                              [self.imageView generateBlurFramesWithCompletionBlock:^{
+                               
+                                  [self.imageView blurInAnimationWithDuration:0.3f];
+                                  self.voiceControlButton.userInteractionEnabled = NO;
+                                  ETActivityIndicatorView *etActivity = [[ETActivityIndicatorView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2 - 30, self.view.frame.size.height/2 -30, 60, 60)];
+                                  etActivity.color = [UIColor flatWhiteColor];
+                                  [etActivity startAnimating];
+                                  [self.view addSubview:etActivity];
+                              
+                                  NSData *audioData = [NSData dataWithContentsOfFile:[CLFileManager voiceFilePathWithFileName:kAudioFileName]];
+                              
+                                  [[CLMarkerManager sharedManager] addAudioMarkerWithMarkerImage:[CLMarkerManager sharedManager].tempMarkerImage
+                                                                                 hiddenAudioData:audioData
+                                                                             withCompletionBlock:^{
+                                                                                 
+                                                                                 [[NSFileManager defaultManager] removeItemAtPath:[CLFileManager voiceFilePathWithFileName:kAudioFileName] error:nil];
+                                                                                 
+                                                                                 [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
+                                                                                 [CLMarkerManager sharedManager].tempMarkerImage = nil;
+                                                                                 [etActivity removeFromSuperview];
+                                                                                 [self.navigationController dismissViewControllerAnimated:YES completion:^{isEncrypting = NO;}];
+                                                                                 self.navigationController.navigationBar.userInteractionEnabled = YES;
+                                                                                 if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+                                                                                     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+                                                                                 }
+                                                                                 
+                                                                             }];
+                              
+                              }];
+                              
+                              
+                          }];
+    alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
+    alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
+    alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
+    alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
+    alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
+    
+    [alertView show];
 }
 
 - (IBAction)voiceControlButtonPressed:(id)sender {

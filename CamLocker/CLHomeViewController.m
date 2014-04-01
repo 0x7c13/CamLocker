@@ -81,6 +81,11 @@
                                                  name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super viewDidDisappear:animated];
+}
+
 - (void)animationSetup
 {
     CGFloat locationY = DEVICE_IS_4INCH_IPHONE ? 210 : 170;

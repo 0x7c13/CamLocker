@@ -73,7 +73,7 @@
                               
                               [[CLMarkerManager sharedManager] addTextMarkerWithMarkerImage:[CLMarkerManager sharedManager].tempMarkerImage hiddenText:self.textView.text];
                               
-                              [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.0f styleName:JDStatusBarStyleSuccess];
+                              [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
                               [CLMarkerManager sharedManager].tempMarkerImage = nil;
                               [self.navigationController dismissViewControllerAnimated:YES completion:nil];
                           }];

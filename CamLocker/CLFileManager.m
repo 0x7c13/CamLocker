@@ -61,6 +61,19 @@
     [textData writeToFile:filePath atomically:YES];
 }
 
++ (void)saveAudioToDisk:(NSData *)audioData
+           withFileName:(NSString *)fileName
+    usingDataEncryption:(BOOL)yesOrNo
+                withKey:(NSString *)key {
+    
+    if (yesOrNo) {
+        if (!key) return;
+        audioData = [audioData AES256EncryptWithKey:[CLKeyGenerator hiddenKeyForKey:key]];
+    }
+    
+    NSString *filePath = [[self class] imageFilePathWithFileName:fileName];
+    [audioData writeToFile:filePath atomically:YES];
+}
 
 + (NSString *)saveXMLStringToDisk:(NSString *)xmlString
                      withFileName:(NSString *)fileName

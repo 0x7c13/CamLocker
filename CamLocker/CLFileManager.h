@@ -24,6 +24,11 @@
    usingDataEncryption:(BOOL)yesOrNo
                withKey:(NSString *)key;
 
++ (void)saveAudioToDisk:(NSData *)audioData
+           withFileName:(NSString *)fileName
+    usingDataEncryption:(BOOL)yesOrNo
+                withKey:(NSString *)key;
+
 + (NSString *)saveXMLStringToDisk: (NSString *)xmlString
                      withFileName: (NSString *)fileName;
 

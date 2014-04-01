@@ -72,6 +72,7 @@
 
 - (void)deleteContent
 {
+    [[NSFileManager defaultManager] removeItemAtPath:[self.hiddenTextPath stringByAppendingString:@".camLocker"] error:nil];
     [super deleteContent];
 }
 

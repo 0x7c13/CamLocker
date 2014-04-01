@@ -196,11 +196,10 @@
                                                                                     hiddenImages:self.hiddenImages
                                                                              withCompletionBlock:^{
                                                                                  self.photoStack.userInteractionEnabled = YES;
-                                                                                 [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.0f styleName:JDStatusBarStyleSuccess];
+                                                                                 [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
                                                                                  [CLMarkerManager sharedManager].tempMarkerImage = nil;
                                                                                  [etActivity removeFromSuperview];
-                                                                                 isEncrypting = NO;
-                                                                                 [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                                                                                 [self.navigationController dismissViewControllerAnimated:YES completion:^{isEncrypting = NO;}];
                                                                                  self.navigationController.navigationBar.userInteractionEnabled = YES;
                                                                                  if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
                                                                                      self.navigationController.interactivePopGestureRecognizer.enabled = NO;

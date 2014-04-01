@@ -9,6 +9,7 @@
 #import "CLMarker.h"
 #import "CLTextMarker.h"
 #import "CLImageMarker.h"
+#import "CLAudioMarker.h"
 #import "CLMarkerManager.h"
 #import "CLFileManager.h"
 #import "CLKeyGenerator.h"
@@ -89,6 +90,25 @@
     });
 }
 
+-(void)addAudioMarkerWithMarkerImage:(UIImage *)image
+                     hiddenAudioData:(NSData *)hiddenAudioData
+                 withCompletionBlock:(void (^)())completion
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        [self.markers addObject:[[CLAudioMarker alloc]initWithMarkerImage:image hiddenAudio:hiddenAudioData]];
+        
+        NSData *markerData = [NSKeyedArchiver archivedDataWithRootObject:self.markers];
+        markerData = [markerData AES256EncryptWithKey:[CLKeyGenerator mainKeyForKey:[CLKeyGenerator mainKeyString]]];
+        [[NSUserDefaults standardUserDefaults] setObject:markerData forKey:kMarkers];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completion();
+        });
+    });
+}
+
 -(void)deleteMarkerByCosName:(NSString *)cosName
 {
     CLMarker *markerToBeDeleted;
@@ -103,6 +123,8 @@
             [(CLImageMarker *)markerToBeDeleted deleteContent];
         } else if ([markerToBeDeleted isKindOfClass:[CLTextMarker class]]) {
             [(CLTextMarker *)markerToBeDeleted deleteContent];
+        } else if ([markerToBeDeleted isKindOfClass:[CLAudioMarker class]]) {
+            [(CLAudioMarker *)markerToBeDeleted deleteContent];
         }
     }
 }
@@ -114,6 +136,8 @@
             [(CLImageMarker *)marker deleteContent];
         } else if ([marker isKindOfClass:[CLTextMarker class]]) {
             [(CLTextMarker *)marker deleteContent];
+        } else if ([marker isKindOfClass:[CLAudioMarker class]]) {
+            [(CLAudioMarker *)marker deleteContent];
         }
     }
     [self.markers removeAllObjects];
@@ -138,7 +162,7 @@
     return [CLTrackingXMLGenerator generateTrackingXMLStringUsingMarkerImageFileNames:imageMarkerNames cosNames:cosNames];
 }
 
-- (void)activateMarkersWithCompletionBlock:(void (^)())block
+- (void)activateMarkersWithCompletionBlock:(void (^)())completion
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
@@ -146,7 +170,7 @@
             [marker activate];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
-            block();
+            completion();
         });
     });
 }
