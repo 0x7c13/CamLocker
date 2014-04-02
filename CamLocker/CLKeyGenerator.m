@@ -10,7 +10,7 @@
 #import "CLKeyGenerator.h"
 #import "CLFileManager.h"
 #import "NSData+CLEncryption.h"
-#import "NSString+Random.h"
+#import "NSString+CLEncryption.h"
 
 @implementation CLKeyGenerator
 

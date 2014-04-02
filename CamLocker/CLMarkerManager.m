@@ -156,7 +156,7 @@
     NSMutableArray *cosNames = [[NSMutableArray alloc] initWithCapacity:self.markers.count];
     
     for (CLMarker *marker in self.markers) {
-        [imageMarkerNames addObject:marker.markerImageFileName];
+        [imageMarkerNames addObject:marker.imageFileName];
         [cosNames addObject:marker.cosName];
     }
     return [CLTrackingXMLGenerator generateTrackingXMLStringUsingMarkerImageFileNames:imageMarkerNames cosNames:cosNames];

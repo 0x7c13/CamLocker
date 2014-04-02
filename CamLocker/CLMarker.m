@@ -9,7 +9,7 @@
 
 #import "UIImage+CLEncryption.h"
 #import "NSData+CLEncryption.h"
-#import "NSString+Random.h"
+#import "NSString+CLEncryption.h"
 #import "CLKeyGenerator.h"
 #import "CLFileManager.h"
 #import "CLUtilities.h"
@@ -31,13 +31,13 @@
         
         _key = [NSString randomAlphanumericStringWithLength:kLengthOfKey];
         _cosName = [markerImage hashValue];
-        _markerImageFileName = [self.cosName stringByAppendingString:@".jpg"];
-        _markerImagePath = [CLFileManager imageFilePathWithFileName:self.markerImageFileName];
+        _imageFileName = [self.cosName stringByAppendingString:@".jpg"];
+        _imagePath = [CLFileManager imageFilePathWithFileName:self.imageFileName];
         
         // scale down the image for better performance
         markerImage = [CLUtilities imageWithImage:markerImage scaledToWidth:kMarkerDefaultWidth];
         [CLFileManager saveImageToDisk:markerImage
-                          withFileName:[self.markerImageFileName stringByAppendingString:@".camLocker"]
+                          withFileName:[self.imageFileName stringByAppendingString:@".camLocker"]
                    usingDataEncryption:YES
                                withKey:self.key];
     }
@@ -45,42 +45,42 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    [encoder encodeObject:_markerImageFileName forKey:@"markerImageFileName"];
-    [encoder encodeObject:_markerImagePath forKey:@"markerImagePath"];
-    [encoder encodeObject:_cosName forKey:@"cosName"];
-    [encoder encodeObject:_key forKey:@"key"];
+    [encoder encodeObject:_imageFileName forKey:@"markerImageFileName"];
+    [encoder encodeObject:_imagePath forKey:@"markerImagePath"];
+    [encoder encodeObject:_cosName forKey:@"markerCosName"];
+    [encoder encodeObject:_key forKey:@"markerkey"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)decoder {
     if (self = [super init]) {
-        _markerImageFileName = [decoder decodeObjectForKey:@"markerImageFileName"];
-        _markerImagePath = [decoder decodeObjectForKey:@"markerImagePath"];
-        _cosName = [decoder decodeObjectForKey:@"cosName"];
-        _key = [decoder decodeObjectForKey:@"key"];
+        _imageFileName = [decoder decodeObjectForKey:@"markerImageFileName"];
+        _imagePath = [decoder decodeObjectForKey:@"markerImagePath"];
+        _cosName = [decoder decodeObjectForKey:@"markerCosName"];
+        _key = [decoder decodeObjectForKey:@"markerkey"];
     }
     return self;
 }
 
 - (void)activate
 {
-    NSData *markerImageData = [NSData dataWithContentsOfFile:[self.markerImagePath stringByAppendingString:@".camLocker"]];
+    NSData *markerImageData = [NSData dataWithContentsOfFile:[self.imagePath stringByAppendingString:@".camLocker"]];
     markerImageData = [markerImageData AES256DecryptWithKey:[CLKeyGenerator hiddenKeyForKey:self.key]];
     UIImage *markerImage = [UIImage imageWithData:markerImageData];
     [CLFileManager saveImageToDisk:markerImage
-                      withFileName:self.markerImageFileName
+                      withFileName:self.imageFileName
                usingDataEncryption:NO
                            withKey:nil];
 }
 
 - (void)deactivate
 {
-    [[NSFileManager defaultManager] removeItemAtPath:self.markerImagePath error:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:self.imagePath error:nil];
 }
 
 -(void)deleteContent
 {
     // delete encrypted marker image
-    [[NSFileManager defaultManager] removeItemAtPath:[self.markerImagePath stringByAppendingString:@".camLocker"] error:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:[self.imagePath stringByAppendingString:@".camLocker"] error:nil];
 }
 
 @end

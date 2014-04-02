@@ -1,5 +1,5 @@
 //
-//  NSString+Random.h
+//  NSString+CLEncryption.h
 //  CamLocker
 //
 //  Created by FlyinGeek on 3/18/14.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSString (Random)
+@interface NSString (CLEncryption)
 
 - (NSString *)hashValue;
 + (NSString *)randomAlphanumericStringWithLength:(NSInteger)length;

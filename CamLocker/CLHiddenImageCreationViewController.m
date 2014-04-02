@@ -18,6 +18,7 @@
 #import "TSMessage.h"
 #import "ANBlurredImageView.h"
 #import "URBMediaFocusViewController.h"
+#import "MHNatGeoViewControllerTransition.h"
 #import "UIView+Genie.h"
 
 @interface CLHiddenImageCreationViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, PhotoStackViewDataSource, PhotoStackViewDelegate, URBMediaFocusViewControllerDelegate> {
@@ -57,7 +58,7 @@
     _hiddenImages = [[NSMutableArray alloc]init];
     _photos = [[NSMutableArray alloc]init];
     
-    _photoStack.center = CGPointMake(self.view.center.x, 170);
+    //_photoStack.center = CGPointMake(self.view.center.x, 170);
     _photoStack.dataSource = self;
     _photoStack.delegate = self;
     self.photoStack.hidden = YES;
@@ -202,11 +203,8 @@
                                                                                  [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
                                                                                  [CLMarkerManager sharedManager].tempMarkerImage = nil;
                                                                                  [etActivity removeFromSuperview];
-                                                                                 [self.navigationController dismissViewControllerAnimated:YES completion:^{isEncrypting = NO;}];
+                                                                                 [self.navigationController dismissNatGeoViewController];
                                                                                  self.navigationController.navigationBar.userInteractionEnabled = YES;
-                                                                                 if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-                                                                                     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
-                                                                                 }
                                                                              }];
                               }];
 

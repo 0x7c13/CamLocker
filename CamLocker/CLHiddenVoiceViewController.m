@@ -16,6 +16,7 @@
 #import "JDStatusBarNotification.h"
 #import "ETActivityIndicatorView.h"
 #import "ANBlurredImageView.h"
+#import "MHNatGeoViewControllerTransition.h"
 #import "TSMessage.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
@@ -189,11 +190,7 @@
                                                                                  [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
                                                                                  [CLMarkerManager sharedManager].tempMarkerImage = nil;
                                                                                  [etActivity removeFromSuperview];
-                                                                                 [self.navigationController dismissViewControllerAnimated:YES completion:^{isEncrypting = NO;}];
-                                                                                 self.navigationController.navigationBar.userInteractionEnabled = YES;
-                                                                                 if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-                                                                                     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
-                                                                                 }
+                                                                                 [self.navigationController dismissNatGeoViewController];
                                                                                  
                                                                              }];
                               

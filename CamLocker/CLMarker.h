@@ -10,8 +10,8 @@
 
 @interface CLMarker : NSObject <NSCoding>
 
-@property (nonatomic, copy, readonly) NSString *markerImageFileName;
-@property (nonatomic, copy, readonly) NSString *markerImagePath;
+@property (nonatomic, copy, readonly) NSString *imageFileName;
+@property (nonatomic, copy, readonly) NSString *imagePath;
 @property (nonatomic, copy, readonly) NSString *cosName;
 
 - (instancetype) init __attribute__((unavailable("init not available")));

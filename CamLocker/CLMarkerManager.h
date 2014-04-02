@@ -28,9 +28,9 @@
                          hiddenImages:(NSArray *)hiddenImages
                   withCompletionBlock:(void (^)())completion;
 
--(void)addAudioMarkerWithMarkerImage:(UIImage *)image
-                     hiddenAudioData:(NSData *)hiddenAudioData
-                 withCompletionBlock:(void (^)())completion;
+- (void)addAudioMarkerWithMarkerImage:(UIImage *)image
+                      hiddenAudioData:(NSData *)hiddenAudioData
+                  withCompletionBlock:(void (^)())completion;
 
 - (void)deleteMarkerByCosName:(NSString *)cosName;
 

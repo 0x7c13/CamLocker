@@ -12,6 +12,7 @@
 #import "UIColor+MLPFlatColors.h"
 #import "SIAlertView.h"
 #import "JDStatusBarNotification.h"
+#import "MHNatGeoViewControllerTransition.h"
 #import "TSMessage.h"
 
 @interface CLHiddenTextViewController () {
@@ -85,7 +86,7 @@
                               
                               [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
                               [CLMarkerManager sharedManager].tempMarkerImage = nil;
-                              [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                              [self.navigationController dismissNatGeoViewController];
                           }];
     alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
     alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;

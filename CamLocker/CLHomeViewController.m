@@ -55,9 +55,9 @@
     self.dcPathButton = [[DCPathButton alloc]
                           initDCPathButtonWithSubButtons:5
                           totalRadius:110
-                          centerRadius:60
+                          centerRadius:50
                           subRadius:37
-                          centerImage:@"circle-2"
+                          centerImage:@"circle"
                           centerBackground:nil
                           subImages:^(DCPathButton *dc){
                               [dc subButtonImage:@"locker_new" withTag:0];
@@ -67,7 +67,7 @@
                               [dc subButtonImage:@"settings_new" withTag:4];
                           }
                           subImageBackground:nil
-                          inLocationX:165 locationY:locationY toParentView:self.buttonView];
+                          inLocationX:160 locationY:locationY toParentView:self.buttonView];
     self.dcPathButton.delegate = self;
     
     // Animation setup
@@ -98,7 +98,7 @@
     CGFloat locationY = DEVICE_IS_4INCH_IPHONE ? 320 : 260;
     self.halo = [PulsingHaloLayer layer];
     self.halo.position = CGPointMake(160, locationY);
-    self.halo.radius = 150;
+    self.halo.radius = 130;
     self.halo.backgroundColor = [UIColor flatWhiteColor].CGColor;
     [self.buttonView.layer insertSublayer:self.halo atIndex:0];
 }

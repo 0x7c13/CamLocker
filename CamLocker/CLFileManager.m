@@ -8,7 +8,7 @@
 
 #import "CLFileManager.h"
 #import "CLKeyGenerator.h"
-#import "NSString+Random.h"
+#import "NSString+CLEncryption.h"
 #import "NSData+CLEncryption.h"
 #import <CommonCrypto/CommonDigest.h>
 

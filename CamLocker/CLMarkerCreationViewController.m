@@ -12,6 +12,7 @@
 #import "PECropViewController.h"
 #import "SWSnapshotStackView.h"
 #import "UIColor+MLPFlatColors.h"
+#import "MHNatGeoViewControllerTransition.h"
 #import "SIAlertView.h"
 #import "TSMessage.h"
 
@@ -143,7 +144,8 @@
 
 - (IBAction)cancelButtonPressed:(id)sender {
     [[CLMarkerManager sharedManager] setTempMarkerImage:nil];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController dismissNatGeoViewController];
+    //[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)executeAnimation

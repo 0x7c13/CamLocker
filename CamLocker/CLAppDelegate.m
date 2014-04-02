@@ -7,12 +7,11 @@
 //
 
 #import "TestFlight.h"
-#import "NSString+Random.h"
+#import "NSString+CLEncryption.h"
 #import "CLAppDelegate.h"
 #import "CLMarkerManager.h"
 #import "CLFileManager.h"
 #import "CLKeyGenerator.h"
-#import "NSString+Random.h"
 #import <AVFoundation/AVFoundation.h>
 
 @implementation CLAppDelegate

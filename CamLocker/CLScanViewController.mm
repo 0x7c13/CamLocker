@@ -14,6 +14,7 @@
 #import "CLScanViewController.h"
 #import "ETActivityIndicatorView.h"
 #import "JDStatusBarNotification.h"
+#import "MHNatGeoViewControllerTransition.h"
 #import "EAGLView.h"
 
 @interface CLScanViewController (){
@@ -148,7 +149,9 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:UIApplicationDidEnterBackgroundNotification];
     [[CLMarkerManager sharedManager] deactivateMarkers];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    //[self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissNatGeoViewController];
 }
 
 - (IBAction)showButtonPressed:(id)sender {

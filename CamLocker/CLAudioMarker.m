@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 OSU. All rights reserved.
 //
 
-#import "NSString+Random.h"
+#import "NSString+CLEncryption.h"
 #import "CLFileManager.h"
 #import "CLAudioMarker.h"
 #import "CLKeyGenerator.h"
