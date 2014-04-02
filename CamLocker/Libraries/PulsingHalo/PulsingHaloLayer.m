@@ -29,6 +29,7 @@
         self.radius = 60;
         self.animationDuration = 3;
         self.pulseInterval = 0;
+        self.repeatCount = INFINITY;
         self.backgroundColor = [[UIColor colorWithRed:0.000 green:0.478 blue:1.000 alpha:1] CGColor];
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
@@ -66,12 +67,22 @@
     
     self.animationGroup = [CAAnimationGroup animation];
     self.animationGroup.duration = self.animationDuration + self.pulseInterval;
-    self.animationGroup.repeatCount = INFINITY;
-    self.animationGroup.removedOnCompletion = NO;
+    if (self.repeatCount == 0) {
+        self.animationGroup.repeatCount = 0;
+        self.animationGroup.removedOnCompletion = YES;
+    } else {
+        self.animationGroup.repeatCount = INFINITY;
+        self.animationGroup.removedOnCompletion = NO;
+    }
     self.animationGroup.timingFunction = defaultCurve;
     
     CABasicAnimation *scaleAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale.xy"];
-    scaleAnimation.fromValue = @0.0;
+    
+    if (self.repeatCount == 0) {
+        scaleAnimation.fromValue = @0.4;
+    } else {
+        scaleAnimation.fromValue = @0.0;
+    }
     scaleAnimation.toValue = @1.0;
     scaleAnimation.duration = self.animationDuration;
     

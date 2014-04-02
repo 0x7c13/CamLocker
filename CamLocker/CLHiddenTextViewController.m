@@ -12,6 +12,7 @@
 #import "UIColor+MLPFlatColors.h"
 #import "SIAlertView.h"
 #import "JDStatusBarNotification.h"
+#import "TSMessage.h"
 
 @interface CLHiddenTextViewController () {
     BOOL isKeyboardShown;
@@ -59,6 +60,15 @@
 }
 
 - (IBAction)doneButtonPressed:(id)sender {
+    
+    if (self.textView.text.length == 0) {
+        [TSMessage showNotificationInViewController:self title:@"Oops"
+                                           subtitle:@"Please add some text first."
+                                               type:TSMessageNotificationTypeError
+                                           duration:1.5f
+                               canBeDismissedByUser:YES];
+        return;
+    }
     
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Almost there" andMessage:@"Are you ready to create this marker?"];
     [alertView addButtonWithTitle:@"No"

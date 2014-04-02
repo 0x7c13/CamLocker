@@ -13,6 +13,7 @@
 #import "SWSnapshotStackView.h"
 #import "UIColor+MLPFlatColors.h"
 #import "SIAlertView.h"
+#import "TSMessage.h"
 
 @interface CLMarkerCreationViewController () <PECropViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
     BOOL hasEdited;
@@ -72,17 +73,14 @@
 - (IBAction)editButtonPressed:(id)sender {
     
     if (!self.imageView.image) {
-        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Oops" andMessage:@"Please take a photo first."];
-        [alertView addButtonWithTitle:@"OK"
-                                 type:SIAlertViewButtonTypeDestructive
-                              handler:nil];
-        alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
-        alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
-        alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
-        alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
-        alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
         
-        [alertView show];
+        [TSMessage showNotificationInViewController:self
+                                              title:@"Oops"
+                                           subtitle:@"Please add a photo first."
+                                               type:TSMessageNotificationTypeError
+                                           duration:1.5f
+                               canBeDismissedByUser:YES];
+        
         return;
     }
     
@@ -112,17 +110,13 @@
 - (IBAction)nextStepButtonPressed:(id)sender {
     
     if (!self.imageView.image) {
-        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Oops" andMessage:@"Please take a photo first."];
-        [alertView addButtonWithTitle:@"OK"
-                                 type:SIAlertViewButtonTypeDestructive
-                              handler:nil];
-        alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
-        alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
-        alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
-        alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
-        alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
         
-        [alertView show];
+        [TSMessage showNotificationInViewController:self title:@"Oops"
+                                           subtitle:@"Please add a marker image!"
+                                               type:TSMessageNotificationTypeError
+                                           duration:1.5f
+                               canBeDismissedByUser:YES];
+        
         return;
     } else if (!hasEdited) {
         SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Hint" andMessage:@"To make your marker easier to be detected, you may need to crop your image. Press edit button to manipulate if you need."];
@@ -175,8 +169,6 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    NSLog(@"Image picked");
-    
     UIImage *chosenImage = info[UIImagePickerControllerOriginalImage];
     self.imageView.image = chosenImage;
     self.imageView.alpha = 0.0f;
@@ -211,6 +203,5 @@
 {
     [CLMarkerManager sharedManager].tempMarkerImage = self.imageView.image;
 }
-
 
 @end

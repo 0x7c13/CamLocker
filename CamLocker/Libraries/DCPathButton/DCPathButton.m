@@ -511,34 +511,34 @@ static CGFloat const kDCPathButtonDefaultReverseRotation = -M_PI*2;
 #pragma mark DCSubButton Delegate
 
 - (void)subButtonPress:(DCSubButton *)button{
-    if ([_delegate respondsToSelector:@selector(button_0_action)] &&
+    if ([_delegate respondsToSelector:@selector(button_0_action:)] &&
         button == [self.buttons objectAtIndex:0]) {
-        [_delegate button_0_action];
+        [_delegate button_0_action:button];
         NSLog(@"%d",button.tag);
     }
-    else if ([_delegate respondsToSelector:@selector(button_1_action)] &&
+    else if ([_delegate respondsToSelector:@selector(button_1_action:)] &&
              button == [self.buttons objectAtIndex:1]){
-        [_delegate button_1_action];
+        [_delegate button_1_action:button];
         NSLog(@"%d",button.tag);
     }
-    else if ([_delegate respondsToSelector:@selector(button_2_action)] &&
+    else if ([_delegate respondsToSelector:@selector(button_2_action:)] &&
              button == [self.buttons objectAtIndex:2]){
-        [_delegate button_2_action];
+        [_delegate button_2_action:button];
         NSLog(@"%d",button.tag);
     }
-    else if ([_delegate respondsToSelector:@selector(button_3_action)] &&
+    else if ([_delegate respondsToSelector:@selector(button_3_action:)] &&
              button == [self.buttons objectAtIndex:3]){
-        [_delegate button_3_action];
+        [_delegate button_3_action:button];
         NSLog(@"%d",button.tag);
     }
-    else if ([_delegate respondsToSelector:@selector(button_4_action)] &&
+    else if ([_delegate respondsToSelector:@selector(button_4_action:)] &&
              button == [self.buttons objectAtIndex:4]){
-        [_delegate button_4_action];
+        [_delegate button_4_action:button];
         NSLog(@"%d",button.tag);
     }
-    else if ([_delegate respondsToSelector:@selector(button_5_action)] &&
+    else if ([_delegate respondsToSelector:@selector(button_5_action:)] &&
              button == [self.buttons objectAtIndex:5]){
-        [_delegate button_5_action];
+        [_delegate button_5_action:button];
         NSLog(@"%d",button.tag);
     }
 }

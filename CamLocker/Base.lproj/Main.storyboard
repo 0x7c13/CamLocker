@@ -8,7 +8,7 @@
         <!--Marker Creation View Controller - First Step-->
         <scene sceneID="PMK-fn-PtO">
             <objects>
-                <viewController id="vXY-gu-yU4" customClass="CLMarkerCreationViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CLMarkerCreationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vXY-gu-yU4" customClass="CLMarkerCreationViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0Es-Uu-TGA"/>
                         <viewControllerLayoutGuide type="bottom" id="gx6-mS-GSb"/>
@@ -410,7 +410,7 @@
         <!--Marker Type Chosen View Controller - Second Step-->
         <scene sceneID="UUy-OQ-0NZ">
             <objects>
-                <viewController id="zCw-vM-1Xb" customClass="CLMarkerTypeChosenViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CLMarkerTypeChosenViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="zCw-vM-1Xb" customClass="CLMarkerTypeChosenViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3h-uG-pab"/>
                         <viewControllerLayoutGuide type="bottom" id="huI-Km-QVG"/>
@@ -679,7 +679,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4vx-cc-9EO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2135" y="558"/>
+            <point key="canvasLocation" x="2135" y="550"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

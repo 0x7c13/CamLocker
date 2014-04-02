@@ -15,6 +15,7 @@
 #import "UIColor+MLPFlatColors.h"
 #import "SIAlertView.h"
 #import "PhotoStackView.h"
+#import "TSMessage.h"
 #import "ANBlurredImageView.h"
 #import "URBMediaFocusViewController.h"
 #import "UIView+Genie.h"
@@ -62,6 +63,7 @@
     self.photoStack.hidden = YES;
     self.pageControl.hidden = YES;
     self.trashButton.enabled = NO;
+    self.addMoreButton.enabled = NO;
     
     [_imageView setHidden:YES];
     [_imageView setFramesCount:5];
@@ -79,7 +81,9 @@
 - (IBAction)trashButtonPressed:(id)sender {
     
     self.photoStack.userInteractionEnabled = NO;
-
+    self.addMoreButton.enabled = NO;
+    self.doneButton.enabled = NO;
+    
     if (self.photos.count == 1) {
         [UIView animateWithDuration:1.0f animations:^{
             self.pageControl.alpha = 0.0f;
@@ -104,10 +108,15 @@
                                                            self.pageControl.numberOfPages--;
                                                        }
                                                        
+                                                       self.photoStack.userInteractionEnabled = YES;
+                                                       self.addMoreButton.enabled = YES;
+                                                       self.doneButton.enabled = YES;
+                                                       
                                                        if (self.hiddenImages.count == 0) {
                                                            
                                                            self.photoStack.hidden = YES;
                                                            self.trashButton.enabled = NO;
+                                                           self.addMoreButton.enabled = NO;
                                                            self.pageControl.alpha = 0.3f;
                                                            self.addImageButton.alpha = 0.0f;
                                                            self.addImageButton.hidden = NO;
@@ -116,7 +125,6 @@
                                                                self.addImageButton.alpha = 0.5f;
                                                            } completion:nil];
                                                        }
-                                                       self.photoStack.userInteractionEnabled = YES;
                                                    }];
 
 }
@@ -150,17 +158,12 @@
     
     if (isEncrypting) return;
     if (self.photos.count == 0) {
-        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Oops" andMessage:@"Please add a photo."];
-        [alertView addButtonWithTitle:@"OK"
-                                 type:SIAlertViewButtonTypeDestructive
-                              handler:nil];
-        alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
-        alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
-        alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
-        alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
-        alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
         
-        [alertView show];
+        [TSMessage showNotificationInViewController:self title:@"Oops"
+                                           subtitle:@"Please add some images!"
+                                               type:TSMessageNotificationTypeError
+                                           duration:1.5f
+                               canBeDismissedByUser:YES];
         return;
     }
     
@@ -258,6 +261,7 @@
     self.pageControl.hidden = NO;
     self.addImageButton.hidden = YES;
     self.trashButton.enabled = YES;
+    self.addMoreButton.enabled = YES;
     
     [self executeAnimation];
     [picker dismissViewControllerAnimated:NO completion:nil];

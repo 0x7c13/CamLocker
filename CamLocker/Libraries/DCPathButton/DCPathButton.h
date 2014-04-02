@@ -12,6 +12,7 @@
 #import "DCSubButton.h"
 #import "DCCenterButton.h"
 
+
 typedef enum{
     kDCPathButtonRotationNormal = 0,
     kDCPathButtonRotationReverse,
@@ -22,12 +23,12 @@ typedef enum{
 
 - (void)pathButtonWillOpen;
 - (void)pathButtonWillClose;
-- (void)button_0_action;
-- (void)button_1_action;
-- (void)button_2_action;
-- (void)button_3_action;
-- (void)button_4_action;
-- (void)button_5_action;
+- (void)button_0_action:(DCSubButton *)sender;
+- (void)button_1_action:(DCSubButton *)sender;
+- (void)button_2_action:(DCSubButton *)sender;
+- (void)button_3_action:(DCSubButton *)sender;
+- (void)button_4_action:(DCSubButton *)sender;
+- (void)button_5_action:(DCSubButton *)sender;
 
 @end
 

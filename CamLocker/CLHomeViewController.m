@@ -21,13 +21,14 @@
 #import "DCPathButton.h"
 
 @interface CLHomeViewController () <DCPathButtonDelegate> {
-    BOOL needsToDisplayStarupAnimation;
+    BOOL needsToDisplayLaunchAnimation;
 }
 
 @property (strong, nonatomic) IBOutlet ANBlurredImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIView *buttonView;
 @property (weak, nonatomic) IBOutlet UIView *masterView;
 @property (nonatomic) PulsingHaloLayer *halo;
+@property (nonatomic) PulsingHaloLayer *buttonHalo;
 @property (nonatomic) DCPathButton *dcPathButton;
 
 @end
@@ -71,14 +72,8 @@
     
     // Animation setup
     [self animationSetup];
-    needsToDisplayStarupAnimation = YES;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleDidEnterBackground)
-                                                 name:UIApplicationDidEnterBackgroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleDidBecomeActive)
-                                                 name:UIApplicationDidBecomeActiveNotification object:nil];
+    needsToDisplayLaunchAnimation = YES;
+
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -103,7 +98,7 @@
     CGFloat locationY = DEVICE_IS_4INCH_IPHONE ? 320 : 260;
     self.halo = [PulsingHaloLayer layer];
     self.halo.position = CGPointMake(160, locationY);
-    self.halo.radius = 170;
+    self.halo.radius = 150;
     self.halo.backgroundColor = [UIColor flatWhiteColor].CGColor;
     [self.buttonView.layer insertSublayer:self.halo atIndex:0];
 }
@@ -128,7 +123,7 @@
         self.camLockerLogoLabel.alpha = 1.0f;
     } completion:^(BOOL finished){
         
-        [UIView animateWithDuration:0.7f animations:^{
+        [UIView animateWithDuration:0.7f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
             
             self.camLockerLogoLabel.frame = CGRectMake(20, 45, 280, 120);
             self.bottomLabel.alpha = 1.0f;
@@ -156,9 +151,16 @@
 {
     [super viewDidAppear:animated];
     
-    if (needsToDisplayStarupAnimation) {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleDidEnterBackground)
+                                                 name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleDidBecomeActive)
+                                                 name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+    if (needsToDisplayLaunchAnimation) {
         [self executeAnimation];
-        needsToDisplayStarupAnimation = NO;
+        needsToDisplayLaunchAnimation = NO;
     }
     
 }
@@ -166,7 +168,7 @@
 - (void)handleDidEnterBackground
 {
     [self animationSetup];
-    needsToDisplayStarupAnimation = YES;
+    needsToDisplayLaunchAnimation = YES;
     if (self.dcPathButton.isExpanded) {
         [self.dcPathButton close];
     }
@@ -174,9 +176,9 @@
 
 - (void)handleDidBecomeActive
 {
-    if (needsToDisplayStarupAnimation) {
+    if (needsToDisplayLaunchAnimation) {
         [self executeAnimation];
-        needsToDisplayStarupAnimation = NO;
+        needsToDisplayLaunchAnimation = NO;
     }
 }
 
@@ -215,13 +217,16 @@
 
 #pragma mark - DCPathButton delegate
 
-- (void)button_0_action{
+- (void)button_0_action:(DCSubButton *)sender{
     NSLog(@"Button Press Tag 0!!");
+    [self executeSubButtonAnimationForButton:sender];
     [self performSegueWithIdentifier:@"createMarkerSegue" sender:nil];
 }
 
-- (void)button_1_action{
+- (void)button_1_action:(DCSubButton *)sender{
     NSLog(@"Button Press Tag 1!!");
+    [self executeSubButtonAnimationForButton:sender];
+    
     if ([CLMarkerManager sharedManager].markers.count > 0) {
         [self performSegueWithIdentifier:@"metaioSegue" sender:nil];
     } else {
@@ -240,15 +245,16 @@
     }
 }
 
-- (void)button_2_action{
+- (void)button_2_action:(DCSubButton *)sender{
     NSLog(@"Button Press Tag 2!!");
+    [self executeSubButtonAnimationForButton:sender];
     
     if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
         
         SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
         
         [controller setInitialText:@"Check out CamLocker! Hide and share your images, voice or text in seconds. http://www.camlockerapp.com"];
-        [controller addImage:[UIImage imageNamed:@"icon@2x.png"]];
+        [controller addImage:[UIImage imageNamed:@"icon.png"]];
         
         [self presentViewController:controller animated:YES completion:Nil];
     } else {
@@ -267,15 +273,16 @@
     }
 }
 
-- (void)button_3_action{
+- (void)button_3_action:(DCSubButton *)sender{
     NSLog(@"Button Press Tag 3!!");
+    [self executeSubButtonAnimationForButton:sender];
     
     if([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
         
         SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
         
         [controller setInitialText:@"Check out CamLocker! Hide and share your images, voice or text in seconds. http://www.camlockerapp.com"];
-        [controller addImage:[UIImage imageNamed:@"icon@2x.png"]];
+        [controller addImage:[UIImage imageNamed:@"icon.png"]];
         
         [self presentViewController:controller animated:YES completion:Nil];
     } else {
@@ -294,9 +301,25 @@
     }
 }
 
-- (void)button_4_action{
+- (void)button_4_action:(DCSubButton *)sender{
     NSLog(@"Button Press Tag 4!!");
-    [self deleteAllDataButtonPressed:nil];
+
+    [self executeSubButtonAnimationForButton:sender];
+    [self deleteAllDataButtonPressed:sender];
+}
+
+- (void)executeSubButtonAnimationForButton:(DCSubButton *)button
+{
+    if (button.layer.sublayers.count == 2) {
+        [[button.layer.sublayers objectAtIndex:0] removeFromSuperlayer];
+    }
+    self.buttonHalo = [PulsingHaloLayer layer];
+    self.buttonHalo.repeatCount = 0;
+    self.buttonHalo.animationDuration = 1.0f;
+    self.buttonHalo.position = CGPointMake(button.frame.size.width/2.0, button.frame.size.height/2.0);
+    self.buttonHalo.radius = 80;
+    self.buttonHalo.backgroundColor = [UIColor flatGrayColor].CGColor;
+    [button.layer insertSublayer:self.buttonHalo atIndex:0];
 }
 
 - (void)pathButtonWillOpen

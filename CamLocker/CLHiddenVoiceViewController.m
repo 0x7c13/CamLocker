@@ -16,6 +16,7 @@
 #import "JDStatusBarNotification.h"
 #import "ETActivityIndicatorView.h"
 #import "ANBlurredImageView.h"
+#import "TSMessage.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
 
@@ -139,17 +140,11 @@
     }
     
     if (!audioCreated) {
-        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Oops" andMessage:@"Please add a voice record."];
-        [alertView addButtonWithTitle:@"OK"
-                                 type:SIAlertViewButtonTypeDestructive
-                              handler:nil];
-        alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
-        alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
-        alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
-        alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
-        alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
-        
-        [alertView show];
+        [TSMessage showNotificationInViewController:self title:@"Oops"
+                                           subtitle:@"Please add a voice record!"
+                                               type:TSMessageNotificationTypeError
+                                           duration:1.5f
+                               canBeDismissedByUser:YES];
         return;
     }
     
