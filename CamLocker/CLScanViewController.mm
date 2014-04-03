@@ -91,7 +91,7 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:UIApplicationDidEnterBackgroundNotification];
     [[CLMarkerManager sharedManager] deactivateMarkers];
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [self dismissNatGeoViewController];
 }
 
 - (void)viewWillAppear:(BOOL)animated

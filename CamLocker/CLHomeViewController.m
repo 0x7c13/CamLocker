@@ -162,7 +162,6 @@
         [self executeAnimation];
         needsToDisplayLaunchAnimation = NO;
     }
-    
 }
 
 - (void)handleDidEnterBackground
