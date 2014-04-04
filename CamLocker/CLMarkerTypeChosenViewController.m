@@ -28,8 +28,6 @@
     
     [CLUtilities addBackgroundImageToView:self.view withImageName:@"bg_4.jpg"];
     
-    //[self.titleLabel.layer addSublayer:[CLUtilities addDashedBorderToView:self.titleLabel
-    //                                                            withColor:[UIColor flatWhiteColor].CGColor]];
     [self.imageButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.imageButton
                                                                  withColor:[UIColor flatWhiteColor].CGColor]];
     [self.textButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.textButton

@@ -317,8 +317,6 @@
 
 //**********
 
-#define DOCUMENTS_FOLDER [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
-
 
 - (void) startRecording{
     

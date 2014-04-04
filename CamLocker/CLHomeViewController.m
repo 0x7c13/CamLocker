@@ -28,7 +28,6 @@
 @property (weak, nonatomic) IBOutlet UIView *buttonView;
 @property (weak, nonatomic) IBOutlet UIView *masterView;
 @property (nonatomic) PulsingHaloLayer *halo;
-@property (nonatomic) PulsingHaloLayer *buttonHalo;
 @property (nonatomic) DCPathButton *dcPathButton;
 
 @end
@@ -101,12 +100,41 @@
     self.halo.radius = 130;
     self.halo.backgroundColor = [UIColor flatWhiteColor].CGColor;
     [self.buttonView.layer insertSublayer:self.halo atIndex:0];
+    [NSTimer scheduledTimerWithTimeInterval:0.15f target:self selector:@selector(startSecondHalo) userInfo:nil repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:0.3f target:self selector:@selector(startThirdHalo) userInfo:nil repeats:NO];
+}
+
+- (void)startSecondHalo
+{
+    CGFloat locationY = DEVICE_IS_4INCH_IPHONE ? 320 : 260;
+    PulsingHaloLayer *halo = [PulsingHaloLayer layer];
+    halo.position = CGPointMake(160, locationY);
+    halo.radius = 130;
+    halo.backgroundColor = [UIColor flatWhiteColor].CGColor;
+    [self.buttonView.layer insertSublayer:halo atIndex:0];
+}
+
+- (void)startThirdHalo
+{
+    CGFloat locationY = DEVICE_IS_4INCH_IPHONE ? 320 : 260;
+    PulsingHaloLayer *halo = [PulsingHaloLayer layer];
+    halo.position = CGPointMake(160, locationY);
+    halo.radius = 130;
+    halo.backgroundColor = [UIColor flatWhiteColor].CGColor;
+    [self.buttonView.layer insertSublayer:halo atIndex:0];
 }
 
 - (void)stopHaloAnimation
 {
-    if (self.buttonView.layer.sublayers.count == 2) {
-        [[self.buttonView.layer.sublayers objectAtIndex:0] removeFromSuperlayer];
+    NSMutableArray *layersNeedToBeRemoved = [[NSMutableArray alloc]init];
+    [self.buttonView.layer.sublayers enumerateObjectsUsingBlock:^(CALayer *layer, NSUInteger index, BOOL *stop) {
+        if ([layer isKindOfClass:[PulsingHaloLayer class]]) {
+            [layersNeedToBeRemoved addObject:layer];
+        }
+    }];
+    NSLog(@"%d",layersNeedToBeRemoved.count);
+    for (CALayer *layer in layersNeedToBeRemoved) {
+        [layer removeFromSuperlayer];
     }
 }
 
@@ -183,7 +211,7 @@
 
 - (IBAction)deleteAllDataButtonPressed:(id)sender {
     
-    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Warnning" andMessage:@"Are you sure? Everything will be removed!"];
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Warning" andMessage:@"Are you sure? Everything will be removed!"];
     [alertView addButtonWithTitle:@"Cancel"
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
@@ -312,13 +340,13 @@
     if (button.layer.sublayers.count == 2) {
         [[button.layer.sublayers objectAtIndex:0] removeFromSuperlayer];
     }
-    self.buttonHalo = [PulsingHaloLayer layer];
-    self.buttonHalo.repeatCount = 0;
-    self.buttonHalo.animationDuration = 1.0f;
-    self.buttonHalo.position = CGPointMake(button.frame.size.width/2.0, button.frame.size.height/2.0);
-    self.buttonHalo.radius = 80;
-    self.buttonHalo.backgroundColor = [UIColor flatGrayColor].CGColor;
-    [button.layer insertSublayer:self.buttonHalo atIndex:0];
+    PulsingHaloLayer *buttonHalo = [PulsingHaloLayer layer];
+    buttonHalo.repeatCount = 0;
+    buttonHalo.animationDuration = 1.0f;
+    buttonHalo.position = CGPointMake(button.frame.size.width/2.0, button.frame.size.height/2.0);
+    buttonHalo.radius = 80;
+    buttonHalo.backgroundColor = [UIColor flatGrayColor].CGColor;
+    [button.layer insertSublayer:buttonHalo atIndex:0];
 }
 
 - (void)pathButtonWillOpen
