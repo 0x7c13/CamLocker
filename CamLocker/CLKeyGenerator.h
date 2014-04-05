@@ -18,4 +18,6 @@
 
 + (NSString *)mainKeyString;
 
++ (NSString *)OpenUDID;
+
 @end

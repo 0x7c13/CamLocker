@@ -12,6 +12,8 @@
 #import "CLMarkerManager.h"
 #import "CLFileManager.h"
 #import "CLKeyGenerator.h"
+#import "CLDataHandler.h"
+#import "AFNetworkActivityIndicatorManager.h"
 #import <AVFoundation/AVFoundation.h>
 
 @implementation CLAppDelegate
@@ -22,8 +24,7 @@
     
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"])
     {
-        NSDictionary *OpenUDID = [[NSUserDefaults standardUserDefaults] objectForKey:@"OpenUDID"];
-        NSString *mainKey = [[[OpenUDID objectForKey:@"OpenUDID" ] stringByAppendingString:[NSString randomAlphanumericStringWithLength:kLengthOfKey]] hashValue];
+        NSString *mainKey = [[[CLKeyGenerator OpenUDID] stringByAppendingString:[NSString randomAlphanumericStringWithLength:kLengthOfKey]] hashValue];
         [CLKeyGenerator saveMainKeyStringToDisk:mainKey];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -46,6 +47,10 @@
     if( err ){
         NSLog(@"There was an error sending the audio to the speakers");
     }
+    
+    [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
+    
+    //[CLDataHandler uploadMarker:[CLMarkerManager sharedManager].markers[1]];
     
     return YES;
 }

@@ -12,8 +12,10 @@
 #import "CLMarkerManager.h"
 #import "CLTrackingXMLGenerator.h"
 #import "CLScanViewController.h"
+#import "FBShimmeringView.h"
 #import "ETActivityIndicatorView.h"
 #import "JDStatusBarNotification.h"
+#import "UIColor+MLPFlatColors.h"
 #import "MHNatGeoViewControllerTransition.h"
 #import "EAGLView.h"
 
@@ -24,7 +26,9 @@
     CLMarker *targetMarker;
 }
 
-@property (weak, nonatomic) IBOutlet UIButton *showButton;
+@property (weak, nonatomic) IBOutlet UIView *blurView;
+@property (weak, nonatomic) IBOutlet UIButton *backButton;
+@property (weak, nonatomic) IBOutlet FBShimmeringView *shimmeringView;
 
 @end
 
@@ -41,8 +45,8 @@
     targetIndex = 0;
     isDecrypting = NO;
     isPopupViewPresented = NO;
-    self.showButton.hidden = YES;
-    
+    self.shimmeringView.hidden = YES;
+    self.backButton.hidden = YES;
     // load frame
     
     NSString* imagePath = [[NSBundle mainBundle] pathForResource:@"Markers/frame.png" ofType:nil];
@@ -50,10 +54,25 @@
     if (imagePath)
     {
         imagePlane = m_metaioSDK->createGeometryFromImage([imagePath UTF8String]);
+        imagePlane->setName("frame");
         if (imagePlane) {
             imagePlane->setScale(metaio::Vector3d(3.0, 3.0, 3.0));
         }
     } else NSLog(@"Error: could not load image plane");
+    
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:self.blurView.bounds];
+    toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.blurView addSubview:toolbar];
+    self.blurView.alpha = 0.0f;
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    
+    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:self.shimmeringView.bounds];
+    loadingLabel.textAlignment = NSTextAlignmentCenter;
+    loadingLabel.font = [UIFont fontWithName:@"OpenSans" size:38];
+    loadingLabel.textColor = [UIColor flatRedColor];
+    loadingLabel.text = NSLocalizedString(@"Tap to unlock", nil);
+    self.shimmeringView.contentView = loadingLabel;
+    self.shimmeringView.shimmering = YES;
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -83,6 +102,7 @@
         
         [etActivity stopAnimating];
         [etActivity removeFromSuperview];
+        self.backButton.hidden = NO;
     }];
 
 }
@@ -91,6 +111,7 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:UIApplicationDidEnterBackgroundNotification];
     [[CLMarkerManager sharedManager] deactivateMarkers];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     [self dismissNatGeoViewController];
 }
 
@@ -104,6 +125,37 @@
     [super viewWillDisappear:animated];
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [super viewDidDisappear:animated];
+}
+
+#pragma mark - Handling Touches
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    // Here's how to pick a geometry
+	UITouch *touch = [touches anyObject];
+	CGPoint loc = [touch locationInView:glView];
+	
+    // get the scale factor (will be 2 for retina screens)
+    float scale = glView.contentScaleFactor;
+    
+	// ask sdk if the user picked an object
+	// the 'true' flag tells sdk to actually use the vertices for a hit-test, instead of just the bounding box
+    metaio::IGeometry* model = m_metaioSDK->getGeometryFromScreenCoordinates(loc.x * scale, loc.y * scale, true);
+	
+	if ( model )
+	{
+        NSString *modelName =[NSString stringWithUTF8String:model->getName().c_str()];
+        if ([modelName isEqualToString:@"frame"]) {
+            [self showButtonPressed:nil];
+        }
+    }
+	
+}
+
 #pragma mark - App Logic
 
 - (void)onTrackingEvent:(const metaio::stlcompat::Vector<metaio::TrackingValues>&)trackingValues
@@ -114,7 +166,7 @@
     
 	if (trackingValues.empty() || !trackingValues[0].isTrackingState())
 	{
-        self.showButton.hidden = YES;
+        self.shimmeringView.hidden = YES;
         imagePlane->setVisible(0);
 	}
 	else
@@ -127,7 +179,7 @@
             imagePlane->setCoordinateSystemID(trackingValues[0].coordinateSystemID);
             imagePlane->setVisible(true);
             targetMarker = marker;
-            self.showButton.hidden = NO;
+            self.shimmeringView.hidden = NO;
         }
 	}
 }
@@ -140,8 +192,12 @@
 
 - (void)dismissViewController
 {
+    
     [self dismissPopupViewControllerAnimated:YES completion:^{
         isPopupViewPresented = NO;
+        [UIView animateWithDuration:1.0f animations:^{
+            self.blurView.alpha = 0.0f;
+        }];
     }];
 }
 
@@ -158,7 +214,7 @@
     
     if (isDecrypting) return;
     
-    self.showButton.hidden = YES;
+    self.shimmeringView.hidden = YES;
     imagePlane->setVisible(false);
     
     if ([targetMarker isKindOfClass:[CLTextMarker class]]) {
@@ -188,16 +244,20 @@
             [JDStatusBarNotification showWithStatus:@"Decryption succeeded!" dismissAfter:1.0f styleName:JDStatusBarStyleSuccess];
         }];
     }
+    [UIView animateWithDuration:1.0f animations:^{
+        self.blurView.alpha = 1.0f;
+    }];
 }
 
 - (BOOL)prefersStatusBarHidden
 {
-    return NO;
+    return YES;
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
 }
+
 
 @end

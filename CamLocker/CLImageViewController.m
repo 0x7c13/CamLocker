@@ -29,6 +29,7 @@
 	// Do any additional setup after loading the view.
     
     UIToolbar *toolbarBackground = [[UIToolbar alloc] initWithFrame:self.view.frame];
+
     [self.view addSubview:toolbarBackground];
     [self.view sendSubviewToBack:toolbarBackground];
  

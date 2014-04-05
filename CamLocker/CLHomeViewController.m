@@ -106,6 +106,8 @@
 
 - (void)startSecondHalo
 {
+    if (!self.imageView.hidden) return;
+
     CGFloat locationY = DEVICE_IS_4INCH_IPHONE ? 320 : 260;
     PulsingHaloLayer *halo = [PulsingHaloLayer layer];
     halo.position = CGPointMake(160, locationY);
@@ -116,6 +118,8 @@
 
 - (void)startThirdHalo
 {
+    if (!self.imageView.hidden) return;
+
     CGFloat locationY = DEVICE_IS_4INCH_IPHONE ? 320 : 260;
     PulsingHaloLayer *halo = [PulsingHaloLayer layer];
     halo.position = CGPointMake(160, locationY);
@@ -132,7 +136,6 @@
             [layersNeedToBeRemoved addObject:layer];
         }
     }];
-    NSLog(@"%d",layersNeedToBeRemoved.count);
     for (CALayer *layer in layersNeedToBeRemoved) {
         [layer removeFromSuperlayer];
     }

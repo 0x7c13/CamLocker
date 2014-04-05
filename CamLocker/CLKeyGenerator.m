@@ -62,4 +62,9 @@
     return [[NSString alloc] initWithData:keyData encoding:NSUTF8StringEncoding];
 }
 
++ (NSString *)OpenUDID
+{
+    return [[[NSUserDefaults standardUserDefaults] objectForKey:@"OpenUDID"] objectForKey:@"OpenUDID"];
+}
+
 @end
