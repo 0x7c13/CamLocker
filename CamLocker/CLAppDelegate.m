@@ -50,7 +50,27 @@
     
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
     
-    //[CLDataHandler uploadMarker:[CLMarkerManager sharedManager].markers[1]];
+    /*
+    [CLDataHandler uploadMarker:[CLMarkerManager sharedManager].markers[0] completionBlock:^(CLDataHandlerOption option, NSURL *markerURL, NSError *error){
+        
+        if (option == CLDataHandlerOptionSuccess) {
+            NSLog(@"%@", markerURL);
+        } else {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
+     */
+    
+    /*
+    [CLDataHandler downloadMarkerBy:@"LEDcwqlu" completionBlock:^(CLDataHandlerOption option, NSDictionary *markerJson, NSError *error){
+        
+        if (option == CLDataHandlerOptionSuccess) {
+            NSLog(@"%@", markerJson);
+        } else {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
+     */
     
     return YES;
 }

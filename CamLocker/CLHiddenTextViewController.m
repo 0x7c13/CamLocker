@@ -8,6 +8,7 @@
 
 #import "CLUtilities.h"
 #import "CLMarkerManager.h"
+#import "CLDataHandler.h"
 #import "CLHiddenTextViewController.h"
 #import "UIColor+MLPFlatColors.h"
 #import "SIAlertView.h"
@@ -84,9 +85,21 @@
                               
                               [[CLMarkerManager sharedManager] addTextMarkerWithMarkerImage:[CLMarkerManager sharedManager].tempMarkerImage hiddenText:self.textView.text];
                               
-                              [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
-                              [CLMarkerManager sharedManager].tempMarkerImage = nil;
-                              [self.navigationController dismissNatGeoViewController];
+                              [JDStatusBarNotification showWithStatus:@"Uploading marker..." styleName:JDStatusBarStyleError];
+                              [CLDataHandler uploadMarker:[[CLMarkerManager sharedManager].markers lastObject]  completionBlock:^(CLDataHandlerOption option, NSURL *markerURL, NSError *error){
+                                  
+                                  if (option == CLDataHandlerOptionSuccess) {
+                                      
+                                      NSLog(@"%@", markerURL);
+                                  } else {
+                                      NSLog(@"%@", error.localizedDescription);
+                                  }
+                                  [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
+                                  [CLMarkerManager sharedManager].tempMarkerImage = nil;
+                                  [self.navigationController dismissNatGeoViewController];
+                                  
+                              }];
+                              
                           }];
     alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
     alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;

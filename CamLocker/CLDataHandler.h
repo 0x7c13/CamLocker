@@ -10,8 +10,14 @@
 #import "AFNetworking.h"
 #import <Foundation/Foundation.h>
 
+typedef enum {
+    CLDataHandlerOptionSuccess,
+    CLDataHandlerOptionFailure
+}CLDataHandlerOption;
+
 @interface CLDataHandler : NSObject
 
-+ (void)uploadMarker:(CLMarker *)marker;
++ (void)uploadMarker:(CLMarker *)marker completionBlock:(void (^)(CLDataHandlerOption option, NSURL *markerURL, NSError *error))completion;
++ (void)downloadMarkerBy:(NSString *)identifier completionBlock:(void (^)(CLDataHandlerOption option, NSDictionary *markerData, NSError *error))completion;
 
 @end

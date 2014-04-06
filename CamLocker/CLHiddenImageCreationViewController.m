@@ -8,6 +8,7 @@
 
 #import "CLUtilities.h"
 #import "CLMarkerManager.h"
+#import "CLDataHandler.h"
 #import "CLHiddenImageCreationViewController.h"
 #import "SWSnapshotStackView.h"
 #import "JDStatusBarNotification.h"
@@ -199,12 +200,27 @@
                                   [[CLMarkerManager sharedManager] addImageMarkerWithMarkerImage:[CLMarkerManager sharedManager].tempMarkerImage
                                                                                     hiddenImages:self.hiddenImages
                                                                              withCompletionBlock:^{
-                                                                                 self.photoStack.userInteractionEnabled = YES;
-                                                                                 [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
-                                                                                 [CLMarkerManager sharedManager].tempMarkerImage = nil;
-                                                                                 [etActivity removeFromSuperview];
-                                                                                 [self.navigationController dismissNatGeoViewController];
-                                                                                 self.navigationController.navigationBar.userInteractionEnabled = YES;
+                                                                                 
+                                                                                 
+                                                                                 [JDStatusBarNotification showWithStatus:@"Uploading marker..." styleName:JDStatusBarStyleError];
+                                                                                 [CLDataHandler uploadMarker:[[CLMarkerManager sharedManager].markers lastObject]  completionBlock:^(CLDataHandlerOption option, NSURL *markerURL, NSError *error){
+                                                                                     
+                                                                                     if (option == CLDataHandlerOptionSuccess) {
+                                                                                        
+                                                                                         NSLog(@"%@", markerURL);
+                                                                                     } else {
+                                                                                         NSLog(@"%@", error.localizedDescription);
+                                                                                     }
+                                                                                     
+                                                                                     self.photoStack.userInteractionEnabled = YES;
+                                                                                     [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
+                                                                                     [CLMarkerManager sharedManager].tempMarkerImage = nil;
+                                                                                     [etActivity removeFromSuperview];
+                                                                                     [self.navigationController dismissNatGeoViewController];
+                                                                                     self.navigationController.navigationBar.userInteractionEnabled = YES;
+                                                                                 }];
+                                                                                 
+                                                                                
                                                                              }];
                               }];
 

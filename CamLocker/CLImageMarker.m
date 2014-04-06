@@ -11,6 +11,7 @@
 #import "UIImage+CLEncryption.h"
 #import "CLFileManager.h"
 #import "CLImageMarker.h"
+#import "CLUtilities.h"
 #import "CLKeyGenerator.h"
 
 @interface CLImageMarker ()
@@ -34,6 +35,14 @@
         
         for (UIImage *image in hiddenImages) {
             
+            UIImage *imageToSave = image;
+            if (image.size.width > kMarkerImageDefaultWidth) {
+                imageToSave = [CLUtilities imageWithImage:image scaledToWidth:kMarkerImageDefaultWidth];
+            }
+            if (imageToSave.size.height > kMarkerImageDefaultHeight) {
+                imageToSave = [CLUtilities imageWithImage:image scaledToHeight:kMarkerImageDefaultHeight];
+            }
+            
             NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
             [formatter setDateFormat:@"yyyyMMddHHmmss"];
             [formatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
@@ -42,7 +51,7 @@
             NSString *fileName = [[[image hashValue] stringByAppendingString:stringFromDate] stringByAppendingString:@".jpg"];
             [self.hiddenImagePaths addObject:[CLFileManager imageFilePathWithFileName:fileName]];
              
-            [CLFileManager saveImageToDisk:image
+            [CLFileManager saveImageToDisk:imageToSave
                               withFileName:[fileName stringByAppendingString:@".camLocker"]
                        usingDataEncryption:YES
                                    withKey:self.keyOfHiddenImages];

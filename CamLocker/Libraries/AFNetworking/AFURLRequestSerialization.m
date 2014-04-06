@@ -434,7 +434,6 @@ NSArray * AFQueryStringPairsFromKeyAndValue(NSString *key, id value) {
         [mutableRequest setValue:[NSString stringWithFormat:@"application/x-www-form-urlencoded; charset=%@", charset] forHTTPHeaderField:@"Content-Type"];
         [mutableRequest setHTTPBody:[query dataUsingEncoding:self.stringEncoding]];
     }
-
     return mutableRequest;
 }
 

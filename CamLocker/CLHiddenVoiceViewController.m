@@ -9,6 +9,7 @@
 #import "CLUtilities.h"
 #import "CLFileManager.h"
 #import "CLMarkerManager.h"
+#import "CLDataHandler.h"
 #import "CLHiddenVoiceViewController.h"
 #import "UIColor+MLPFlatColors.h"
 #import "THProgressView.h"
@@ -185,13 +186,24 @@
                                                                                  hiddenAudioData:audioData
                                                                              withCompletionBlock:^{
                                                                                  
-                                                                                 [[NSFileManager defaultManager] removeItemAtPath:[CLFileManager voiceFilePathWithFileName:kAudioFileName] error:nil];
-                                                                                 
-                                                                                 [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
-                                                                                 [CLMarkerManager sharedManager].tempMarkerImage = nil;
-                                                                                 [etActivity removeFromSuperview];
-                                                                                 [self.navigationController dismissNatGeoViewController];
-                                                                                 
+                                                                                 [JDStatusBarNotification showWithStatus:@"Uploading marker..." styleName:JDStatusBarStyleError];
+                                                                                 [CLDataHandler uploadMarker:[[CLMarkerManager sharedManager].markers lastObject]  completionBlock:^(CLDataHandlerOption option, NSURL *markerURL, NSError *error){
+                                                                                     
+                                                                                     if (option == CLDataHandlerOptionSuccess) {
+                                                                                         
+                                                                                         NSLog(@"%@", markerURL);
+                                                                                     } else {
+                                                                                         NSLog(@"%@", error.localizedDescription);
+                                                                                     }
+                                                                                     
+                                                                                     [[NSFileManager defaultManager] removeItemAtPath:[CLFileManager voiceFilePathWithFileName:kAudioFileName] error:nil];
+                                                                                     
+                                                                                     [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
+                                                                                     [CLMarkerManager sharedManager].tempMarkerImage = nil;
+                                                                                     [etActivity removeFromSuperview];
+                                                                                     [self.navigationController dismissNatGeoViewController];
+                                                                                 }];
+  
                                                                              }];
                               
                               }];

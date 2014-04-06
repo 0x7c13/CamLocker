@@ -7,8 +7,7 @@
 //
 
 #import "CLAppAPIClient.h"
-
-static NSString * const CLBaseURLString = @"http://coderhosting.com:8080/CamLockerApp/";
+#import "CLConstants.h"
 
 @implementation CLAppAPIClient
 
@@ -16,8 +15,11 @@ static NSString * const CLBaseURLString = @"http://coderhosting.com:8080/CamLock
     static CLAppAPIClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[CLAppAPIClient alloc] initWithBaseURL:[NSURL URLWithString:CLBaseURLString]];
-        //_sharedClient.requestSerializer = [AFJSONRequestSerializer serializer];
+        
+        _sharedClient = [[CLAppAPIClient alloc] initWithBaseURL:[NSURL URLWithString:API_BASE_URL]];
+        _sharedClient.requestSerializer = [AFHTTPRequestSerializer serializer];
+        _sharedClient.responseSerializer = [AFHTTPResponseSerializer serializer];
+        //_sharedClient.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
     });
     
     return _sharedClient;
