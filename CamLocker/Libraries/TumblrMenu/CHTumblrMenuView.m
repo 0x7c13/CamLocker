@@ -25,12 +25,12 @@
 
 #import "CHTumblrMenuView.h"
 
-#define kOffsetY 100
+#define kOffsetY 90
 #define CHTumblrMenuViewTag 1999
-#define CHTumblrMenuViewImageHeight 90
+#define CHTumblrMenuViewImageHeight 70
 #define CHTumblrMenuViewTitleHeight 20
-#define CHTumblrMenuViewVerticalPadding 10
-#define CHTumblrMenuViewHorizontalMargin 10
+#define CHTumblrMenuViewVerticalPadding 30
+#define CHTumblrMenuViewHorizontalMargin 25
 #define CHTumblrMenuViewRriseAnimationID @"CHTumblrMenuViewRriseAnimationID"
 #define CHTumblrMenuViewDismissAnimationID @"CHTumblrMenuViewDismissAnimationID"
 #define CHTumblrMenuViewAnimationTime 0.36
@@ -64,7 +64,7 @@
 {
     [super layoutSubviews];
     self.imageView.frame = CGRectMake(0, 0, CHTumblrMenuViewImageHeight, CHTumblrMenuViewImageHeight);
-    self.titleLabel.frame = CGRectMake(0, CHTumblrMenuViewImageHeight, CHTumblrMenuViewImageHeight, CHTumblrMenuViewTitleHeight);
+    self.titleLabel.frame = CGRectMake(-10, CHTumblrMenuViewImageHeight + 10, CHTumblrMenuViewImageHeight + 20, CHTumblrMenuViewTitleHeight);
 }
 @end
 
@@ -179,13 +179,16 @@
 
 - (void)buttonTapped:(CHTumblrMenuItemButton*)btn
 {
-    //[self dismiss:nil];
+    btn.selectedBlock();
+    /*
+    [self dismiss:nil];
     double delayInSeconds = CHTumblrMenuViewAnimationTime  + CHTumblrMenuViewAnimationInterval * (buttons_.count + 1);
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         btn.selectedBlock();
 
     });
+     */
 }
 
 - (void)riseAnimation

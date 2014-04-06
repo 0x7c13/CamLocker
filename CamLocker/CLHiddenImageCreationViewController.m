@@ -24,9 +24,10 @@
 #import "CHTumblrMenuView.h"
 #import "UIView+Genie.h"
 #import <MessageUI/MessageUI.h>
+#import <Social/Social.h>
 
 
-@interface CLHiddenImageCreationViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, PhotoStackViewDataSource, PhotoStackViewDelegate, URBMediaFocusViewControllerDelegate, CHTumblrMenuViewDelegate, MFMessageComposeViewControllerDelegate> {
+@interface CLHiddenImageCreationViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, PhotoStackViewDataSource, PhotoStackViewDelegate, URBMediaFocusViewControllerDelegate, CHTumblrMenuViewDelegate, MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate> {
     BOOL isEncrypting;
     BOOL canExit;
 }
@@ -322,39 +323,89 @@
     self.menuView.backgroundImgView.image = self.imageView.image;
     
     __weak typeof(self) weakSelf = self;
-    [self.menuView addMenuItemWithTitle:@"Text" andIcon:[UIImage imageNamed:@"post_type_bubble_text.png"] andSelectedBlock:^{
-        NSLog(@"Text selected");
+    [self.menuView addMenuItemWithTitle:@"Text" andIcon:[UIImage imageNamed:@"sms.png"] andSelectedBlock:^{
         
-        MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
         if([MFMessageComposeViewController canSendText])
         {
-            controller.body = [NSString stringWithFormat:@"I just created a marker using CamLocker App. The download code is: %@, check it out!", downloadCode];
+            MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
+            controller.body = [NSString stringWithFormat:@"I just created a marker using the CamLocker App. The download code is: %@, check it out!", downloadCode];
             controller.messageComposeDelegate = weakSelf;
             [weakSelf presentViewController:controller animated:YES completion:nil];
         }
         
     }];
-    [self.menuView addMenuItemWithTitle:@"Photo" andIcon:[UIImage imageNamed:@"post_type_bubble_photo.png"] andSelectedBlock:^{
-        NSLog(@"Photo selected");
-    }];
-    [self.menuView addMenuItemWithTitle:@"Quote" andIcon:[UIImage imageNamed:@"post_type_bubble_quote.png"] andSelectedBlock:^{
-        NSLog(@"Quote selected");
+    [self.menuView addMenuItemWithTitle:@"Email" andIcon:[UIImage imageNamed:@"email.png"] andSelectedBlock:^{
+        
+        if ([MFMailComposeViewController canSendMail])
+        {
+            MFMailComposeViewController *mailer = [[MFMailComposeViewController alloc] init];
+            mailer.mailComposeDelegate = weakSelf;
+            [mailer setSubject:@"CamLocker Marker Sharing"];
+            NSString *emailBody = [NSString stringWithFormat:@"Hi,\n\nI just created a marker using the CamLocker App. The download code is: %@, check it out!\n\nSent from the CamLocker App.", downloadCode];
+            [mailer setMessageBody:emailBody isHTML:NO];
+            [weakSelf presentViewController:mailer animated:YES completion:nil];
+        }
         
     }];
-    [self.menuView addMenuItemWithTitle:@"Link" andIcon:[UIImage imageNamed:@"post_type_bubble_link.png"] andSelectedBlock:^{
-        NSLog(@"Link selected");
+    [self.menuView addMenuItemWithTitle:@"Facebook" andIcon:[UIImage imageNamed:@"facebook_new.png"] andSelectedBlock:^{
+        
+        if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+            
+            SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+            
+            [controller setInitialText:[NSString stringWithFormat:@"I just created a marker using the CamLocker App. The download code is: %@, check it out!", downloadCode]];
+            [controller addImage:[UIImage imageNamed:@"icon.png"]];
+            
+            [weakSelf presentViewController:controller animated:YES completion:Nil];
+        } else {
+            SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Oops" andMessage:@"Please login with your Facebook account in settings!"];
+            [alertView addButtonWithTitle:@"OK"
+                                     type:SIAlertViewButtonTypeDestructive
+                                  handler:^(SIAlertView *alertView) {
+                                  }];
+            alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
+            alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
+            alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
+            alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
+            alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
+            
+            [alertView show];
+        }
         
     }];
-    [self.menuView addMenuItemWithTitle:@"Chat" andIcon:[UIImage imageNamed:@"post_type_bubble_chat.png"] andSelectedBlock:^{
-        NSLog(@"Chat selected");
+    [self.menuView addMenuItemWithTitle:@"Twitter" andIcon:[UIImage imageNamed:@"twitter.png"] andSelectedBlock:^{
+        
+        if([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
+            
+            SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+            
+            [controller setInitialText:[NSString stringWithFormat:@"I just created a marker using the CamLocker App. The download code is: %@, check it out!", downloadCode]];
+            [controller addImage:[UIImage imageNamed:@"icon.png"]];
+            
+            [weakSelf presentViewController:controller animated:YES completion:Nil];
+        } else {
+            SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Oops" andMessage:@"Please login with your Twitter account in settings!"];
+            [alertView addButtonWithTitle:@"OK"
+                                     type:SIAlertViewButtonTypeDestructive
+                                  handler:^(SIAlertView *alertView) {
+                                  }];
+            alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
+            alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
+            alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
+            alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
+            alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
+            
+            [alertView show];
+        }
+    }];
+    [self.menuView addMenuItemWithTitle:@"Google+" andIcon:[UIImage imageNamed:@"google_plus.png"] andSelectedBlock:^{
         
     }];
-    [self.menuView addMenuItemWithTitle:@"Video" andIcon:[UIImage imageNamed:@"post_type_bubble_video.png"] andSelectedBlock:^{
-        NSLog(@"Video selected");
-        
+    [self.menuView addMenuItemWithTitle:@"Weibo" andIcon:[UIImage imageNamed:@"weibo.png"] andSelectedBlock:^{
+
     }];
     
-    FBShimmeringView *shimmeringView = [[FBShimmeringView alloc] initWithFrame:CGRectMake(20, 100, 280, 150)];
+    FBShimmeringView *shimmeringView = [[FBShimmeringView alloc] initWithFrame:CGRectMake(20, 95, 280, 150)];
     UILabel *downloadCodeLabel = [[UILabel alloc] initWithFrame:shimmeringView.bounds];
     downloadCodeLabel.textAlignment = NSTextAlignmentCenter;
     downloadCodeLabel.font = [UIFont fontWithName:@"OpenSans" size:28];
@@ -380,6 +431,34 @@
 {
     [controller dismissViewControllerAnimated:YES completion:nil];
 }
+
+#pragma mark - MFMailComposeViewControllerDelegate
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            NSLog(@"Mail cancelled: you cancelled the operation and no email message was queued.");
+            break;
+        case MFMailComposeResultSaved:
+            NSLog(@"Mail saved: you saved the email message in the drafts folder.");
+            break;
+        case MFMailComposeResultSent:
+            NSLog(@"Mail send: the email message is queued in the outbox. It is ready to send.");
+            break;
+        case MFMailComposeResultFailed:
+            NSLog(@"Mail failed: the email message was not saved or queued, possibly due to an error.");
+            break;
+        default:
+            NSLog(@"Mail not sent.");
+            break;
+    }
+    
+    // Remove the mail view
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 #pragma mark - UIImagePickerControllerDelegate
 

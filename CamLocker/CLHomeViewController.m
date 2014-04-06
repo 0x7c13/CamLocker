@@ -100,23 +100,10 @@
     self.halo.radius = 130;
     self.halo.backgroundColor = [UIColor flatWhiteColor].CGColor;
     [self.buttonView.layer insertSublayer:self.halo atIndex:0];
-    [NSTimer scheduledTimerWithTimeInterval:0.15f target:self selector:@selector(startSecondHalo) userInfo:nil repeats:NO];
-    [NSTimer scheduledTimerWithTimeInterval:0.3f target:self selector:@selector(startThirdHalo) userInfo:nil repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(startSecondHalo) userInfo:nil repeats:NO];
 }
 
 - (void)startSecondHalo
-{
-    if (!self.imageView.hidden) return;
-
-    CGFloat locationY = DEVICE_IS_4INCH_IPHONE ? 320 : 260;
-    PulsingHaloLayer *halo = [PulsingHaloLayer layer];
-    halo.position = CGPointMake(160, locationY);
-    halo.radius = 130;
-    halo.backgroundColor = [UIColor flatWhiteColor].CGColor;
-    [self.buttonView.layer insertSublayer:halo atIndex:0];
-}
-
-- (void)startThirdHalo
 {
     if (!self.imageView.hidden) return;
 

@@ -68,7 +68,7 @@
     self.progressView.hidden = YES;
     
     [_imageView setHidden:YES];
-    [_imageView setFramesCount:5];
+    [_imageView setFramesCount:8];
     [_imageView setBlurAmount:1];
     
     self.voiceControlButton.layer.cornerRadius = 15;
@@ -174,6 +174,7 @@
                               self.imageView.hidden = NO;
                               self.imageView.image = [CLUtilities snapshotViewForView:self.masterView];
                               self.imageView.baseImage = self.imageView.image;
+                              [self.imageView setBlurTintColor:[UIColor colorWithWhite:0.f alpha:0.5]];
                               [self.imageView generateBlurFramesWithCompletionBlock:^{
                                
                                   [self.imageView blurInAnimationWithDuration:0.3f];
