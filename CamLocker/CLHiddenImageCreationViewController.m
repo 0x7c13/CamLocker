@@ -17,18 +17,24 @@
 #import "SIAlertView.h"
 #import "PhotoStackView.h"
 #import "TSMessage.h"
+#import "FBShimmeringView.h"
 #import "ANBlurredImageView.h"
 #import "URBMediaFocusViewController.h"
 #import "MHNatGeoViewControllerTransition.h"
+#import "CHTumblrMenuView.h"
 #import "UIView+Genie.h"
+#import <MessageUI/MessageUI.h>
 
-@interface CLHiddenImageCreationViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, PhotoStackViewDataSource, PhotoStackViewDelegate, URBMediaFocusViewControllerDelegate> {
+
+@interface CLHiddenImageCreationViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, PhotoStackViewDataSource, PhotoStackViewDelegate, URBMediaFocusViewControllerDelegate, CHTumblrMenuViewDelegate, MFMessageComposeViewControllerDelegate> {
     BOOL isEncrypting;
+    BOOL canExit;
 }
 
 @property (nonatomic) NSMutableArray *hiddenImages;
 @property (nonatomic) NSMutableArray *photos;
 @property (nonatomic) URBMediaFocusViewController *mediaFocusController;
+@property (nonatomic) CHTumblrMenuView *menuView;
 
 @property (weak, nonatomic) IBOutlet UIView *masterView;
 @property (weak, nonatomic) IBOutlet ANBlurredImageView *imageView;
@@ -54,6 +60,7 @@
     
     [CLUtilities addBackgroundImageToView:self.masterView withImageName:@"bg_4.jpg"];
     
+    canExit = NO;
     isEncrypting = NO;
     
     _hiddenImages = [[NSMutableArray alloc]init];
@@ -68,7 +75,7 @@
     self.addMoreButton.enabled = NO;
     
     [_imageView setHidden:YES];
-    [_imageView setFramesCount:5];
+    [_imageView setFramesCount:8];
     [_imageView setBlurAmount:1];
     
     self.addImageButton.layer.cornerRadius = 15;
@@ -158,6 +165,11 @@
 
 - (IBAction)doneButtonPressed:(id)sender {
     
+    if (canExit) {
+        [CLMarkerManager sharedManager].tempMarkerImage = nil;
+        [self.navigationController dismissNatGeoViewController];
+        self.navigationController.navigationBar.userInteractionEnabled = YES;
+    }
     if (isEncrypting) return;
     if (self.photos.count == 0) {
         
@@ -183,13 +195,19 @@
                               }
                               self.navigationController.navigationBar.userInteractionEnabled = NO;
                               self.trashButton.enabled = NO;
+                              self.doneButton.enabled = NO;
+                              self.addMoreButton.enabled = NO;
+                              
                               isEncrypting = YES;
                               self.imageView.hidden = NO;
                               self.imageView.image = [CLUtilities snapshotViewForView:self.masterView];
                               self.imageView.baseImage = self.imageView.image;
+                              
+                              [self.imageView setBlurTintColor:[UIColor colorWithWhite:0.f alpha:0.5]];
                               [self.imageView generateBlurFramesWithCompletionBlock:^{
                                   
                                   [self.imageView blurInAnimationWithDuration:0.3f];
+                                  
                                   self.photoStack.userInteractionEnabled = NO;
                                   ETActivityIndicatorView *etActivity = [[ETActivityIndicatorView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2 - 30, self.view.frame.size.height/2 -30, 60, 60)];
                                   etActivity.color = [UIColor flatWhiteColor];
@@ -243,6 +261,7 @@
                               [JDStatusBarNotification showWithStatus:@"Uploading marker..." styleName:JDStatusBarStyleError];
                               [CLDataHandler uploadMarker:[[CLMarkerManager sharedManager].markers lastObject]  completionBlock:^(CLDataHandlerOption option, NSURL *markerURL, NSError *error){
                                   
+                                  [etActivity removeFromSuperview];
                                   [JDStatusBarNotification showWithStatus:@"Marker uploaded!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
                                   
                                   if (option == CLDataHandlerOptionSuccess) {
@@ -251,10 +270,8 @@
                                   } else {
                                       NSLog(@"%@", error.localizedDescription);
                                   }
-                                  [CLMarkerManager sharedManager].tempMarkerImage = nil;
-                                  [self.navigationController dismissNatGeoViewController];
-                                  self.navigationController.navigationBar.userInteractionEnabled = YES;
                                   
+                                  [self showShareMenu:markerURL];
                               }];
                               
                           }];
@@ -286,7 +303,85 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
-#pragma mark - UIImagePickerControllerDelegate methods
+- (void)tumblrMenuViewDidDismiss
+{
+    [CLMarkerManager sharedManager].tempMarkerImage = nil;
+    [self.navigationController dismissNatGeoViewController];
+    self.navigationController.navigationBar.userInteractionEnabled = YES;
+}
+
+- (void)showShareMenu:(NSURL *)markerURL
+{
+    canExit = YES;
+    self.doneButton.enabled = YES;
+    
+    NSString *downloadCode = [[[markerURL absoluteString] componentsSeparatedByString:@"/"] lastObject];
+    
+    self.menuView = [[CHTumblrMenuView alloc] init];
+    self.menuView.delegate = self;
+    self.menuView.backgroundImgView.image = self.imageView.image;
+    
+    __weak typeof(self) weakSelf = self;
+    [self.menuView addMenuItemWithTitle:@"Text" andIcon:[UIImage imageNamed:@"post_type_bubble_text.png"] andSelectedBlock:^{
+        NSLog(@"Text selected");
+        
+        MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
+        if([MFMessageComposeViewController canSendText])
+        {
+            controller.body = [NSString stringWithFormat:@"I just created a marker using CamLocker App. The download code is: %@, check it out!", downloadCode];
+            controller.messageComposeDelegate = weakSelf;
+            [weakSelf presentViewController:controller animated:YES completion:nil];
+        }
+        
+    }];
+    [self.menuView addMenuItemWithTitle:@"Photo" andIcon:[UIImage imageNamed:@"post_type_bubble_photo.png"] andSelectedBlock:^{
+        NSLog(@"Photo selected");
+    }];
+    [self.menuView addMenuItemWithTitle:@"Quote" andIcon:[UIImage imageNamed:@"post_type_bubble_quote.png"] andSelectedBlock:^{
+        NSLog(@"Quote selected");
+        
+    }];
+    [self.menuView addMenuItemWithTitle:@"Link" andIcon:[UIImage imageNamed:@"post_type_bubble_link.png"] andSelectedBlock:^{
+        NSLog(@"Link selected");
+        
+    }];
+    [self.menuView addMenuItemWithTitle:@"Chat" andIcon:[UIImage imageNamed:@"post_type_bubble_chat.png"] andSelectedBlock:^{
+        NSLog(@"Chat selected");
+        
+    }];
+    [self.menuView addMenuItemWithTitle:@"Video" andIcon:[UIImage imageNamed:@"post_type_bubble_video.png"] andSelectedBlock:^{
+        NSLog(@"Video selected");
+        
+    }];
+    
+    FBShimmeringView *shimmeringView = [[FBShimmeringView alloc] initWithFrame:CGRectMake(20, 100, 280, 150)];
+    UILabel *downloadCodeLabel = [[UILabel alloc] initWithFrame:shimmeringView.bounds];
+    downloadCodeLabel.textAlignment = NSTextAlignmentCenter;
+    downloadCodeLabel.font = [UIFont fontWithName:@"OpenSans" size:28];
+    downloadCodeLabel.numberOfLines = 3;
+    downloadCodeLabel.textColor = [UIColor flatWhiteColor];
+    downloadCodeLabel.text = [@"Your CamLocker download code is:\n" stringByAppendingString:downloadCode];
+    shimmeringView.contentView = downloadCodeLabel;
+    shimmeringView.shimmering = YES;
+    shimmeringView.alpha = 0.0f;
+    [self.menuView addSubview:shimmeringView];
+    
+    [self.menuView showInView:self.imageView];
+    
+    [UIView animateWithDuration:0.7f animations:^{
+        shimmeringView.alpha = 1.0f;
+    }];
+}
+
+
+#pragma mark - MFMessageComposeViewControllerDelegate
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{
+    [controller dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - UIImagePickerControllerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
