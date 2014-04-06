@@ -67,6 +67,10 @@
     self.isRecording = NO;
     self.progressView.hidden = YES;
     
+    [_imageView setHidden:YES];
+    [_imageView setFramesCount:5];
+    [_imageView setBlurAmount:1];
+    
     self.voiceControlButton.layer.cornerRadius = 15;
     if (!DEVICE_IS_4INCH_IPHONE) {
         self.voiceControlButton.frame = CGRectMake(50, 160, 220, 237);
@@ -163,7 +167,6 @@
                                   self.navigationController.interactivePopGestureRecognizer.enabled = NO;
                               }
                               self.navigationController.navigationBar.userInteractionEnabled = NO;
-                              //self.trashButton.enabled = NO;
                               isEncrypting = YES;
                               
                               [JDStatusBarNotification showWithStatus:@"Encrypting Data..." styleName:JDStatusBarStyleError];
@@ -186,28 +189,63 @@
                                                                                  hiddenAudioData:audioData
                                                                              withCompletionBlock:^{
                                                                                  
-                                                                                 [JDStatusBarNotification showWithStatus:@"Uploading marker..." styleName:JDStatusBarStyleError];
-                                                                                 [CLDataHandler uploadMarker:[[CLMarkerManager sharedManager].markers lastObject]  completionBlock:^(CLDataHandlerOption option, NSURL *markerURL, NSError *error){
-                                                                                     
-                                                                                     if (option == CLDataHandlerOptionSuccess) {
-                                                                                         
-                                                                                         NSLog(@"%@", markerURL);
-                                                                                     } else {
-                                                                                         NSLog(@"%@", error.localizedDescription);
-                                                                                     }
-                                                                                     
-                                                                                     [[NSFileManager defaultManager] removeItemAtPath:[CLFileManager voiceFilePathWithFileName:kAudioFileName] error:nil];
-                                                                                     
-                                                                                     [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
-                                                                                     [CLMarkerManager sharedManager].tempMarkerImage = nil;
-                                                                                     [etActivity removeFromSuperview];
-                                                                                     [self.navigationController dismissNatGeoViewController];
-                                                                                 }];
+                                                                                 [JDStatusBarNotification dismiss];
+                                                                                 [self uploadMarker];
+                                                                                 [etActivity removeFromSuperview];
   
                                                                              }];
                               
                               }];
                               
+                              
+                          }];
+    alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
+    alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
+    alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
+    alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
+    alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
+    
+    [alertView show];
+}
+
+- (void)uploadMarker
+{
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Share" andMessage:@"Would you like to share this marker with your friends? You can upload it to our server and share it with your friends!"];
+    [alertView addButtonWithTitle:@"No"
+                             type:SIAlertViewButtonTypeCancel
+                          handler:^(SIAlertView *alertView) {
+                              
+                              [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
+                              [CLMarkerManager sharedManager].tempMarkerImage = nil;
+                              [self.navigationController dismissNatGeoViewController];
+                              self.navigationController.navigationBar.userInteractionEnabled = YES;
+                              
+                          }];
+    [alertView addButtonWithTitle:@"Upload"
+                             type:SIAlertViewButtonTypeDestructive
+                          handler:^(SIAlertView *alertView) {
+                              
+                              ETActivityIndicatorView *etActivity = [[ETActivityIndicatorView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2 - 30, self.view.frame.size.height/2 -30, 60, 60)];
+                              etActivity.color = [UIColor flatWhiteColor];
+                              [etActivity startAnimating];
+                              [self.view addSubview:etActivity];
+                              
+                              [JDStatusBarNotification showWithStatus:@"Uploading marker..." styleName:JDStatusBarStyleError];
+                              [CLDataHandler uploadMarker:[[CLMarkerManager sharedManager].markers lastObject]  completionBlock:^(CLDataHandlerOption option, NSURL *markerURL, NSError *error){
+                                  
+                                  [JDStatusBarNotification showWithStatus:@"Marker uploaded!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
+                                  
+                                  if (option == CLDataHandlerOptionSuccess) {
+                                      
+                                      NSLog(@"%@", markerURL);
+                                  } else {
+                                      NSLog(@"%@", error.localizedDescription);
+                                  }
+                                  [CLMarkerManager sharedManager].tempMarkerImage = nil;
+                                  [self.navigationController dismissNatGeoViewController];
+                                  self.navigationController.navigationBar.userInteractionEnabled = YES;
+                                  
+                              }];
                               
                           }];
     alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;

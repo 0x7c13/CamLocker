@@ -81,24 +81,18 @@
                              type:SIAlertViewButtonTypeDestructive
                           handler:^(SIAlertView *alertView) {
                               
+                              if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+                                  self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+                              }
+                              self.navigationController.navigationBar.userInteractionEnabled = NO;
+                              self.textView.userInteractionEnabled = NO;
+                              
                               [JDStatusBarNotification showWithStatus:@"Encrypting Data..." styleName:JDStatusBarStyleError];
                               
                               [[CLMarkerManager sharedManager] addTextMarkerWithMarkerImage:[CLMarkerManager sharedManager].tempMarkerImage hiddenText:self.textView.text];
                               
-                              [JDStatusBarNotification showWithStatus:@"Uploading marker..." styleName:JDStatusBarStyleError];
-                              [CLDataHandler uploadMarker:[[CLMarkerManager sharedManager].markers lastObject]  completionBlock:^(CLDataHandlerOption option, NSURL *markerURL, NSError *error){
-                                  
-                                  if (option == CLDataHandlerOptionSuccess) {
-                                      
-                                      NSLog(@"%@", markerURL);
-                                  } else {
-                                      NSLog(@"%@", error.localizedDescription);
-                                  }
-                                  [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
-                                  [CLMarkerManager sharedManager].tempMarkerImage = nil;
-                                  [self.navigationController dismissNatGeoViewController];
-                                  
-                              }];
+                              [JDStatusBarNotification dismiss];
+                              [self uploadMarker];
                               
                           }];
     alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
@@ -120,6 +114,48 @@
 
 - (IBAction)userDidTapOnBackground:(id)sender {
     [self.textView resignFirstResponder];
+}
+
+- (void)uploadMarker
+{
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Share" andMessage:@"Would you like to share this marker with your friends? You can upload it to our server and share it with your friends!"];
+    [alertView addButtonWithTitle:@"No"
+                             type:SIAlertViewButtonTypeCancel
+                          handler:^(SIAlertView *alertView) {
+                              
+                              [JDStatusBarNotification showWithStatus:@"New marker created!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
+                              [CLMarkerManager sharedManager].tempMarkerImage = nil;
+                              [self.navigationController dismissNatGeoViewController];
+                              
+                          }];
+    [alertView addButtonWithTitle:@"Upload"
+                             type:SIAlertViewButtonTypeDestructive
+                          handler:^(SIAlertView *alertView) {
+                              
+                              [JDStatusBarNotification showWithStatus:@"Uploading marker..." styleName:JDStatusBarStyleError];
+                              [CLDataHandler uploadMarker:[[CLMarkerManager sharedManager].markers lastObject]  completionBlock:^(CLDataHandlerOption option, NSURL *markerURL, NSError *error){
+                                  
+                                  [JDStatusBarNotification showWithStatus:@"Marker uploaded!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
+                                  
+                                  if (option == CLDataHandlerOptionSuccess) {
+                                      
+                                      NSLog(@"%@", markerURL);
+                                  } else {
+                                      NSLog(@"%@", error.localizedDescription);
+                                  }
+                                  [CLMarkerManager sharedManager].tempMarkerImage = nil;
+                                  [self.navigationController dismissNatGeoViewController];
+                                  
+                              }];
+                              
+                          }];
+    alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
+    alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
+    alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
+    alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
+    alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
+    
+    [alertView show];
 }
 
 #pragma mark keyboard settings
