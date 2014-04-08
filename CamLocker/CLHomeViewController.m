@@ -12,12 +12,15 @@
 #import "CLFileManager.h"
 #import "CLHomeViewController.h"
 #import "CLMarkerManager.h"
+#import "CLDataHandler.h"
 #import "CLUtilities.h"
 #import "SIAlertView.h"
 #import "PulsingHaloLayer.h"
 #import "ANBlurredImageView.h"
 #import "UIColor+MLPFlatColors.h"
 #import "JDStatusBarNotification.h"
+#import "URBAlertView.h"
+#import "ETActivityIndicatorView.h"
 #import "DCPathButton.h"
 
 @interface CLHomeViewController () <DCPathButtonDelegate> {
@@ -29,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIView *masterView;
 @property (nonatomic) PulsingHaloLayer *halo;
 @property (nonatomic) DCPathButton *dcPathButton;
+@property (nonatomic) URBAlertView *alertView;
 
 @end
 
@@ -52,18 +56,19 @@
     [_imageView setBlurAmount:1];
     
     self.dcPathButton = [[DCPathButton alloc]
-                          initDCPathButtonWithSubButtons:5
+                          initDCPathButtonWithSubButtons:6
                           totalRadius:110
-                          centerRadius:50
-                          subRadius:37
+                          centerRadius:45
+                          subRadius:35
                           centerImage:@"circle"
                           centerBackground:nil
                           subImages:^(DCPathButton *dc){
                               [dc subButtonImage:@"locker_new" withTag:0];
                               [dc subButtonImage:@"camera_new" withTag:1];
-                              [dc subButtonImage:@"facebook_new" withTag:2];
+                              [dc subButtonImage:@"download" withTag:2];
                               [dc subButtonImage:@"twitter_new" withTag:3];
                               [dc subButtonImage:@"settings_new" withTag:4];
+                              [dc subButtonImage:@"facebook_new" withTag:5];
                           }
                           subImageBackground:nil
                           inLocationX:160 locationY:locationY toParentView:self.buttonView];
@@ -82,8 +87,10 @@
 
 - (void)animationSetup
 {
-    CGFloat locationY = DEVICE_IS_4INCH_IPHONE ? 210 : 170;
-    self.camLockerLogoLabel.frame = CGRectMake(20, locationY, 280, 120);
+    //CGFloat locationY = DEVICE_IS_4INCH_IPHONE ? 210 : 170;
+    //self.camLockerLogoLabel.frame = CGRectMake(20, locationY, 280, 120);
+    self.bottomLabel.frame = CGRectMake(-280, 510, 280, 40);
+    self.camLockerLogoLabel.frame = CGRectMake(320 + 280, 45, 280, 120);
     self.camLockerLogoLabel.alpha = 0.0f;
     self.dcPathButton.alpha = 0.0f;
     self.dcPathButton.userInteractionEnabled = NO;
@@ -94,6 +101,8 @@
 - (void)startHaloAnimation
 {
     [self stopHaloAnimation];
+    if (!self.dcPathButton.userInteractionEnabled) return;
+
     CGFloat locationY = DEVICE_IS_4INCH_IPHONE ? 320 : 260;
     self.halo = [PulsingHaloLayer layer];
     self.halo.position = CGPointMake(160, locationY);
@@ -136,20 +145,22 @@
         [self.dcPathButton close];
     }
     
-    [UIView animateWithDuration:0.7f animations:^{
+    [UIView animateWithDuration:0.5f animations:^{
         
         self.camLockerLogoLabel.alpha = 1.0f;
     } completion:^(BOOL finished){
         
-        [UIView animateWithDuration:0.7f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
             
             self.camLockerLogoLabel.frame = CGRectMake(20, 45, 280, 120);
+            self.bottomLabel.frame = CGRectMake(20, 510, 280, 40);
             self.bottomLabel.alpha = 1.0f;
         } completion:^(BOOL finished){
             
             if (!self.imageView.image) {
                 self.imageView.image = [CLUtilities snapshotViewForView:self.masterView];
                 self.imageView.baseImage = self.imageView.image;
+                [self.imageView setBlurTintColor:[UIColor colorWithWhite:0.f alpha:0.5]];
                 [self.imageView generateBlurFramesWithCompletion:^{}];
             }
             
@@ -185,6 +196,9 @@
 - (void)handleDidEnterBackground
 {
     [self animationSetup];
+    if (!self.alertView.isHidden) {
+        [self.alertView hide];
+    }
     needsToDisplayLaunchAnimation = YES;
     if (self.dcPathButton.isExpanded) {
         [self.dcPathButton close];
@@ -234,13 +248,13 @@
 
 #pragma mark - DCPathButton delegate
 
-- (void)button_0_action:(DCSubButton *)sender{
+- (void)button_0_action:(DCSubButton *)sender {
     NSLog(@"Button Press Tag 0!!");
     [self executeSubButtonAnimationForButton:sender];
     [self performSegueWithIdentifier:@"createMarkerSegue" sender:nil];
 }
 
-- (void)button_1_action:(DCSubButton *)sender{
+- (void)button_1_action:(DCSubButton *)sender {
     NSLog(@"Button Press Tag 1!!");
     [self executeSubButtonAnimationForButton:sender];
     
@@ -262,35 +276,68 @@
     }
 }
 
-- (void)button_2_action:(DCSubButton *)sender{
+- (void)button_2_action:(DCSubButton *)sender {
     NSLog(@"Button Press Tag 2!!");
     [self executeSubButtonAnimationForButton:sender];
     
-    if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+    __weak typeof(self) weakSelf = self;
+    self.alertView = [URBAlertView dialogWithTitle:@"Download Code" message:@"Enter your CamLocker download code here:"];
+    [self.alertView addButtonWithTitle:@"Cancel"];
+    [self.alertView addButtonWithTitle:@"Confirm"];
+    [self.alertView addTextFieldWithPlaceholder:@"Download code" secure:NO];
+    [self.alertView setHandlerBlock:^(NSInteger buttonIndex, URBAlertView *alertView) {
         
-        SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+        if (buttonIndex == 1) {
+            if ([alertView textForTextFieldAtIndex:0].length == 8) {
+                
+                CGFloat locationY = DEVICE_IS_4INCH_IPHONE ? 290 : 230;
+                ETActivityIndicatorView *etActivity = [[ETActivityIndicatorView alloc] initWithFrame:CGRectMake(weakSelf.view.frame.size.width/2 - 30, locationY, 60, 60)];
+                etActivity.color = [UIColor flatBlackColor];
+                [etActivity startAnimating];
+                etActivity.tag = 6713;
+                [weakSelf.view addSubview:etActivity];
+                
+                [JDStatusBarNotification showWithStatus:@"Downloading..." styleName:JDStatusBarStyleWarning];
+                
+                [CLDataHandler downloadMarkerByDownloadCode:[alertView textForTextFieldAtIndex:0]
+                                                   progress:nil
+                                            completionBlock:^(CLDataHandlerOption option, NSError *error){
+                                                
+                                                weakSelf.dcPathButton.userInteractionEnabled = YES;
+                                                [[weakSelf.view viewWithTag:6713] removeFromSuperview];
+                                                if (option == CLDataHandlerOptionSuccess) {
+                                                    [JDStatusBarNotification showWithStatus:@"New marker added" dismissAfter:2.0f styleName:JDStatusBarStyleSuccess];
+                                                } else if (option == CLDataHandlerOptionFailure) {
+                                                    
+                                                    if (error) {
+                                                        [JDStatusBarNotification showWithStatus:error.localizedDescription dismissAfter:2.0f styleName:JDStatusBarStyleError];
+                                                    } else {
+                                                        [JDStatusBarNotification showWithStatus:@"Error occurs" dismissAfter:2.0f styleName:JDStatusBarStyleError];
+                                                    }
+                                                }
+                                            }];
+                
+                weakSelf.dcPathButton.userInteractionEnabled = NO;
+                [weakSelf.dcPathButton close];
+                [alertView hideWithAnimation:URBAlertAnimationDefault];
+            } else {
+                CAKeyframeAnimation * anim = [ CAKeyframeAnimation animationWithKeyPath:@"transform" ] ;
+                anim.values = @[ [ NSValue valueWithCATransform3D:CATransform3DMakeTranslation(-5.0f, 0.0f, 0.0f) ], [ NSValue valueWithCATransform3D:CATransform3DMakeTranslation(5.0f, 0.0f, 0.0f) ] ] ;
+                anim.autoreverses = YES ;
+                anim.repeatCount = 2.0f ;
+                anim.duration = 0.07f ;
+                [alertView.layer addAnimation:anim forKey:nil] ;
+            }
+        } else if (buttonIndex == 0) {
+            [weakSelf.dcPathButton close];
+            [alertView hideWithAnimation:URBAlertAnimationDefault];
+        }
         
-        [controller setInitialText:@"Check out CamLocker! Hide and share your images, voice or text in seconds. http://www.camlockerapp.com"];
-        [controller addImage:[UIImage imageNamed:@"icon.png"]];
-        
-        [self presentViewController:controller animated:YES completion:Nil];
-    } else {
-        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Oops" andMessage:@"Please login with your Facebook account in settings!"];
-        [alertView addButtonWithTitle:@"OK"
-                                 type:SIAlertViewButtonTypeDestructive
-                              handler:^(SIAlertView *alertView) {
-                              }];
-        alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
-        alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
-        alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
-        alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
-        alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
-        
-        [alertView show];
-    }
+    }];
+    [self.alertView showWithAnimation:URBAlertAnimationDefault];
 }
 
-- (void)button_3_action:(DCSubButton *)sender{
+- (void)button_3_action:(DCSubButton *)sender {
     NSLog(@"Button Press Tag 3!!");
     [self executeSubButtonAnimationForButton:sender];
     
@@ -298,7 +345,7 @@
         
         SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
         
-        [controller setInitialText:@"Check out CamLocker! Hide and share your images, voice or text in seconds. http://www.camlockerapp.com"];
+        [controller setInitialText:@"Check out the CamLocker App! Hide and share your images, voice or text in seconds. http://www.camlockerapp.com"];
         [controller addImage:[UIImage imageNamed:@"icon.png"]];
         
         [self presentViewController:controller animated:YES completion:Nil];
@@ -318,11 +365,39 @@
     }
 }
 
-- (void)button_4_action:(DCSubButton *)sender{
+- (void)button_4_action:(DCSubButton *)sender {
     NSLog(@"Button Press Tag 4!!");
-
     [self executeSubButtonAnimationForButton:sender];
+    
     [self deleteAllDataButtonPressed:sender];
+}
+
+- (void)button_5_action:(DCSubButton *)sender {
+    NSLog(@"Button Press Tag 5!!");
+    [self executeSubButtonAnimationForButton:sender];
+    
+    if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+        
+        SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+        
+        [controller setInitialText:@"Check out the CamLocker App! Hide and share your images, voice or text in seconds. http://www.camlockerapp.com"];
+        [controller addImage:[UIImage imageNamed:@"icon.png"]];
+        
+        [self presentViewController:controller animated:YES completion:Nil];
+    } else {
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Oops" andMessage:@"Please login with your Facebook account in settings!"];
+        [alertView addButtonWithTitle:@"OK"
+                                 type:SIAlertViewButtonTypeDestructive
+                              handler:^(SIAlertView *alertView) {
+                              }];
+        alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
+        alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
+        alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
+        alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
+        alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
+        
+        [alertView show];
+    }
 }
 
 - (void)executeSubButtonAnimationForButton:(DCSubButton *)button

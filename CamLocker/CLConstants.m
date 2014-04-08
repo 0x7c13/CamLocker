@@ -13,10 +13,10 @@
 NSString * const VERSION = @"1.0";
 
 /* API PATHS */
-NSString * const API_BASE_URL = @"http://coderhosting.com:8080/";
+NSString * const API_BASE_URL = @"http://coderhosting.com:8080";
 
-NSString * const API_SHARE_MARKER = @"ShareMarker";
-NSString * const API_GET_MARKER = @"Get/";
+NSString * const API_SHARE_MARKER = @"/ShareMarker";
+NSString * const API_GET_MARKER = @"/Get/";
 
 /* PARAMS */
 NSString * const PARAM_DATA = @"Data";

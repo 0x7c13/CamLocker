@@ -137,6 +137,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <view alpha="0.80000001192092896" contentMode="scaleToFill" id="Yll-1K-qdI" customClass="THProgressView">
+                                <rect key="frame" x="70" y="410" width="179" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -174,6 +178,7 @@
                         <outlet property="masterView" destination="jvl-e2-GNE" id="l7p-7f-2Lj"/>
                         <outlet property="pageControl" destination="uX8-OI-urW" id="dHr-5g-WE1"/>
                         <outlet property="photoStack" destination="1Zx-I8-eOo" id="u4n-fT-Oyi"/>
+                        <outlet property="progressView" destination="Yll-1K-qdI" id="Nkl-wd-39m"/>
                         <outlet property="trashButton" destination="N2x-Og-T10" id="2W8-sf-lO8"/>
                     </connections>
                 </viewController>
@@ -251,7 +256,7 @@
                                         <size key="shadowOffset" width="-1" height="-1"/>
                                     </label>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Demo Version 2014" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NlA-GW-ehB">
-                                        <rect key="frame" x="20" y="510" width="280" height="39"/>
+                                        <rect key="frame" x="20" y="510" width="280" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="Zapfino" family="Zapfino" pointSize="14"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -388,39 +393,54 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add your text" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MTb-Ea-DZA">
-                                <rect key="frame" x="30" y="75" width="260" height="52"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="30"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="TsZ-gE-XOl">
-                                <rect key="frame" x="35" y="149" width="250" height="325"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="90"/>
-                                <state key="normal" title="+">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="addImageButtonPressed:" destination="G8Y-i3-MOv" eventType="touchUpInside" id="vdm-Sk-wxN"/>
-                                    <action selector="addTextButtonPressed:" destination="eWM-gE-8Sw" eventType="touchUpInside" id="uDx-u8-Lj9"/>
-                                </connections>
-                            </button>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" id="L5r-j7-XfF">
-                                <rect key="frame" x="50" y="160" width="220" height="300"/>
+                            <view contentMode="scaleToFill" id="g5h-QF-u9N" userLabel="MasterView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" id="mBj-KY-4GJ">
-                                        <rect key="frame" x="0.0" y="-10" width="220" height="300"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add your text" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MTb-Ea-DZA">
+                                        <rect key="frame" x="30" y="75" width="260" height="52"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="30"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
-                                    </textView>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="TsZ-gE-XOl">
+                                        <rect key="frame" x="35" y="149" width="250" height="325"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="90"/>
+                                        <state key="normal" title="+">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="addImageButtonPressed:" destination="G8Y-i3-MOv" eventType="touchUpInside" id="vdm-Sk-wxN"/>
+                                            <action selector="addTextButtonPressed:" destination="eWM-gE-8Sw" eventType="touchUpInside" id="uDx-u8-Lj9"/>
+                                        </connections>
+                                    </button>
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" id="L5r-j7-XfF">
+                                        <rect key="frame" x="50" y="160" width="220" height="300"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" id="mBj-KY-4GJ">
+                                                <rect key="frame" x="0.0" y="-10" width="220" height="300"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
+                                            </textView>
+                                        </subviews>
+                                    </view>
                                 </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="1cg-WW-SET" customClass="ANBlurredImageView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <view alpha="0.80000001192092896" contentMode="scaleToFill" id="We2-Lo-8rr" customClass="THProgressView">
+                                <rect key="frame" x="70" y="410" width="179" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -443,6 +463,10 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics" barStyle="black"/>
                     <connections>
                         <outlet property="addTextButton" destination="TsZ-gE-XOl" id="tKn-D3-F6Y"/>
+                        <outlet property="doneButton" destination="8n0-jH-sXb" id="aJl-wv-jk9"/>
+                        <outlet property="imageView" destination="1cg-WW-SET" id="Vk1-Um-EuK"/>
+                        <outlet property="masterView" destination="g5h-QF-u9N" id="sE7-d0-pAB"/>
+                        <outlet property="progressView" destination="We2-Lo-8rr" id="WPY-zv-lbO"/>
                         <outlet property="textView" destination="mBj-KY-4GJ" id="e2f-EQ-Z7T"/>
                         <outlet property="textViewContainer" destination="L5r-j7-XfF" id="KUw-Fu-0FX"/>
                     </connections>
@@ -488,17 +512,17 @@
                                             <action selector="voiceControlButtonPressed:" destination="fit-e8-exS" eventType="touchUpInside" id="AiQ-bq-YMZ"/>
                                         </connections>
                                     </button>
-                                    <view alpha="0.80000000000000004" contentMode="scaleToFill" id="TqA-Mf-Rog" customClass="THProgressView">
-                                        <rect key="frame" x="70" y="410" width="179" height="23"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="VpF-gI-0gy" customClass="ANBlurredImageView">
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="VpF-gI-0gy" customClass="ANBlurredImageView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <view alpha="0.80000000000000004" contentMode="scaleToFill" id="TqA-Mf-Rog" customClass="THProgressView">
+                                <rect key="frame" x="70" y="410" width="179" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -516,6 +540,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics" barStyle="black"/>
                     <connections>
+                        <outlet property="doneButton" destination="6Sn-lT-fdL" id="YnK-B7-9Nu"/>
                         <outlet property="imageView" destination="VpF-gI-0gy" id="hJk-f0-UDq"/>
                         <outlet property="masterView" destination="csI-ha-XnF" id="Rni-M6-AGW"/>
                         <outlet property="progressView" destination="TqA-Mf-Rog" id="2wN-BQ-BFM"/>

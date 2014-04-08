@@ -23,6 +23,8 @@
 #import "MHNatGeoViewControllerTransition.h"
 #import "CHTumblrMenuView.h"
 #import "UIView+Genie.h"
+#import "UIKit+AFNetworking.h"
+#import "THProgressView.h"
 #import <MessageUI/MessageUI.h>
 #import <Social/Social.h>
 
@@ -45,6 +47,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addMoreButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *trashButton;
+@property (weak, nonatomic) IBOutlet THProgressView *progressView;
 
 @end
 
@@ -72,8 +75,12 @@
     _photoStack.delegate = self;
     self.photoStack.hidden = YES;
     self.pageControl.hidden = YES;
+    self.progressView.hidden = YES;
     self.trashButton.enabled = NO;
     self.addMoreButton.enabled = NO;
+    
+    self.progressView.borderTintColor = [UIColor whiteColor];
+    self.progressView.progressTintColor = [UIColor whiteColor];
     
     [_imageView setHidden:YES];
     [_imageView setFramesCount:8];
@@ -170,6 +177,7 @@
         [CLMarkerManager sharedManager].tempMarkerImage = nil;
         [self.navigationController dismissNatGeoViewController];
         self.navigationController.navigationBar.userInteractionEnabled = YES;
+        return;
     }
     if (isEncrypting) return;
     if (self.photos.count == 0) {
@@ -258,13 +266,30 @@
                               etActivity.color = [UIColor flatWhiteColor];
                               [etActivity startAnimating];
                               [self.view addSubview:etActivity];
-                              
+
                               [JDStatusBarNotification showWithStatus:@"Uploading marker..." styleName:JDStatusBarStyleError];
-                              [CLDataHandler uploadMarker:[[CLMarkerManager sharedManager].markers lastObject]  completionBlock:^(CLDataHandlerOption option, NSURL *markerURL, NSError *error){
+
+                              self.progressView.progress = 0.0f;
+                              self.progressView.alpha = 0.0f;
+                              self.progressView.hidden = NO;
+                              [UIView animateWithDuration:0.3f animations:^{
+                                  self.progressView.alpha = 1.0f;
+                              }];
+                              
+                              [CLDataHandler uploadMarker:[[CLMarkerManager sharedManager].markers lastObject]
+                                                 progress:^(NSUInteger bytesWritten, NSInteger totalBytesWritten){
+                                                     [self.progressView setProgress:(double)bytesWritten/(double)totalBytesWritten animated:YES];
+                                                 }
+                                          completionBlock:^(CLDataHandlerOption option, NSURL *markerURL, NSError *error){
                                   
                                   [etActivity removeFromSuperview];
-                                  [JDStatusBarNotification showWithStatus:@"Marker uploaded!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
+                                  [JDStatusBarNotification showWithStatus:@"Marker uploaded!" dismissAfter:2.0f styleName:JDStatusBarStyleSuccess];
                                   
+                                  [UIView animateWithDuration:0.3f animations:^{
+                                      self.progressView.alpha = 0.0f;
+                                      self.progressView.hidden = YES;
+                                  }];
+                                              
                                   if (option == CLDataHandlerOptionSuccess) {
                                       
                                       NSLog(@"%@", markerURL);
@@ -402,7 +427,29 @@
         
     }];
     [self.menuView addMenuItemWithTitle:@"Weibo" andIcon:[UIImage imageNamed:@"weibo.png"] andSelectedBlock:^{
-
+        
+        if([SLComposeViewController isAvailableForServiceType:SLServiceTypeSinaWeibo]) {
+            
+            SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeSinaWeibo];
+            
+            [controller setInitialText:[NSString stringWithFormat:@"I just created a marker using the CamLocker App. The download code is: %@, check it out!", downloadCode]];
+            [controller addImage:[UIImage imageNamed:@"icon.png"]];
+            
+            [weakSelf presentViewController:controller animated:YES completion:Nil];
+        } else {
+            SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Oops" andMessage:@"Please login with your Weibo account in settings!"];
+            [alertView addButtonWithTitle:@"OK"
+                                     type:SIAlertViewButtonTypeDestructive
+                                  handler:^(SIAlertView *alertView) {
+                                  }];
+            alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
+            alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
+            alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
+            alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
+            alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
+            
+            [alertView show];
+        }
     }];
     
     FBShimmeringView *shimmeringView = [[FBShimmeringView alloc] initWithFrame:CGRectMake(20, 95, 280, 150)];
@@ -429,6 +476,13 @@
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
 {
+    switch (result) {
+        case MessageComposeResultSent:
+            [JDStatusBarNotification showWithStatus:@"Message sent!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
+            break;
+        default:
+            break;
+    }
     [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -445,7 +499,7 @@
             NSLog(@"Mail saved: you saved the email message in the drafts folder.");
             break;
         case MFMailComposeResultSent:
-            NSLog(@"Mail send: the email message is queued in the outbox. It is ready to send.");
+            [JDStatusBarNotification showWithStatus:@"Email sent!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
             break;
         case MFMailComposeResultFailed:
             NSLog(@"Mail failed: the email message was not saved or queued, possibly due to an error.");

@@ -22,7 +22,8 @@
 - (CLMarker *)markerByCosName:(NSString *)cosName;
 
 - (void)addTextMarkerWithMarkerImage:(UIImage *)image
-                          hiddenText:(NSString *)hiddenText;
+                          hiddenText:(NSString *)hiddenText
+                 withCompletionBlock:(void (^)())completion;
 
 - (void)addImageMarkerWithMarkerImage:(UIImage *)image
                          hiddenImages:(NSArray *)hiddenImages

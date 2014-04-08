@@ -50,31 +50,10 @@
     
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
     
-    /*
-    [CLDataHandler uploadMarker:[CLMarkerManager sharedManager].markers[0] completionBlock:^(CLDataHandlerOption option, NSURL *markerURL, NSError *error){
-        
-        if (option == CLDataHandlerOptionSuccess) {
-            NSLog(@"%@", markerURL);
-        } else {
-            NSLog(@"%@", error.localizedDescription);
-        }
-    }];
-     */
-    
-    /*
-    [CLDataHandler downloadMarkerBy:@"LEDcwqlu" completionBlock:^(CLDataHandlerOption option, NSDictionary *markerJson, NSError *error){
-        
-        if (option == CLDataHandlerOptionSuccess) {
-            NSLog(@"%@", markerJson);
-        } else {
-            NSLog(@"%@", error.localizedDescription);
-        }
-    }];
-     */
     
     return YES;
 }
-							
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

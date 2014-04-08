@@ -62,18 +62,27 @@
 }
 
 - (void)addTextMarkerWithMarkerImage:(UIImage *)image
-                          hiddenText:(NSString *)hiddenText {
+                          hiddenText:(NSString *)hiddenText
+                 withCompletionBlock:(void (^)())completion
+{
     
-    [self.markers addObject:[[CLTextMarker alloc]initWithMarkerImage:image hiddenText:hiddenText]];
-    NSData *markerData = [NSKeyedArchiver archivedDataWithRootObject:self.markers];
-    markerData = [markerData AES256EncryptWithKey:[CLKeyGenerator mainKeyForKey:[CLKeyGenerator mainKeyString]]];
-    [[NSUserDefaults standardUserDefaults] setObject:markerData forKey:kMarkers];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        [self.markers addObject:[[CLTextMarker alloc]initWithMarkerImage:image hiddenText:hiddenText]];
+        NSData *markerData = [NSKeyedArchiver archivedDataWithRootObject:self.markers];
+        markerData = [markerData AES256EncryptWithKey:[CLKeyGenerator mainKeyForKey:[CLKeyGenerator mainKeyString]]];
+        [[NSUserDefaults standardUserDefaults] setObject:markerData forKey:kMarkers];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completion();
+        });
+    });
 }
 
 -(void)addImageMarkerWithMarkerImage:(UIImage *)image
                         hiddenImages:(NSArray *)hiddenImages
-                 withCompletionBlock:(void (^)())block
+                 withCompletionBlock:(void (^)())completion
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
@@ -85,7 +94,7 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            block();
+            completion();
         });
     });
 }

@@ -12,6 +12,7 @@
 @interface CLTextMarker : CLMarker <NSCoding>
 
 @property (nonatomic, copy, readonly) NSString *hiddenTextPath;
+@property (nonatomic, copy, readonly) NSString *keyOfHiddenText;
 
 - (instancetype) init __attribute__((unavailable("init not available")));
 - (instancetype) initWithMarkerImage:(UIImage *)markerImage __attribute__ ((unavailable("initWithMarkerImage: not available")));

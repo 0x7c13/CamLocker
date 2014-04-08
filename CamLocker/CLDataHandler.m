@@ -13,12 +13,17 @@
 #import "CLImageMarker.h"
 #import "CLAudioMarker.h"
 #import "CLConstants.h"
+#import "CLKeyGenerator.h"
+#import "CLMarkerManager.h"
+#import "NSData+CLEncryption.h"
 
 #define kAFNetworkingEnabled 1
 
 @implementation CLDataHandler 
 
-+ (void)uploadMarker:(CLMarker *)marker completionBlock:(void (^)(CLDataHandlerOption option, NSURL *markerURL, NSError *error))completion;
++ (void)uploadMarker:(CLMarker *)marker
+            progress:(void (^)(NSUInteger, NSInteger))progress
+     completionBlock:(void (^)(CLDataHandlerOption, NSURL *, NSError *))completion
 {
     NSMutableDictionary *dataDic = [[NSMutableDictionary alloc] init];
     
@@ -58,39 +63,170 @@
     
     //NSLog(@"%@", postData);
     
-    [[CLAppAPIClient sharedClient] POST:API_SHARE_MARKER
-                             parameters:postData
-                                success:^(NSURLSessionDataTask *task, id responseObject){
+    /*
+    return [[CLAppAPIClient sharedClient] POST:API_SHARE_MARKER
+                                    parameters:postData
+                                       success:^(NSURLSessionDataTask *task, id responseObject){
                                     
-                                    NSURL *downloadURL = [NSURL URLWithString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]];
+                                           NSURL *downloadURL = [NSURL URLWithString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]];
                                     
-                                    completion(CLDataHandlerOptionSuccess,downloadURL, nil);
-                                }
-                                failure:^(NSURLSessionDataTask *task, NSError *error) {
+                                           completion(CLDataHandlerOptionSuccess,downloadURL, nil);
+                                       }
+                                       failure:^(NSURLSessionDataTask *task, NSError *error) {
                                     
-                                    completion(CLDataHandlerOptionFailure, nil, error);
-                                }];
- 
+                                           completion(CLDataHandlerOptionFailure, nil, error);
+                                       }];
+     
+     */
+    
+    AFHTTPRequestSerializer *serializer = [AFHTTPRequestSerializer serializer];
+    
+    NSMutableURLRequest *request =
+    [serializer requestWithMethod:@"POST"
+                        URLString:[API_BASE_URL stringByAppendingString:API_SHARE_MARKER]
+                       parameters:postData
+                            error:nil];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    
+    AFHTTPRequestOperation *operation =
+    [manager HTTPRequestOperationWithRequest:request
+                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                         
+                                         NSURL *downloadURL = [NSURL URLWithString:[[NSString alloc] initWithData:responseObject
+                                                                                                         encoding:NSUTF8StringEncoding]];
+                                    
+                                         completion(CLDataHandlerOptionSuccess,downloadURL, nil);
+                                         
+                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                         
+                                           completion(CLDataHandlerOptionFailure, nil, error);
+                                     }];
+    
+    [operation setUploadProgressBlock:^(NSUInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite){
+        progress(totalBytesWritten, totalBytesExpectedToWrite);
+    }];
+    
+    [operation start];
 }
 
 
-+ (void)downloadMarkerBy:(NSString *)identifier completionBlock:(void (^)(CLDataHandlerOption option, NSDictionary *markerData, NSError *error))completion
++ (void)downloadMarkerByDownloadCode:(NSString *)downloadCode
+                            progress:(void (^)(NSUInteger, NSInteger))progress
+                     completionBlock:(void (^)(CLDataHandlerOption option, NSError *error))completion
 {
     
-    [[CLAppAPIClient sharedClient] GET:[API_GET_MARKER stringByAppendingString:identifier]
-                            parameters:nil
-                               success:^(NSURLSessionDataTask *task, id responseObject){
+    AFHTTPRequestSerializer *serializer = [AFHTTPRequestSerializer serializer];
+
+    NSMutableURLRequest *request =
+    [serializer requestWithMethod:@"GET"
+                        URLString:[API_BASE_URL stringByAppendingString:[API_GET_MARKER stringByAppendingString:downloadCode]]
+                       parameters:nil
+                            error:nil];
     
-                                   NSDictionary *markerDic = [NSJSONSerialization JSONObjectWithData:responseObject options:kNilOptions error:nil];
-                                   
-                                   completion(CLDataHandlerOptionSuccess, markerDic, nil);
-                               
-                               }
-                               failure:^(NSURLSessionDataTask *task, NSError *error) {
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     
-                                   completion(CLDataHandlerOptionFailure, nil, error);
-                               }];
+    AFHTTPRequestOperation *operation =
+    [manager HTTPRequestOperationWithRequest:request
+                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                         
+                                        NSDictionary *packetDic = [NSJSONSerialization JSONObjectWithData:responseObject options:kNilOptions error:nil];
+                                         //NSLog(@"%@", packetDic);
+                                         
+                                         [[self class] processMarkerDataWithAttribute:packetDic completion:^(CLDataHandlerOption option){
+                                            
+                                             if (option == CLDataHandlerOptionSuccess) {
+                                                 completion(CLDataHandlerOptionSuccess, nil);
+                                             } else if (option == CLDataHandlerOptionFailure) {
+                                                 completion(CLDataHandlerOptionFailure, nil);
+                                             }
+                                         }];
+                                        
+                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                         
+                                         completion(CLDataHandlerOptionFailure, error);
+                                     }];
     
+    [operation setUploadProgressBlock:^(NSUInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite){
+        progress(totalBytesWritten, totalBytesExpectedToWrite);
+    }];
+    
+    [operation start];
+}
+
++ (void)processMarkerDataWithAttribute:(NSDictionary *)packetDic completion:(void (^)(CLDataHandlerOption option))completion
+{
+    if (packetDic == nil) {
+        completion(CLDataHandlerOptionFailure);
+        return;
+    }
+    
+    if ([packetDic objectForKey:PARAM_MARKER_KEY] == [NSNull null] || [packetDic objectForKey:PARAM_MARKER_KEY] == nil) {
+        completion(CLDataHandlerOptionFailure);
+        return;
+    }
+    
+    CLMarker *marker = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSData alloc] initWithBase64EncodedString:(NSString *)[packetDic objectForKey:PARAM_MARKER_KEY] options:0]];\
+    
+    if (marker == nil) {
+        completion(CLDataHandlerOptionFailure);
+        return;
+    }
+    
+    if ([packetDic objectForKey:PARAM_MARKER_IMAGE] == [NSNull null] || [packetDic objectForKey:PARAM_MARKER_IMAGE] == nil) {
+        completion(CLDataHandlerOptionFailure);
+        return;
+    }
+    
+    UIImage *markerImage = [UIImage imageWithData:[[[NSData alloc] initWithBase64EncodedData:[packetDic objectForKey:PARAM_MARKER_IMAGE] options:0] AES256DecryptWithKey:[CLKeyGenerator hiddenKeyForKey:marker.key]]];
+    if (markerImage == nil) {
+        completion(CLDataHandlerOptionFailure);
+        return;
+    }
+    
+    if ([packetDic objectForKey:PARAM_MARKER_HIDDEN_CONTENT] == [NSNull null] || [packetDic objectForKey:PARAM_MARKER_HIDDEN_CONTENT] == nil) {
+        completion(CLDataHandlerOptionFailure);
+        return;
+    }
+    
+    if ([marker isKindOfClass:[CLTextMarker class]]) {
+        NSLog(@"Text Marker");
+        NSString *hiddenText = [[NSString alloc] initWithData:[[[NSData alloc] initWithBase64EncodedString:[[packetDic objectForKey:PARAM_MARKER_HIDDEN_CONTENT] objectAtIndex:0] options:0] AES256DecryptWithKey:[CLKeyGenerator hiddenKeyForKey:((CLTextMarker *)marker).keyOfHiddenText]] encoding:NSUTF8StringEncoding];
+        
+        [[CLMarkerManager sharedManager] addTextMarkerWithMarkerImage:markerImage hiddenText:hiddenText withCompletionBlock:^{
+            completion(CLDataHandlerOptionSuccess);
+        }];
+        
+    } else if ([marker isKindOfClass:[CLAudioMarker class]]) {
+        NSLog(@"Audio Marker");
+        
+        NSData *hiddenAudioData = [[[NSData alloc] initWithBase64EncodedString:[[packetDic objectForKey:PARAM_MARKER_HIDDEN_CONTENT] objectAtIndex:0] options:0] AES256DecryptWithKey:[CLKeyGenerator hiddenKeyForKey:((CLAudioMarker *)marker).keyOfHiddenAudio]];
+        
+        [[CLMarkerManager sharedManager] addAudioMarkerWithMarkerImage:markerImage hiddenAudioData:hiddenAudioData withCompletionBlock:^{
+            completion(CLDataHandlerOptionSuccess);
+        }];
+        
+    } else if ([marker isKindOfClass:[CLImageMarker class]]) {
+        NSLog(@"Image Marker");
+        
+        NSMutableArray *hiddenImages = [[NSMutableArray alloc]init];
+        
+        NSArray *arrayOfBase64Data = [packetDic objectForKey:PARAM_MARKER_HIDDEN_CONTENT];
+        
+        for (NSInteger i = 0; i < arrayOfBase64Data.count; i++) {
+            UIImage *hiddenImage = [UIImage imageWithData:[[[NSData alloc] initWithBase64EncodedString:arrayOfBase64Data[i] options:0] AES256DecryptWithKey:[CLKeyGenerator hiddenKeyForKey:((CLImageMarker *)marker).keyOfHiddenImages]]];
+            [hiddenImages addObject:hiddenImage];
+        }
+        
+        [[CLMarkerManager sharedManager] addImageMarkerWithMarkerImage:markerImage hiddenImages:hiddenImages withCompletionBlock:^{
+            completion(CLDataHandlerOptionSuccess);
+        }];
+        
+    }
 }
 
 @end
+
+

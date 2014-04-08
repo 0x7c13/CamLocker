@@ -12,6 +12,7 @@
 @interface CLImageMarker : CLMarker <NSCoding>
 
 @property (nonatomic, copy, readonly) NSMutableArray *hiddenImagePaths;
+@property (nonatomic, copy, readonly) NSString *keyOfHiddenImages;
 
 - (instancetype) init __attribute__((unavailable("init not available")));
 - (instancetype) initWithMarkerImage:(UIImage *)markerImage __attribute__ ((unavailable("initWithMarkerImage: not available")));

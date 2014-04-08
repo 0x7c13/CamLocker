@@ -19,27 +19,34 @@
 #import "ANBlurredImageView.h"
 #import "MHNatGeoViewControllerTransition.h"
 #import "TSMessage.h"
+#import "CHTumblrMenuView.h"
+#import "FBShimmeringView.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
+#import <MessageUI/MessageUI.h>
+#import <Social/Social.h>
 
 #define kAudioFileName @"tmp.aac"
 
-@interface CLHiddenVoiceViewController () <AVAudioPlayerDelegate, AVAudioRecorderDelegate> {
+@interface CLHiddenVoiceViewController () <AVAudioPlayerDelegate, AVAudioRecorderDelegate, CHTumblrMenuViewDelegate, MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate> {
     BOOL canPlayAudio;
     BOOL isEncrypting;
     BOOL audioCreated;
+    BOOL canExit;
 }
 
 @property (weak, nonatomic) IBOutlet UIButton *voiceControlButton;
 @property (weak, nonatomic) IBOutlet THProgressView *progressView;
 @property (weak, nonatomic) IBOutlet ANBlurredImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIView *masterView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 
 @property (nonatomic) BOOL isRecording;
 @property (nonatomic) AVAudioRecorder *voiceRecorder;
 @property (nonatomic) AVAudioPlayer *audioPlayer;
 @property (nonatomic) NSTimer *timer;
 @property (nonatomic) CGFloat progress;
+@property (nonatomic) CHTumblrMenuView *menuView;
 
 @end
 
@@ -60,6 +67,7 @@
     self.progressView.borderTintColor = [UIColor whiteColor];
     self.progressView.progressTintColor = [UIColor whiteColor];
     
+    canExit = NO;
     canPlayAudio = NO;
     isEncrypting = NO;
     audioCreated = NO;
@@ -132,10 +140,20 @@
 
 - (IBAction)doneButtonPressed:(id)sender {
     
+    if (canExit) {
+        [CLMarkerManager sharedManager].tempMarkerImage = nil;
+        [self.navigationController dismissNatGeoViewController];
+        self.navigationController.navigationBar.userInteractionEnabled = YES;
+        return;
+    }
+    
     if (isEncrypting || self.isRecording) return;
     
     if( self.audioPlayer ){
-        if( self.audioPlayer.playing ) [self.audioPlayer stop];
+        if( self.audioPlayer.playing ) {
+            [self.audioPlayer stop];
+            [self.voiceControlButton setTitle:@"▶︎" forState:UIControlStateNormal];
+        }
         self.audioPlayer = nil;
     }
     if ([JDStatusBarNotification isVisible]) {
@@ -167,6 +185,7 @@
                                   self.navigationController.interactivePopGestureRecognizer.enabled = NO;
                               }
                               self.navigationController.navigationBar.userInteractionEnabled = NO;
+                              self.doneButton.enabled = NO;
                               isEncrypting = YES;
                               
                               [JDStatusBarNotification showWithStatus:@"Encrypting Data..." styleName:JDStatusBarStyleError];
@@ -231,22 +250,46 @@
                               [etActivity startAnimating];
                               [self.view addSubview:etActivity];
                               
-                              [JDStatusBarNotification showWithStatus:@"Uploading marker..." styleName:JDStatusBarStyleError];
-                              [CLDataHandler uploadMarker:[[CLMarkerManager sharedManager].markers lastObject]  completionBlock:^(CLDataHandlerOption option, NSURL *markerURL, NSError *error){
-                                  
-                                  [JDStatusBarNotification showWithStatus:@"Marker uploaded!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
-                                  
-                                  if (option == CLDataHandlerOptionSuccess) {
-                                      
-                                      NSLog(@"%@", markerURL);
-                                  } else {
-                                      NSLog(@"%@", error.localizedDescription);
-                                  }
-                                  [CLMarkerManager sharedManager].tempMarkerImage = nil;
-                                  [self.navigationController dismissNatGeoViewController];
-                                  self.navigationController.navigationBar.userInteractionEnabled = YES;
-                                  
+                              self.progressView.progress = 0.0f;
+                              [self.progressView setProgress:0.0f animated:NO];
+                              self.progressView.alpha = 0.0f;
+                              self.progressView.hidden = NO;
+                              [UIView animateWithDuration:0.5f animations:^{
+                                  self.progressView.alpha = 1.0f;
                               }];
+                              
+                              [JDStatusBarNotification showWithStatus:@"Uploading marker..." styleName:JDStatusBarStyleError];
+                              
+                              self.progressView.progress = 0.0f;
+                              self.progressView.alpha = 0.0f;
+                              self.progressView.hidden = NO;
+                              [UIView animateWithDuration:0.3f animations:^{
+                                  self.progressView.alpha = 1.0f;
+                              }];
+                              
+                              [CLDataHandler uploadMarker:[[CLMarkerManager sharedManager].markers lastObject]
+                                                 progress:^(NSUInteger bytesWritten, NSInteger totalBytesWritten){
+                                                     [self.progressView setProgress:(double)bytesWritten/(double)totalBytesWritten animated:YES];
+                                                 }
+                                          completionBlock:^(CLDataHandlerOption option, NSURL *markerURL, NSError *error){
+                                              
+                                              [etActivity removeFromSuperview];
+                                              [JDStatusBarNotification showWithStatus:@"Marker uploaded!" dismissAfter:2.0f styleName:JDStatusBarStyleSuccess];
+                                              
+                                              [UIView animateWithDuration:0.3f animations:^{
+                                                  self.progressView.alpha = 0.0f;
+                                                  self.progressView.hidden = YES;
+                                              }];
+                                              
+                                              if (option == CLDataHandlerOptionSuccess) {
+                                                  
+                                                  NSLog(@"%@", markerURL);
+                                              } else {
+                                                  NSLog(@"%@", error.localizedDescription);
+                                              }
+                                              
+                                              [self showShareMenu:markerURL];
+                                          }];
                               
                           }];
     alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
@@ -256,6 +299,148 @@
     alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
     
     [alertView show];
+}
+
+- (void)showShareMenu:(NSURL *)markerURL
+{
+    canExit = YES;
+    self.doneButton.enabled = YES;
+    
+    NSString *downloadCode = [[[markerURL absoluteString] componentsSeparatedByString:@"/"] lastObject];
+    
+    self.menuView = [[CHTumblrMenuView alloc] init];
+    self.menuView.delegate = self;
+    self.menuView.backgroundImgView.image = self.imageView.image;
+    
+    __weak typeof(self) weakSelf = self;
+    [self.menuView addMenuItemWithTitle:@"Text" andIcon:[UIImage imageNamed:@"sms.png"] andSelectedBlock:^{
+        
+        if([MFMessageComposeViewController canSendText])
+        {
+            MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
+            controller.body = [NSString stringWithFormat:@"I just created a marker using the CamLocker App. The download code is: %@, check it out!", downloadCode];
+            controller.messageComposeDelegate = weakSelf;
+            [weakSelf presentViewController:controller animated:YES completion:nil];
+        }
+        
+    }];
+    [self.menuView addMenuItemWithTitle:@"Email" andIcon:[UIImage imageNamed:@"email.png"] andSelectedBlock:^{
+        
+        if ([MFMailComposeViewController canSendMail])
+        {
+            MFMailComposeViewController *mailer = [[MFMailComposeViewController alloc] init];
+            mailer.mailComposeDelegate = weakSelf;
+            [mailer setSubject:@"CamLocker Marker Sharing"];
+            NSString *emailBody = [NSString stringWithFormat:@"Hi,\n\nI just created a marker using the CamLocker App. The download code is: %@, check it out!\n\nSent from the CamLocker App.", downloadCode];
+            [mailer setMessageBody:emailBody isHTML:NO];
+            [weakSelf presentViewController:mailer animated:YES completion:nil];
+        }
+        
+    }];
+    [self.menuView addMenuItemWithTitle:@"Facebook" andIcon:[UIImage imageNamed:@"facebook_new.png"] andSelectedBlock:^{
+        
+        if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+            
+            SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+            
+            [controller setInitialText:[NSString stringWithFormat:@"I just created a marker using the CamLocker App. The download code is: %@, check it out!", downloadCode]];
+            [controller addImage:[UIImage imageNamed:@"icon.png"]];
+            
+            [weakSelf presentViewController:controller animated:YES completion:Nil];
+        } else {
+            SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Oops" andMessage:@"Please login with your Facebook account in settings!"];
+            [alertView addButtonWithTitle:@"OK"
+                                     type:SIAlertViewButtonTypeDestructive
+                                  handler:^(SIAlertView *alertView) {
+                                  }];
+            alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
+            alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
+            alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
+            alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
+            alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
+            
+            [alertView show];
+        }
+        
+    }];
+    [self.menuView addMenuItemWithTitle:@"Twitter" andIcon:[UIImage imageNamed:@"twitter.png"] andSelectedBlock:^{
+        
+        if([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
+            
+            SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+            
+            [controller setInitialText:[NSString stringWithFormat:@"I just created a marker using the CamLocker App. The download code is: %@, check it out!", downloadCode]];
+            [controller addImage:[UIImage imageNamed:@"icon.png"]];
+            
+            [weakSelf presentViewController:controller animated:YES completion:Nil];
+        } else {
+            SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Oops" andMessage:@"Please login with your Twitter account in settings!"];
+            [alertView addButtonWithTitle:@"OK"
+                                     type:SIAlertViewButtonTypeDestructive
+                                  handler:^(SIAlertView *alertView) {
+                                  }];
+            alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
+            alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
+            alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
+            alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
+            alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
+            
+            [alertView show];
+        }
+    }];
+    [self.menuView addMenuItemWithTitle:@"Google+" andIcon:[UIImage imageNamed:@"google_plus.png"] andSelectedBlock:^{
+        
+    }];
+    [self.menuView addMenuItemWithTitle:@"Weibo" andIcon:[UIImage imageNamed:@"weibo.png"] andSelectedBlock:^{
+        
+        if([SLComposeViewController isAvailableForServiceType:SLServiceTypeSinaWeibo]) {
+            
+            SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeSinaWeibo];
+            
+            [controller setInitialText:[NSString stringWithFormat:@"I just created a marker using the CamLocker App. The download code is: %@, check it out!", downloadCode]];
+            [controller addImage:[UIImage imageNamed:@"icon.png"]];
+            
+            [weakSelf presentViewController:controller animated:YES completion:Nil];
+        } else {
+            SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Oops" andMessage:@"Please login with your Weibo account in settings!"];
+            [alertView addButtonWithTitle:@"OK"
+                                     type:SIAlertViewButtonTypeDestructive
+                                  handler:^(SIAlertView *alertView) {
+                                  }];
+            alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
+            alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
+            alertView.titleFont = [UIFont fontWithName:@"OpenSans" size:25.0];
+            alertView.messageFont = [UIFont fontWithName:@"OpenSans" size:15.0];
+            alertView.buttonFont = [UIFont fontWithName:@"OpenSans" size:17.0];
+            
+            [alertView show];
+        }
+    }];
+    
+    FBShimmeringView *shimmeringView = [[FBShimmeringView alloc] initWithFrame:CGRectMake(20, 95, 280, 150)];
+    UILabel *downloadCodeLabel = [[UILabel alloc] initWithFrame:shimmeringView.bounds];
+    downloadCodeLabel.textAlignment = NSTextAlignmentCenter;
+    downloadCodeLabel.font = [UIFont fontWithName:@"OpenSans" size:28];
+    downloadCodeLabel.numberOfLines = 3;
+    downloadCodeLabel.textColor = [UIColor flatWhiteColor];
+    downloadCodeLabel.text = [@"Your CamLocker download code is:\n" stringByAppendingString:downloadCode];
+    shimmeringView.contentView = downloadCodeLabel;
+    shimmeringView.shimmering = YES;
+    shimmeringView.alpha = 0.0f;
+    [self.menuView addSubview:shimmeringView];
+    
+    [self.menuView showInView:self.imageView];
+    
+    [UIView animateWithDuration:0.7f animations:^{
+        shimmeringView.alpha = 1.0f;
+    }];
+}
+
+- (void)tumblrMenuViewDidDismiss
+{
+    [CLMarkerManager sharedManager].tempMarkerImage = nil;
+    [self.navigationController dismissNatGeoViewController];
+    self.navigationController.navigationBar.userInteractionEnabled = YES;
 }
 
 - (IBAction)voiceControlButtonPressed:(id)sender {
@@ -349,6 +534,46 @@
     [self.progressView setProgress:self.progress animated:YES];
 }
 
+#pragma mark - MFMessageComposeViewControllerDelegate
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{
+    switch (result) {
+        case MessageComposeResultSent:
+            [JDStatusBarNotification showWithStatus:@"Message sent!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
+            break;
+        default:
+            break;
+    }
+    [controller dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - MFMailComposeViewControllerDelegate
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            NSLog(@"Mail cancelled: you cancelled the operation and no email message was queued.");
+            break;
+        case MFMailComposeResultSaved:
+            NSLog(@"Mail saved: you saved the email message in the drafts folder.");
+            break;
+        case MFMailComposeResultSent:
+            [JDStatusBarNotification showWithStatus:@"Email sent!" dismissAfter:1.5f styleName:JDStatusBarStyleSuccess];
+            break;
+        case MFMailComposeResultFailed:
+            NSLog(@"Mail failed: the email message was not saved or queued, possibly due to an error.");
+            break;
+        default:
+            NSLog(@"Mail not sent.");
+            break;
+    }
+    
+    // Remove the mail view
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 #pragma mark - AVAudioPlayerDelegate
 /*

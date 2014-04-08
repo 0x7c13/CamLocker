@@ -20,12 +20,4 @@
 + (UIImage *)snapshotViewForView:(UIView *)view;
 + (void)addBackgroundImageToView:(UIView *)view withImageName:(NSString *)name;
 
-+ (UIFont *)textFieldFont;
-+ (UIFont *)descriptionTextFont;
-+ (UIFont *)titleFont;
-+ (UIFont *)swipeToContinueFont;
-+ (UIFont *)tosLabelFont;
-+ (UIFont *)tosLabelSmallerFont;
-+ (UIFont *)confirmationLabelFont;
-
 @end

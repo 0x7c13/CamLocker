@@ -17,7 +17,12 @@ typedef enum {
 
 @interface CLDataHandler : NSObject
 
-+ (void)uploadMarker:(CLMarker *)marker completionBlock:(void (^)(CLDataHandlerOption option, NSURL *markerURL, NSError *error))completion;
-+ (void)downloadMarkerBy:(NSString *)identifier completionBlock:(void (^)(CLDataHandlerOption option, NSDictionary *markerData, NSError *error))completion;
++ (void)uploadMarker:(CLMarker *)marker
+            progress:(void (^)(NSUInteger bytesWritten, NSInteger totalBytesWritten))progress
+     completionBlock:(void (^)(CLDataHandlerOption option, NSURL *markerURL, NSError *error))completion;
+
++ (void)downloadMarkerByDownloadCode:(NSString *)downloadCode
+                            progress:(void (^)(NSUInteger, NSInteger))progress
+                     completionBlock:(void (^)(CLDataHandlerOption option, NSError *error))completion;
 
 @end

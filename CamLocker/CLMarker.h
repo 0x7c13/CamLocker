@@ -13,6 +13,7 @@
 @property (nonatomic, copy, readonly) NSString *imageFileName;
 @property (nonatomic, copy, readonly) NSString *imagePath;
 @property (nonatomic, copy, readonly) NSString *cosName;
+@property (nonatomic, copy, readonly) NSString *key;
 
 - (instancetype) init __attribute__((unavailable("init not available")));
 - (instancetype)initWithMarkerImage:(UIImage *)markerImage;

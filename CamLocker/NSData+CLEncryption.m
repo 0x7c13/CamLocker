@@ -12,6 +12,8 @@
 
 - (NSData *)AES256EncryptWithKey:(NSString *)key {
     
+    if (key == nil) return nil;
+    
     char keyPtr[kCCKeySizeAES256+1];
     bzero(keyPtr, sizeof(keyPtr));
     [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
@@ -35,6 +37,8 @@
 
 - (NSData *)AES256DecryptWithKey:(NSString *)key {
     
+    if (key == nil) return nil;
+
     char keyPtr[kCCKeySizeAES256+1];
     bzero(keyPtr, sizeof(keyPtr));
     [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];

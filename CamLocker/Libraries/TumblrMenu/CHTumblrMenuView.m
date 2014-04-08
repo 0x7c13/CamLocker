@@ -33,7 +33,7 @@
 #define CHTumblrMenuViewHorizontalMargin 25
 #define CHTumblrMenuViewRriseAnimationID @"CHTumblrMenuViewRriseAnimationID"
 #define CHTumblrMenuViewDismissAnimationID @"CHTumblrMenuViewDismissAnimationID"
-#define CHTumblrMenuViewAnimationTime 0.36
+#define CHTumblrMenuViewAnimationTime 0.7
 #define CHTumblrMenuViewAnimationInterval (CHTumblrMenuViewAnimationTime / 5)
 
 #define TumblrBlue [UIColor colorWithRed:45/255.0f green:68/255.0f blue:94/255.0f alpha:1.0]
@@ -329,7 +329,7 @@
     self.alpha = 0.0f;
     [view addSubview:self];
     
-    [NSTimer scheduledTimerWithTimeInterval:0.15f target:self selector:@selector(riseAnimation) userInfo:nil repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(riseAnimation) userInfo:nil repeats:NO];
     //[self riseAnimation];
 }
 
