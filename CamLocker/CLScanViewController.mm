@@ -191,12 +191,11 @@
 
 - (void)dismissViewController
 {
-    
     [self dismissPopupViewControllerAnimated:YES completion:^{
         isPopupViewPresented = NO;
-        [UIView animateWithDuration:1.0f animations:^{
+        [UIView animateWithDuration:0.7f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
             self.blurView.alpha = 0.0f;
-        }];
+        } completion:nil];
     }];
 }
 
@@ -243,9 +242,9 @@
             [JDStatusBarNotification showWithStatus:@"Decryption succeeded!" dismissAfter:1.0f styleName:JDStatusBarStyleSuccess];
         }];
     }
-    [UIView animateWithDuration:1.0f animations:^{
+    [UIView animateWithDuration:0.7f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
         self.blurView.alpha = 1.0f;
-    }];
+    } completion:nil];
 }
 
 - (BOOL)prefersStatusBarHidden

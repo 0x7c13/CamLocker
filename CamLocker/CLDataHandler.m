@@ -113,7 +113,7 @@
 
 
 + (void)downloadMarkerByDownloadCode:(NSString *)downloadCode
-                            progress:(void (^)(NSUInteger, NSInteger))progress
+                            progress:(void (^)(NSUInteger totalBytesRead, NSInteger totalBytesExpectedToRead))progress
                      completionBlock:(void (^)(CLDataHandlerOption option, NSError *error))completion
 {
     
@@ -149,8 +149,9 @@
                                          completion(CLDataHandlerOptionFailure, error);
                                      }];
     
-    [operation setUploadProgressBlock:^(NSUInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite){
-        progress(totalBytesWritten, totalBytesExpectedToWrite);
+    [operation setDownloadProgressBlock:^(NSUInteger bytesRead, NSInteger totalBytesRead, NSInteger totalBytesExpectedToRead){
+
+        progress(totalBytesRead, totalBytesExpectedToRead);
     }];
     
     [operation start];

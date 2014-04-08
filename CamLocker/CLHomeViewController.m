@@ -21,6 +21,7 @@
 #import "JDStatusBarNotification.h"
 #import "URBAlertView.h"
 #import "ETActivityIndicatorView.h"
+#import "CircularProgressView.h"
 #import "DCPathButton.h"
 
 @interface CLHomeViewController () <DCPathButtonDelegate> {
@@ -33,6 +34,7 @@
 @property (nonatomic) PulsingHaloLayer *halo;
 @property (nonatomic) DCPathButton *dcPathButton;
 @property (nonatomic) URBAlertView *alertView;
+@property (nonatomic) CircularProgressView *circularProgressView;
 
 @end
 
@@ -77,6 +79,19 @@
     // Animation setup
     [self animationSetup];
     needsToDisplayLaunchAnimation = YES;
+    
+    
+    self.circularProgressView = [[CircularProgressView alloc]initWithFrame:CGRectMake(160 - 42.5, 277.5, 85, 85)];
+    
+    self.circularProgressView.backColor = [UIColor whiteColor];
+    self.circularProgressView.progressColor = [UIColor flatBlueColor];
+    self.circularProgressView.lineWidth = 7.5;
+    self.circularProgressView.alpha = 1.0f;
+    self.circularProgressView.userInteractionEnabled = NO;
+    [self.circularProgressView setProgress:0.0];
+    self.circularProgressView.hidden = YES;
+    [self.view addSubview:self.circularProgressView];
+    
 
 }
 
@@ -236,11 +251,6 @@
     [alertView show];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    [self.dcPathButton close];
-}
-
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
@@ -251,12 +261,16 @@
 - (void)button_0_action:(DCSubButton *)sender {
     NSLog(@"Button Press Tag 0!!");
     [self executeSubButtonAnimationForButton:sender];
+    [self.dcPathButton close];
+    
     [self performSegueWithIdentifier:@"createMarkerSegue" sender:nil];
 }
 
 - (void)button_1_action:(DCSubButton *)sender {
     NSLog(@"Button Press Tag 1!!");
     [self executeSubButtonAnimationForButton:sender];
+    
+    [self.dcPathButton close];
     
     if ([CLMarkerManager sharedManager].markers.count > 0) {
         [self performSegueWithIdentifier:@"metaioSegue" sender:nil];
@@ -280,6 +294,7 @@
     NSLog(@"Button Press Tag 2!!");
     [self executeSubButtonAnimationForButton:sender];
     
+    [self.dcPathButton close];
     __weak typeof(self) weakSelf = self;
     self.alertView = [URBAlertView dialogWithTitle:@"Download Code" message:@"Enter your CamLocker download code here:"];
     [self.alertView addButtonWithTitle:@"Cancel"];
@@ -292,17 +307,25 @@
                 
                 CGFloat locationY = DEVICE_IS_4INCH_IPHONE ? 290 : 230;
                 ETActivityIndicatorView *etActivity = [[ETActivityIndicatorView alloc] initWithFrame:CGRectMake(weakSelf.view.frame.size.width/2 - 30, locationY, 60, 60)];
-                etActivity.color = [UIColor flatBlackColor];
+                etActivity.color = [UIColor flatBlueColor];
                 [etActivity startAnimating];
                 etActivity.tag = 6713;
                 [weakSelf.view addSubview:etActivity];
+                weakSelf.circularProgressView.hidden = NO;
                 
                 [JDStatusBarNotification showWithStatus:@"Downloading..." styleName:JDStatusBarStyleWarning];
                 
                 [CLDataHandler downloadMarkerByDownloadCode:[alertView textForTextFieldAtIndex:0]
-                                                   progress:nil
+                                                   progress:^(NSUInteger totalBytesRead, NSInteger totalBytesExpectedToRead){
+                                                       
+                                                       //NSLog(@"%.0f", (float)totalBytesRead/(float)totalBytesExpectedToRead);
+                                                       if (totalBytesExpectedToRead != -1) {
+                                                           [weakSelf.circularProgressView setProgress:(float)totalBytesRead/(float)totalBytesExpectedToRead];
+                                                       }
+                                                   }
                                             completionBlock:^(CLDataHandlerOption option, NSError *error){
                                                 
+                                                weakSelf.circularProgressView.hidden = YES;
                                                 weakSelf.dcPathButton.userInteractionEnabled = YES;
                                                 [[weakSelf.view viewWithTag:6713] removeFromSuperview];
                                                 if (option == CLDataHandlerOptionSuccess) {
@@ -318,7 +341,6 @@
                                             }];
                 
                 weakSelf.dcPathButton.userInteractionEnabled = NO;
-                [weakSelf.dcPathButton close];
                 [alertView hideWithAnimation:URBAlertAnimationDefault];
             } else {
                 CAKeyframeAnimation * anim = [ CAKeyframeAnimation animationWithKeyPath:@"transform" ] ;
@@ -329,7 +351,6 @@
                 [alertView.layer addAnimation:anim forKey:nil] ;
             }
         } else if (buttonIndex == 0) {
-            [weakSelf.dcPathButton close];
             [alertView hideWithAnimation:URBAlertAnimationDefault];
         }
         
@@ -341,6 +362,7 @@
     NSLog(@"Button Press Tag 3!!");
     [self executeSubButtonAnimationForButton:sender];
     
+    [self.dcPathButton close];
     if([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
         
         SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
@@ -369,12 +391,16 @@
     NSLog(@"Button Press Tag 4!!");
     [self executeSubButtonAnimationForButton:sender];
     
+    [self.dcPathButton close];
+    
     [self deleteAllDataButtonPressed:sender];
 }
 
 - (void)button_5_action:(DCSubButton *)sender {
     NSLog(@"Button Press Tag 5!!");
     [self executeSubButtonAnimationForButton:sender];
+    
+    [self.dcPathButton close];
     
     if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
         

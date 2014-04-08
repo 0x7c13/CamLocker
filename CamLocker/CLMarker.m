@@ -18,6 +18,7 @@
 @interface CLMarker ()
 
 @property (nonatomic, copy) NSString *key;
+@property (nonatomic, copy) NSDate *createDate;
 
 @end
 
@@ -29,13 +30,16 @@
     
     if ((self = [super init])) {
         
+        _createDate = [NSDate date];
         _key = [NSString randomAlphanumericStringWithLength:kLengthOfKey];
         _cosName = [markerImage hashValue];
         _imageFileName = [self.cosName stringByAppendingString:@".jpg"];
         _imagePath = [CLFileManager imageFilePathWithFileName:self.imageFileName];
         
         // scale down the image for better performance
-        markerImage = [CLUtilities imageWithImage:markerImage scaledToWidth:kMarkerDefaultWidth];
+        if (markerImage.size.width > kMarkerDefaultWidth) {
+            markerImage = [CLUtilities imageWithImage:markerImage scaledToWidth:kMarkerDefaultWidth];
+        }
         [CLFileManager saveImageToDisk:markerImage
                           withFileName:[self.imageFileName stringByAppendingString:@".camLocker"]
                    usingDataEncryption:YES
@@ -49,6 +53,7 @@
     [encoder encodeObject:_imagePath forKey:@"markerImagePath"];
     [encoder encodeObject:_cosName forKey:@"markerCosName"];
     [encoder encodeObject:_key forKey:@"markerkey"];
+    [encoder encodeObject:_createDate forKey:@"createDate"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)decoder {
@@ -57,6 +62,7 @@
         _imagePath = [decoder decodeObjectForKey:@"markerImagePath"];
         _cosName = [decoder decodeObjectForKey:@"markerCosName"];
         _key = [decoder decodeObjectForKey:@"markerkey"];
+        _createDate = [decoder decodeObjectForKey:@"createDate"];
     }
     return self;
 }

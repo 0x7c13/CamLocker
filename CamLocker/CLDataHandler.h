@@ -22,7 +22,7 @@ typedef enum {
      completionBlock:(void (^)(CLDataHandlerOption option, NSURL *markerURL, NSError *error))completion;
 
 + (void)downloadMarkerByDownloadCode:(NSString *)downloadCode
-                            progress:(void (^)(NSUInteger, NSInteger))progress
+                            progress:(void (^)(NSUInteger totalBytesRead, NSInteger totalBytesExpectedToRead))progress
                      completionBlock:(void (^)(CLDataHandlerOption option, NSError *error))completion;
 
 @end
