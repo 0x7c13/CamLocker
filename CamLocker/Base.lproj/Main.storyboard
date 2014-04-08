@@ -87,7 +87,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1178" y="-415"/>
+            <point key="canvasLocation" x="438" y="-475"/>
         </scene>
         <!--Hidden Image Creation View Controller - Almost Done-->
         <scene sceneID="DTF-nG-2ja">
@@ -184,7 +184,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4I9-6p-ptH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2135" y="-116"/>
+            <point key="canvasLocation" x="1395" y="-176"/>
         </scene>
         <!--Scan View Controller-->
         <scene sceneID="ufC-wZ-h7g">
@@ -233,7 +233,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="740" y="256"/>
+            <point key="canvasLocation" x="0.0" y="196"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="9ee-F0-0kD">
@@ -289,7 +289,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cbY-yW-Hm5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="200" y="-18"/>
+            <point key="canvasLocation" x="-540" y="-78"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="yEt-rR-0i1">
@@ -314,7 +314,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S8G-Jb-6FJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="740" y="-415"/>
+            <point key="canvasLocation" x="0.0" y="-475"/>
         </scene>
         <!--Marker Type Chosen View Controller - Second Step-->
         <scene sceneID="UUy-OQ-0NZ">
@@ -383,7 +383,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1gO-Kw-rCb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1595" y="-415"/>
+            <point key="canvasLocation" x="855" y="-475"/>
         </scene>
         <!--Hidden Text View Controller - Almost Done-->
         <scene sceneID="jBa-JH-JJO">
@@ -478,7 +478,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2135" y="-786"/>
+            <point key="canvasLocation" x="1395" y="-846"/>
         </scene>
         <!--Hidden Voice View Controller - Almost Done-->
         <scene sceneID="Q0w-UT-Xlo">
@@ -549,7 +549,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4vx-cc-9EO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2135" y="550"/>
+            <point key="canvasLocation" x="1395" y="490"/>
         </scene>
     </scenes>
     <resources>
