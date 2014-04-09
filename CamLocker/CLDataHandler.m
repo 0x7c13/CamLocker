@@ -63,22 +63,6 @@
     
     //NSLog(@"%@", postData);
     
-    /*
-    return [[CLAppAPIClient sharedClient] POST:API_SHARE_MARKER
-                                    parameters:postData
-                                       success:^(NSURLSessionDataTask *task, id responseObject){
-                                    
-                                           NSURL *downloadURL = [NSURL URLWithString:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]];
-                                    
-                                           completion(CLDataHandlerOptionSuccess,downloadURL, nil);
-                                       }
-                                       failure:^(NSURLSessionDataTask *task, NSError *error) {
-                                    
-                                           completion(CLDataHandlerOptionFailure, nil, error);
-                                       }];
-     
-     */
-    
     AFHTTPRequestSerializer *serializer = [AFHTTPRequestSerializer serializer];
     
     NSMutableURLRequest *request =

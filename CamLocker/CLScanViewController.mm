@@ -9,6 +9,7 @@
 #import "CLMarker.h"
 #import "CLTextMarker.h"
 #import "CLImageMarker.h"
+#import "CLAudioMarker.h"
 #import "CLMarkerManager.h"
 #import "CLTrackingXMLGenerator.h"
 #import "CLScanViewController.h"
@@ -241,7 +242,24 @@
             isDecrypting = NO;
             [JDStatusBarNotification showWithStatus:@"Decryption succeeded!" dismissAfter:1.0f styleName:JDStatusBarStyleSuccess];
         }];
+    } else if ([targetMarker isKindOfClass:[CLAudioMarker class]]) {
+        
+        isDecrypting = YES;
+        
+        [JDStatusBarNotification showWithStatus:@"Decrypting..." styleName:JDStatusBarStyleError];
+        
+        [(CLAudioMarker *)targetMarker decryptHiddenAudioWithCompletionBlock:^(NSData *hiddenAudioData){
+            
+            isPopupViewPresented = YES;
+            CLAudioViewController *audioVC = [[CLAudioViewController alloc] initWithNibName:@"CLAudioViewController" bundle:nil];
+            audioVC.hiddenAudioData = hiddenAudioData;
+            audioVC.delegate = self;
+            [self presentPopupViewController:audioVC animated:YES completion:nil];
+            isDecrypting = NO;
+            [JDStatusBarNotification showWithStatus:@"Decryption succeeded!" dismissAfter:1.0f styleName:JDStatusBarStyleSuccess];
+        }];
     }
+
     [UIView animateWithDuration:0.7f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
         self.blurView.alpha = 1.0f;
     } completion:nil];

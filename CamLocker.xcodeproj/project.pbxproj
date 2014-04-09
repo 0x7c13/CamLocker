@@ -62,6 +62,8 @@
 		F77344E118E659DD004FB792 /* UIImage+BoxBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = F77344DF18E659DD004FB792 /* UIImage+BoxBlur.m */; };
 		F77344E318E65E52004FB792 /* bg_4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F77344E218E65E52004FB792 /* bg_4.jpg */; };
 		F77344E818E675EA004FB792 /* URBMediaFocusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F77344E718E675EA004FB792 /* URBMediaFocusViewController.m */; };
+		F787DBA018F4C37C003B9D4E /* CLAudioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F787DB9F18F4C37C003B9D4E /* CLAudioViewController.m */; };
+		F787DBA218F4C41F003B9D4E /* CLAudioViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F787DBA118F4C41F003B9D4E /* CLAudioViewController.xib */; };
 		F78ACD0B18C8D7E500A4247A /* CLFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F78ACD0A18C8D7E500A4247A /* CLFileManager.m */; };
 		F792915318D6B6EE009FCA79 /* CLTrackingXMLGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = F792915218D6B6EE009FCA79 /* CLTrackingXMLGenerator.m */; };
 		F79B545718E0027B009F97FB /* CLKeyGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = F79B545618E0027B009F97FB /* CLKeyGenerator.m */; };
@@ -287,6 +289,9 @@
 		F77344E218E65E52004FB792 /* bg_4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg_4.jpg; sourceTree = "<group>"; };
 		F77344E618E675EA004FB792 /* URBMediaFocusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URBMediaFocusViewController.h; sourceTree = "<group>"; };
 		F77344E718E675EA004FB792 /* URBMediaFocusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URBMediaFocusViewController.m; sourceTree = "<group>"; };
+		F787DB9E18F4C37C003B9D4E /* CLAudioViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLAudioViewController.h; sourceTree = "<group>"; };
+		F787DB9F18F4C37C003B9D4E /* CLAudioViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLAudioViewController.m; sourceTree = "<group>"; };
+		F787DBA118F4C41F003B9D4E /* CLAudioViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CLAudioViewController.xib; sourceTree = "<group>"; };
 		F78ACD0918C8D7E500A4247A /* CLFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLFileManager.h; sourceTree = "<group>"; };
 		F78ACD0A18C8D7E500A4247A /* CLFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFileManager.m; sourceTree = "<group>"; };
 		F792915118D6B6EE009FCA79 /* CLTrackingXMLGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLTrackingXMLGenerator.h; sourceTree = "<group>"; };
@@ -1206,6 +1211,9 @@
 				F7E004E718C6E6CB00FA63DC /* CLImageViewController.xib */,
 				F7E004DF18C6E54C00FA63DC /* CLImageViewController.h */,
 				F7E004E018C6E54C00FA63DC /* CLImageViewController.m */,
+				F787DB9E18F4C37C003B9D4E /* CLAudioViewController.h */,
+				F787DB9F18F4C37C003B9D4E /* CLAudioViewController.m */,
+				F787DBA118F4C41F003B9D4E /* CLAudioViewController.xib */,
 			);
 			name = Viewer;
 			sourceTree = "<group>";
@@ -1367,6 +1375,7 @@
 				F7A0FDD318DABD4A00EDE06A /* OpenSans-Light.ttf in Resources */,
 				F7B5FA9818EBCC9300DF4E98 /* NotificationBackgroundSuccessIcon@2x.png in Resources */,
 				F7A0FE0D18DACA1A00EDE06A /* twitter.png in Resources */,
+				F787DBA218F4C41F003B9D4E /* CLAudioViewController.xib in Resources */,
 				F7B5FA9418EBCC9300DF4E98 /* NotificationBackgroundMessage@2x.png in Resources */,
 				F7A0FDF418DAC40000EDE06A /* custom_3.png in Resources */,
 				F7B5FA9918EBCC9300DF4E98 /* NotificationBackgroundWarning.png in Resources */,
@@ -1502,6 +1511,7 @@
 				F7A0FDF118DAC40000EDE06A /* DCSubButton.m in Sources */,
 				F7CC304A18D941FB00189A03 /* PECropViewController.m in Sources */,
 				F7A0FDC618DAAC6A00EDE06A /* UIWindow+SIUtils.m in Sources */,
+				F787DBA018F4C37C003B9D4E /* CLAudioViewController.m in Sources */,
 				F7A0FE0018DAC40000EDE06A /* NSMutableArray+addImage.m in Sources */,
 				F7A0FE1B18DAE01500EDE06A /* SWSnapshotStackView.m in Sources */,
 				F7CCA69E18F00A4F00E62AC7 /* FXBlurView.m in Sources */,

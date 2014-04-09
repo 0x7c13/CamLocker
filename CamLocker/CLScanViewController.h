@@ -10,8 +10,9 @@
 #import "UIViewController+CWPopup.h"
 #import "CLImageViewController.h"
 #import "CLTextViewController.h"
+#import "CLAudioViewController.h"
 
-@interface CLScanViewController : MetaioSDKViewController <CLImageViewControllerDelegate, CLTextViewControllerDelegate>
+@interface CLScanViewController : MetaioSDKViewController <CLImageViewControllerDelegate, CLTextViewControllerDelegate, CLAudioViewControllerDelegate>
 {
     NSString *trackingConfigFile;
     metaio::IGeometry *imagePlane;
