@@ -450,6 +450,9 @@ static CGSize const kURBAlertViewDefaultSize = {280.0, 180.0};
 	field.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
 	field.keyboardAppearance = UIKeyboardAppearanceAlert;
 	field.delegate = self;
+    field.keyboardType = UIKeyboardTypeAlphabet;
+    field.autocorrectionType = UITextAutocorrectionTypeNo;
+    field.autocapitalizationType = UITextAutocapitalizationTypeNone;
 	
 	[self.textFields addObject:field];
 }
