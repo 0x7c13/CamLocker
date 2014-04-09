@@ -66,6 +66,7 @@
 		F787DBA218F4C41F003B9D4E /* CLAudioViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F787DBA118F4C41F003B9D4E /* CLAudioViewController.xib */; };
 		F78ACD0B18C8D7E500A4247A /* CLFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F78ACD0A18C8D7E500A4247A /* CLFileManager.m */; };
 		F792915318D6B6EE009FCA79 /* CLTrackingXMLGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = F792915218D6B6EE009FCA79 /* CLTrackingXMLGenerator.m */; };
+		F792D47B18F4FA1B0095C22A /* CLCreatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F792D47A18F4FA1B0095C22A /* CLCreatorViewController.m */; };
 		F79B545718E0027B009F97FB /* CLKeyGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = F79B545618E0027B009F97FB /* CLKeyGenerator.m */; };
 		F7A0FDBC18DAA60300EDE06A /* PulsingHaloLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F7A0FDB818DAA60300EDE06A /* PulsingHaloLayer.m */; };
 		F7A0FDBD18DAA60300EDE06A /* UIColor+MLPFlatColors.m in Sources */ = {isa = PBXBuildFile; fileRef = F7A0FDBB18DAA60300EDE06A /* UIColor+MLPFlatColors.m */; };
@@ -296,6 +297,8 @@
 		F78ACD0A18C8D7E500A4247A /* CLFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFileManager.m; sourceTree = "<group>"; };
 		F792915118D6B6EE009FCA79 /* CLTrackingXMLGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLTrackingXMLGenerator.h; sourceTree = "<group>"; };
 		F792915218D6B6EE009FCA79 /* CLTrackingXMLGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLTrackingXMLGenerator.m; sourceTree = "<group>"; };
+		F792D47918F4FA1B0095C22A /* CLCreatorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCreatorViewController.h; sourceTree = "<group>"; };
+		F792D47A18F4FA1B0095C22A /* CLCreatorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLCreatorViewController.m; sourceTree = "<group>"; };
 		F79B545518E0027B009F97FB /* CLKeyGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLKeyGenerator.h; sourceTree = "<group>"; };
 		F79B545618E0027B009F97FB /* CLKeyGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLKeyGenerator.m; sourceTree = "<group>"; };
 		F7A0FDB718DAA60300EDE06A /* PulsingHaloLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PulsingHaloLayer.h; sourceTree = "<group>"; };
@@ -1198,6 +1201,8 @@
 				F7CC305018D946DB00189A03 /* CLHiddenImageCreationViewController.m */,
 				F7D2768918E60EFC007A593C /* CLHiddenVoiceViewController.h */,
 				F7D2768A18E60EFC007A593C /* CLHiddenVoiceViewController.m */,
+				F792D47918F4FA1B0095C22A /* CLCreatorViewController.h */,
+				F792D47A18F4FA1B0095C22A /* CLCreatorViewController.m */,
 			);
 			name = Creator;
 			sourceTree = "<group>";
@@ -1482,6 +1487,7 @@
 				F792915318D6B6EE009FCA79 /* CLTrackingXMLGenerator.m in Sources */,
 				F7B5FAAB18EBF3DA00DF4E98 /* MHNatGeoViewControllerTransition.m in Sources */,
 				F7CCA6AF18F0242A00E62AC7 /* FBShimmeringLayer.m in Sources */,
+				F792D47B18F4FA1B0095C22A /* CLCreatorViewController.m in Sources */,
 				F7A1C67318DBE7C2004F724A /* LXActionSheet.m in Sources */,
 				F7CC304C18D941FB00189A03 /* PEResizeControl.m in Sources */,
 				F7CCA6B018F0242A00E62AC7 /* FBShimmeringView.m in Sources */,

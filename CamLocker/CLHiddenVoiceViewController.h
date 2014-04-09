@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CLCreatorViewController.h"
 
-@interface CLHiddenVoiceViewController : UIViewController
+@interface CLHiddenVoiceViewController : CLCreatorViewController
 
 @end

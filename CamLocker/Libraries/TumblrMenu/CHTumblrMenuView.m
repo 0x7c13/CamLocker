@@ -85,10 +85,10 @@
         //ges.delegate = self;
         //[self addGestureRecognizer:ges];
         self.backgroundColor = [UIColor clearColor];
-        backgroundView_ = [[UIImageView alloc] initWithFrame:self.bounds];
-        backgroundView_.backgroundColor = TumblrBlue;
-        backgroundView_.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-        [self addSubview:backgroundView_];
+        //backgroundView_ = [[UIImageView alloc] initWithFrame:self.bounds];
+        //backgroundView_.backgroundColor = TumblrBlue;
+        //backgroundView_.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        //[self addSubview:backgroundView_];
         buttons_ = [[NSMutableArray alloc] initWithCapacity:6];
         
         

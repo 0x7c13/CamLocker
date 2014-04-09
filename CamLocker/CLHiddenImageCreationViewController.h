@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CLCreatorViewController.h"
 
-@interface CLHiddenImageCreationViewController : UIViewController
+@interface CLHiddenImageCreationViewController : CLCreatorViewController
 
 @end
