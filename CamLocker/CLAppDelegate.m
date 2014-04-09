@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 OSU. All rights reserved.
 //
 
-#import "TestFlight.h"
 #import "NSString+CLEncryption.h"
 #import "CLAppDelegate.h"
 #import "CLMarkerManager.h"

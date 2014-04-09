@@ -21,3 +21,7 @@
 #define kMarkerImageDefaultHeight 1136.0f
 
 #define DEVICE_IS_4INCH_IPHONE ([[UIScreen mainScreen] bounds].size.height == 568)
+
+#import "TestFlight.h"
+//#define NSLog TFLog
+#define NSLog(__FORMAT__, ...) TFLog((@"%s [Line %d] " __FORMAT__), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)

@@ -514,32 +514,26 @@ static CGFloat const kDCPathButtonDefaultReverseRotation = -M_PI*2;
     if ([_delegate respondsToSelector:@selector(button_0_action:)] &&
         button == [self.buttons objectAtIndex:0]) {
         [_delegate button_0_action:button];
-        NSLog(@"%d",button.tag);
     }
     else if ([_delegate respondsToSelector:@selector(button_1_action:)] &&
              button == [self.buttons objectAtIndex:1]){
         [_delegate button_1_action:button];
-        NSLog(@"%d",button.tag);
     }
     else if ([_delegate respondsToSelector:@selector(button_2_action:)] &&
              button == [self.buttons objectAtIndex:2]){
         [_delegate button_2_action:button];
-        NSLog(@"%d",button.tag);
     }
     else if ([_delegate respondsToSelector:@selector(button_3_action:)] &&
              button == [self.buttons objectAtIndex:3]){
         [_delegate button_3_action:button];
-        NSLog(@"%d",button.tag);
     }
     else if ([_delegate respondsToSelector:@selector(button_4_action:)] &&
              button == [self.buttons objectAtIndex:4]){
         [_delegate button_4_action:button];
-        NSLog(@"%d",button.tag);
     }
     else if ([_delegate respondsToSelector:@selector(button_5_action:)] &&
              button == [self.buttons objectAtIndex:5]){
         [_delegate button_5_action:button];
-        NSLog(@"%d",button.tag);
     }
 }
 

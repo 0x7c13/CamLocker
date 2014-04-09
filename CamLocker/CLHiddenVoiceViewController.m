@@ -212,7 +212,7 @@
                                                                                  [JDStatusBarNotification dismiss];
                                                                                  [self uploadMarker];
                                                                                  [etActivity removeFromSuperview];
-  
+                                                                                 [[NSFileManager defaultManager] removeItemAtPath:[CLFileManager voiceFilePathWithFileName:kAudioFileName] error:nil];
                                                                              }];
                               
                               }];

@@ -25,6 +25,8 @@
             progress:(void (^)(NSUInteger, NSInteger))progress
      completionBlock:(void (^)(CLDataHandlerOption, NSURL *, NSError *))completion
 {
+    NSLog(@"Marker to upload is type of :%@", [marker class]);
+    
     NSMutableDictionary *dataDic = [[NSMutableDictionary alloc] init];
     
     [dataDic setObject:[CLKeyGenerator OpenUDID] forKey:PARAM_DEVICE_ID];
@@ -56,7 +58,7 @@
     
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dataDic options:kNilOptions error:nil];
     //NSLog(@"%@", [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
-    NSLog(@"%@", [NSByteCountFormatter stringFromByteCount:jsonData.length countStyle:NSByteCountFormatterCountStyleFile]);
+    NSLog(@"File size to upload :%@", [NSByteCountFormatter stringFromByteCount:jsonData.length countStyle:NSByteCountFormatterCountStyleFile]);
     
     NSMutableDictionary *postData = [[NSMutableDictionary alloc] init];
     [postData setObject:[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding] forKey:PARAM_DATA];
@@ -81,11 +83,13 @@
                                          NSURL *downloadURL = [NSURL URLWithString:[[NSString alloc] initWithData:responseObject
                                                                                                          encoding:NSUTF8StringEncoding]];
                                     
+                                         NSLog(@"Marker uploaded!");
                                          completion(CLDataHandlerOptionSuccess,downloadURL, nil);
                                          
                                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                          
-                                           completion(CLDataHandlerOptionFailure, nil, error);
+                                         NSLog(@"Error occurs during uploading!");
+                                         completion(CLDataHandlerOptionFailure, nil, error);
                                      }];
     
     [operation setUploadProgressBlock:^(NSUInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite){
@@ -122,8 +126,10 @@
                                          [[self class] processMarkerDataWithAttribute:packetDic completion:^(CLDataHandlerOption option){
                                             
                                              if (option == CLDataHandlerOptionSuccess) {
+                                                 NSLog(@"Marker downloaded!");
                                                  completion(CLDataHandlerOptionSuccess, nil);
                                              } else if (option == CLDataHandlerOptionFailure) {
+                                                 NSLog(@"Error occurs during downloading!");
                                                  completion(CLDataHandlerOptionFailure, nil);
                                              }
                                          }];
