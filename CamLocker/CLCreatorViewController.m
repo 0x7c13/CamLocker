@@ -143,7 +143,9 @@
         }
     }];
     
-    FBShimmeringView *shimmeringView = [[FBShimmeringView alloc] initWithFrame:CGRectMake(20, 95, 280, 150)];
+    CGFloat yOffset = DEVICE_IS_4INCH_IPHONE ? 0 : -30;
+    
+    FBShimmeringView *shimmeringView = [[FBShimmeringView alloc] initWithFrame:CGRectMake(20, 95 + yOffset, 280, 150)];
     UILabel *downloadCodeLabel = [[UILabel alloc] initWithFrame:shimmeringView.bounds];
     downloadCodeLabel.textAlignment = NSTextAlignmentCenter;
     downloadCodeLabel.font = [UIFont fontWithName:@"OpenSans" size:28];

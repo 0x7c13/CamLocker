@@ -66,6 +66,9 @@
     self.blurView.alpha = 0.0f;
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     
+    CGFloat yOffset = DEVICE_IS_4INCH_IPHONE ? 0 : -65;
+    self.shimmeringView.frame = CGRectMake(self.shimmeringView.frame.origin.x, self.shimmeringView.frame.origin.y + yOffset, self.shimmeringView.frame.size.width, self.shimmeringView.frame.size.height);
+    
     UILabel *loadingLabel = [[UILabel alloc] initWithFrame:self.shimmeringView.bounds];
     loadingLabel.textAlignment = NSTextAlignmentCenter;
     loadingLabel.font = [UIFont fontWithName:@"OpenSans" size:38];

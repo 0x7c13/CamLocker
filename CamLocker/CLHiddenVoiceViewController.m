@@ -22,9 +22,6 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
 
-
-#define kAudioFileName @"tmp.aac"
-
 @interface CLHiddenVoiceViewController () <AVAudioPlayerDelegate, AVAudioRecorderDelegate> {
     BOOL canPlayAudio;
     BOOL isEncrypting;
@@ -76,15 +73,23 @@
     [_imageView setBlurAmount:1];
     
     self.voiceControlButton.layer.cornerRadius = 15;
-    if (!DEVICE_IS_4INCH_IPHONE) {
-        self.voiceControlButton.frame = CGRectMake(50, 160, 220, 237);
-    }
-    [self.voiceControlButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.voiceControlButton
-                                                                    withColor:[UIColor flatWhiteColor].CGColor]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleDidEnterBackground)
                                                  name:UIApplicationDidEnterBackgroundNotification object:nil];
+    
+    // 3.5-inch iPhone tweaks
+    {
+        CGFloat yOffset = DEVICE_IS_4INCH_IPHONE ? 0 : -65;
+        
+        self.voiceControlButton.frame = CGRectMake(self.voiceControlButton.frame.origin.x, self.voiceControlButton.frame.origin.y, self.voiceControlButton.frame.size.width, self.voiceControlButton.frame.size.height + yOffset);
+        
+        self.progressView.frame = CGRectMake(self.progressView.frame.origin.x, self.progressView.frame.origin.y + yOffset, self.progressView.frame.size.width, self.progressView.frame.size.height);
+        
+        [self.voiceControlButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.voiceControlButton
+                                                                            withColor:[UIColor flatWhiteColor].CGColor]];
+    }
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

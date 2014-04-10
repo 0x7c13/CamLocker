@@ -82,12 +82,20 @@
     [_imageView setBlurAmount:1];
     
     self.addImageButton.layer.cornerRadius = 15;
-    if (!DEVICE_IS_4INCH_IPHONE) {
-        self.addImageButton.frame = CGRectMake(50, 160, 220, 237);
-    }
-    [self.addImageButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.addImageButton
-                                                                    withColor:[UIColor flatWhiteColor].CGColor]];
 
+    // 3.5-inch iPhone tweaks
+    {
+        CGFloat yOffset = DEVICE_IS_4INCH_IPHONE ? 0 : -65;
+        
+        self.addImageButton.frame = CGRectMake(self.addImageButton.frame.origin.x, self.addImageButton.frame.origin.y, self.addImageButton.frame.size.width, self.addImageButton.frame.size.height + yOffset);
+        
+        self.photoStack.frame = CGRectMake(self.photoStack.frame.origin.x, self.photoStack.frame.origin.y, self.photoStack.frame.size.width, self.photoStack.frame.size.height + yOffset);
+        
+        self.progressView.frame = CGRectMake(self.progressView.frame.origin.x, self.progressView.frame.origin.y + yOffset, self.progressView.frame.size.width, self.progressView.frame.size.height);
+        
+        [self.addImageButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.addImageButton
+                                                                        withColor:[UIColor flatWhiteColor].CGColor]];
+    }
 }
 
 - (IBAction)trashButtonPressed:(id)sender {

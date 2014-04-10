@@ -58,6 +58,18 @@
     [_imageView setHidden:YES];
     [_imageView setFramesCount:8];
     [_imageView setBlurAmount:1];
+    
+    // 3.5-inch iPhone tweaks
+    {
+        CGFloat yOffset = DEVICE_IS_4INCH_IPHONE ? 0 : -65;
+        
+        self.addTextButton.frame = CGRectMake(self.addTextButton.frame.origin.x, self.addTextButton.frame.origin.y, self.addTextButton.frame.size.width, self.addTextButton.frame.size.height + yOffset);
+        
+        self.progressView.frame = CGRectMake(self.progressView.frame.origin.x, self.progressView.frame.origin.y + yOffset, self.progressView.frame.size.width, self.progressView.frame.size.height);
+        
+        [self.addTextButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.addTextButton
+                                                                        withColor:[UIColor flatWhiteColor].CGColor]];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -69,14 +81,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)viewDidLayoutSubviews
-{
-    if (self.addTextButton.layer.sublayers.count != 2) {
-        [self.addTextButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.addTextButton
-                                                                   withColor:[UIColor flatWhiteColor].CGColor]];
-    }
 }
 
 - (IBAction)doneButtonPressed:(id)sender {

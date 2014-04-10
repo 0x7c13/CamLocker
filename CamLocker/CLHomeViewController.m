@@ -81,7 +81,7 @@
     needsToDisplayLaunchAnimation = YES;
     
     
-    self.circularProgressView = [[CircularProgressView alloc]initWithFrame:CGRectMake(160 - 42.5, 277.5, 85, 85)];
+    self.circularProgressView = [[CircularProgressView alloc]initWithFrame:CGRectMake(160 - 42.5, locationY - 42.5, 85, 85)];
     
     self.circularProgressView.backColor = [UIColor whiteColor];
     self.circularProgressView.progressColor = [UIColor flatBlueColor];
@@ -92,7 +92,9 @@
     self.circularProgressView.hidden = YES;
     [self.view addSubview:self.circularProgressView];
     
-
+    if (!DEVICE_IS_4INCH_IPHONE) {
+        self.bottomLabel.frame = CGRectMake(self.bottomLabel.frame.origin.x, self.bottomLabel.frame.origin.y, self.bottomLabel.frame.size.width, self.bottomLabel.frame.size.height - 88);
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -102,11 +104,10 @@
 
 - (void)animationSetup
 {
-    //CGFloat locationY = DEVICE_IS_4INCH_IPHONE ? 210 : 170;
+    CGFloat yOffset = DEVICE_IS_4INCH_IPHONE ? 0 : -88;
     //self.camLockerLogoLabel.frame = CGRectMake(20, locationY, 280, 120);
-    self.bottomLabel.frame = CGRectMake(-280, 510, 280, 40);
+    self.bottomLabel.frame = CGRectMake(-280, 510 + yOffset, 280, 40);
     self.camLockerLogoLabel.frame = CGRectMake(320 + 280, 45, 280, 120);
-    self.camLockerLogoLabel.alpha = 0.0f;
     self.dcPathButton.alpha = 0.0f;
     self.dcPathButton.userInteractionEnabled = NO;
     self.bottomLabel.alpha = 0.0f;
@@ -159,36 +160,32 @@
     if (self.dcPathButton.isExpanded) {
         [self.dcPathButton close];
     }
+    CGFloat yOffset = DEVICE_IS_4INCH_IPHONE ? 0 : -88;
     
-    [UIView animateWithDuration:0.5f animations:^{
+    [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
         
-        self.camLockerLogoLabel.alpha = 1.0f;
+        self.camLockerLogoLabel.frame = CGRectMake(20, 45, 280, 120);
+        self.bottomLabel.frame = CGRectMake(20, 510 + yOffset, 280, 40);
+        self.bottomLabel.alpha = 1.0f;
     } completion:^(BOOL finished){
         
-        [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
+        if (!self.imageView.image) {
+            self.imageView.image = [CLUtilities snapshotViewForView:self.masterView];
+            self.imageView.baseImage = self.imageView.image;
+            [self.imageView setBlurTintColor:[UIColor colorWithWhite:0.f alpha:0.5]];
+            [self.imageView generateBlurFramesWithCompletion:^{}];
+        }
+        
+        [UIView animateWithDuration:0.7f animations:^{
             
-            self.camLockerLogoLabel.frame = CGRectMake(20, 45, 280, 120);
-            self.bottomLabel.frame = CGRectMake(20, 510, 280, 40);
-            self.bottomLabel.alpha = 1.0f;
+            self.dcPathButton.alpha = 1.0f;
         } completion:^(BOOL finished){
             
-            if (!self.imageView.image) {
-                self.imageView.image = [CLUtilities snapshotViewForView:self.masterView];
-                self.imageView.baseImage = self.imageView.image;
-                [self.imageView setBlurTintColor:[UIColor colorWithWhite:0.f alpha:0.5]];
-                [self.imageView generateBlurFramesWithCompletion:^{}];
-            }
-            
-            [UIView animateWithDuration:0.7f animations:^{
-                
-                self.dcPathButton.alpha = 1.0f;
-            } completion:^(BOOL finished){
-                
-                self.dcPathButton.userInteractionEnabled = YES;
-                [self startHaloAnimation];
-            }];
+            self.dcPathButton.userInteractionEnabled = YES;
+            [self startHaloAnimation];
         }];
     }];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated

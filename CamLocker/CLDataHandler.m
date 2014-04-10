@@ -159,7 +159,7 @@
         return;
     }
     
-    CLMarker *marker = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSData alloc] initWithBase64EncodedString:(NSString *)[packetDic objectForKey:PARAM_MARKER_KEY] options:0]];\
+    CLMarker *marker = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSData alloc] initWithBase64EncodedString:(NSString *)[packetDic objectForKey:PARAM_MARKER_KEY] options:0]];
     
     if (marker == nil) {
         completion(CLDataHandlerOptionFailure);

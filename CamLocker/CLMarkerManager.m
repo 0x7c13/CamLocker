@@ -190,6 +190,7 @@
         [marker deactivate];
     }
     [[NSFileManager defaultManager] removeItemAtPath:[CLFileManager documentsPathForFileName:kTrackingFileName] error:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:[CLFileManager voiceFilePathWithFileName:kAudioFileName] error:nil];
 }
 
 @end

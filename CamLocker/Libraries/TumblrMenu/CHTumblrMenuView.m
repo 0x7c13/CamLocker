@@ -25,7 +25,7 @@
 
 #import "CHTumblrMenuView.h"
 
-#define kOffsetY 90
+#define kOffsetY (DEVICE_IS_4INCH_IPHONE ? 90 : 65)
 #define CHTumblrMenuViewTag 1999
 #define CHTumblrMenuViewImageHeight 70
 #define CHTumblrMenuViewTitleHeight 20

@@ -43,15 +43,20 @@
     hasEdited = NO;
     
     self.addImageButton.layer.cornerRadius = 15;
-}
-
-- (void)viewDidLayoutSubviews
-{
-    if (self.addImageButton.layer.sublayers.count != 2) {
+    
+    // 3.5-inch iPhone tweaks
+    {
+        CGFloat yOffset = DEVICE_IS_4INCH_IPHONE ? 0 : -65;
+        
+        self.addImageButton.frame = CGRectMake(self.addImageButton.frame.origin.x, self.addImageButton.frame.origin.y, self.addImageButton.frame.size.width, self.addImageButton.frame.size.height + yOffset);
+        
+        self.imageView.frame = CGRectMake(self.imageView.frame.origin.x, self.imageView.frame.origin.y, self.imageView.frame.size.width, self.imageView.frame.size.height + yOffset);
+        
         [self.addImageButton.layer addSublayer:[CLUtilities addDashedBorderToView:self.addImageButton
-                                                                    withColor:[UIColor flatWhiteColor].CGColor]];
+                                                                        withColor:[UIColor flatWhiteColor].CGColor]];
     }
 }
+
 
 - (IBAction)addMarkerButtonPressed:(id)sender {
     
