@@ -2,7 +2,7 @@
 //  CLAppDelegate.m
 //  CamLocker
 //
-//  Created by FlyinGeek on 3/4/14.
+//  Created by Jiaqi Liu on 3/4/14.
 //  Copyright (c) 2014 OSU. All rights reserved.
 //
 
@@ -48,7 +48,6 @@
     }
     
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
-    
     
     return YES;
 }

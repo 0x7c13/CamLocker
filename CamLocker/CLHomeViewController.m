@@ -2,7 +2,7 @@
 //  CLHomeViewController.m
 //  CamLocker
 //
-//  Created by FlyinGeek on 3/18/14.
+//  Created by Jiaqi Liu on 3/18/14.
 //  Copyright (c) 2014 OSU. All rights reserved.
 //
 
@@ -83,8 +83,7 @@
     // Animation setup
     [self animationSetup];
     needsToDisplayLaunchAnimation = YES;
-    
-    
+
     self.circularProgressView = [[CircularProgressView alloc]initWithFrame:CGRectMake(160 - 42.5, locationY - 42.5, 85, 85)];
     
     self.circularProgressView.backColor = [UIColor whiteColor];
@@ -364,7 +363,7 @@
         
         SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
         
-        [controller setInitialText:@"Check out the CamLocker App! Hide and share your images, voice or text in seconds. http://www.camlockerapp.com"];
+        [controller setInitialText:@"Check out the #CamLocker App! Hide and share your images, voice or text in seconds. http://www.camlockerapp.com"];
         [controller addImage:[UIImage imageNamed:@"icon.png"]];
         
         [self presentViewController:controller animated:YES completion:Nil];
@@ -403,7 +402,7 @@
         
         SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
         
-        [controller setInitialText:@"Check out the CamLocker App! Hide and share your images, voice or text in seconds. http://www.camlockerapp.com"];
+        [controller setInitialText:@"Check out the #CamLocker App! Hide and share your images, voice or text in seconds. http://www.camlockerapp.com"];
         [controller addImage:[UIImage imageNamed:@"icon.png"]];
         
         [self presentViewController:controller animated:YES completion:Nil];

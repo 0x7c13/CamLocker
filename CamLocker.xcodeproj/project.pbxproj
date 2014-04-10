@@ -1311,9 +1311,6 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = OSU;
 				TargetAttributes = {
-					F73BF76218C6DB39006FB928 = {
-						DevelopmentTeam = 4997CKN8MT;
-					};
 					F73BF78318C6DB39006FB928 = {
 						TestTargetID = F73BF76218C6DB39006FB928;
 					};

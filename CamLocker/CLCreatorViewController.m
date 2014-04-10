@@ -2,7 +2,7 @@
 //  CLCreatorViewController.m
 //  CamLocker
 //
-//  Created by FlyinGeek on 4/8/14.
+//  Created by Jiaqi Liu on 4/8/14.
 //  Copyright (c) 2014 OSU. All rights reserved.
 //
 
@@ -44,7 +44,7 @@
         if([MFMessageComposeViewController canSendText])
         {
             MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
-            controller.body = [NSString stringWithFormat:@"I just created a marker using the CamLocker App. The download code is: %@, check it out!", downloadCode];
+            controller.body = [NSString stringWithFormat:@"I just created a marker using the #CamLocker App. The download code is: %@, check it out!", downloadCode];
             controller.messageComposeDelegate = weakSelf;
             [weakSelf presentViewController:controller animated:YES completion:nil];
         }
@@ -57,7 +57,7 @@
             MFMailComposeViewController *mailer = [[MFMailComposeViewController alloc] init];
             mailer.mailComposeDelegate = weakSelf;
             [mailer setSubject:@"CamLocker Marker Sharing"];
-            NSString *emailBody = [NSString stringWithFormat:@"Hi,\n\nI just created a marker using the CamLocker App. The download code is: %@, check it out!\n\nSent from the CamLocker App.", downloadCode];
+            NSString *emailBody = [NSString stringWithFormat:@"Hi,\n\nI just created a marker using the #CamLocker App. The download code is: %@, check it out!\n\nSent from the CamLocker App.", downloadCode];
             [mailer setMessageBody:emailBody isHTML:NO];
             [weakSelf presentViewController:mailer animated:YES completion:nil];
         }
@@ -69,7 +69,7 @@
             
             SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
             
-            [controller setInitialText:[NSString stringWithFormat:@"I just created a marker using the CamLocker App. The download code is: %@, check it out!", downloadCode]];
+            [controller setInitialText:[NSString stringWithFormat:@"I just created a marker using the #CamLocker App. The download code is: %@, check it out!", downloadCode]];
             [controller addImage:[UIImage imageNamed:@"icon.png"]];
             
             [weakSelf presentViewController:controller animated:YES completion:Nil];
@@ -95,7 +95,7 @@
             
             SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
             
-            [controller setInitialText:[NSString stringWithFormat:@"I just created a marker using the CamLocker App. The download code is: %@, check it out!", downloadCode]];
+            [controller setInitialText:[NSString stringWithFormat:@"I just created a marker using the #CamLocker App. The download code is: %@, check it out!", downloadCode]];
             [controller addImage:[UIImage imageNamed:@"icon.png"]];
             
             [weakSelf presentViewController:controller animated:YES completion:Nil];
@@ -123,7 +123,7 @@
             
             SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeSinaWeibo];
             
-            [controller setInitialText:[NSString stringWithFormat:@"I just created a marker using the CamLocker App. The download code is: %@, check it out!", downloadCode]];
+            [controller setInitialText:[NSString stringWithFormat:@"I just created a marker using the #CamLocker App. The download code is: %@, check it out!", downloadCode]];
             [controller addImage:[UIImage imageNamed:@"icon.png"]];
             
             [weakSelf presentViewController:controller animated:YES completion:Nil];

@@ -2,7 +2,7 @@
 //  CLAppAPIClient.m
 //  CamLocker
 //
-//  Created by FlyinGeek on 4/5/14.
+//  Created by Jiaqi Liu on 4/5/14.
 //  Copyright (c) 2014 OSU. All rights reserved.
 //
 

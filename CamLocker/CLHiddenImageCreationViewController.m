@@ -2,7 +2,7 @@
 //  CLHiddenImageCreationViewController.m
 //  CamLocker
 //
-//  Created by FlyinGeek on 3/18/14.
+//  Created by Jiaqi Liu on 3/18/14.
 //  Copyright (c) 2014 OSU. All rights reserved.
 //
 
@@ -205,7 +205,7 @@
                               if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
                                   self.navigationController.interactivePopGestureRecognizer.enabled = NO;
                               }
-                              self.navigationController.navigationBar.userInteractionEnabled = NO;
+                              self.navigationItem.hidesBackButton = YES;
                               self.trashButton.enabled = NO;
                               self.doneButton.enabled = NO;
                               self.addMoreButton.enabled = NO;
