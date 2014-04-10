@@ -45,6 +45,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    if (!DEVICE_IS_4INCH_IPHONE) {
+        self.bottomLabel.frame = CGRectMake(self.bottomLabel.frame.origin.x, self.bottomLabel.frame.origin.y - 88, self.bottomLabel.frame.size.width, self.bottomLabel.frame.size.height);
+    }
+    
     NSLog(@"%@", [CLFileManager imageFilePathWithFileName:nil]);
 
     [CLUtilities addBackgroundImageToView:self.masterView withImageName:@"bg_4.jpg"];
@@ -91,10 +95,6 @@
     [self.circularProgressView setProgress:0.0];
     self.circularProgressView.hidden = YES;
     [self.view addSubview:self.circularProgressView];
-    
-    if (!DEVICE_IS_4INCH_IPHONE) {
-        self.bottomLabel.frame = CGRectMake(self.bottomLabel.frame.origin.x, self.bottomLabel.frame.origin.y, self.bottomLabel.frame.size.width, self.bottomLabel.frame.size.height - 88);
-    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -105,7 +105,7 @@
 - (void)animationSetup
 {
     CGFloat yOffset = DEVICE_IS_4INCH_IPHONE ? 0 : -88;
-    //self.camLockerLogoLabel.frame = CGRectMake(20, locationY, 280, 120);
+
     self.bottomLabel.frame = CGRectMake(-280, 510 + yOffset, 280, 40);
     self.camLockerLogoLabel.frame = CGRectMake(320 + 280, 45, 280, 120);
     self.dcPathButton.alpha = 0.0f;
@@ -162,7 +162,7 @@
     }
     CGFloat yOffset = DEVICE_IS_4INCH_IPHONE ? 0 : -88;
     
-    [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
+    [UIView animateWithDuration:1.0f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
         
         self.camLockerLogoLabel.frame = CGRectMake(20, 45, 280, 120);
         self.bottomLabel.frame = CGRectMake(20, 510 + yOffset, 280, 40);
@@ -293,7 +293,7 @@
     
     [self.dcPathButton close];
     __weak typeof(self) weakSelf = self;
-    self.alertView = [URBAlertView dialogWithTitle:@"Download Code" message:@"Enter your CamLocker download code here:"];
+    self.alertView = [URBAlertView dialogWithTitle:@"Download Marker" message:@"Enter your CamLocker download code here:"];
     [self.alertView addButtonWithTitle:@"Cancel"];
     [self.alertView addButtonWithTitle:@"Confirm"];
     [self.alertView addTextFieldWithPlaceholder:@"Download code" secure:NO];
